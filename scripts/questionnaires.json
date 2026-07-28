@@ -22,10 +22,10 @@
       },
       {
         "key": "q3_height",
-        "label": "What is your height (m)?",
+        "label": "What is your height (cm)?",
         "type": "text",
         "category": "Personal & Lifestyle",
-        "placeholder": "Enter height in meters (e.g., 1.68)"
+        "placeholder": "Enter height in centimetres (e.g., 168)"
       },
       {
         "key": "q4_weight",
