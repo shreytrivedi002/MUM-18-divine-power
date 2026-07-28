@@ -5,10 +5,10 @@ export default function HomePage() {
     <main className="page-shell">
       <section className="hero">
         <div>
-          <p className="eyebrow">Health<span className="fy-highlight">ify</span></p>
-          <h1>Your Personalized Wellness Assessment</h1>
+          <p className="eyebrow">DIVINE POWER HOLISTIC THERAPY (DPHT)</p>
+          <h1>Healthcare Without Medicine</h1>
           <p className="subtitle">
-            Complete a quick, guided questionnaire to evaluate your stress, recovery, sleep, lifestyle, and overall wellbeing. Receive personalized recommendations based on your responses.
+            Complete a guided holistic questionnaire to assess your lifestyle, stress, sleep, and wellbeing naturally through the DPHT approach.
           </p>
           <Link href="/survey" className="primary-button">
             Start

@@ -2,19 +2,19 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'HealthiFi - Cortisol Detox Questionnaire',
-  description: 'Mobile-first wellness questionnaire designed for cortisol detox guidance, with secure response handling.',
+  title: 'DIVINE POWER HOLISTIC THERAPY (DPHT) - Healthcare Without Medicine',
+  description: 'Holistic wellness questionnaire by DPHT for healthcare without medicine, with secure response handling.',
   metadataBase: new URL('https://healthi-fi.example.com'),
   openGraph: {
-    title: 'HealthiFi Cortisol Detox',
-    description: 'Complete a fast and mobile-first cortisol detox questionnaire with secure response handling.',
+    title: 'DIVINE POWER HOLISTIC THERAPY (DPHT)',
+    description: 'Healthcare without medicine through a guided holistic wellness questionnaire.',
     type: 'website',
     url: 'https://healthi-fi.example.com',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'HealthiFi Cortisol Detox',
-    description: 'Mobile-friendly wellness questionnaire for cortisol detox built on Next.js.',
+    title: 'DIVINE POWER HOLISTIC THERAPY (DPHT)',
+    description: 'Healthcare without medicine with a mobile-friendly holistic wellness questionnaire.',
   },
 };
 
