@@ -70,7 +70,6 @@ export async function POST(request: Request) {
     );
   }
 
-
   const body = await request.json();
 
   if (!body || typeof body !== "object") {
@@ -123,9 +122,9 @@ export async function POST(request: Request) {
   const email = emailRaw.toLowerCase();
   const phone = phoneRaw;
 
-  if (!email || !phone) {
+  if (!email) {
     return NextResponse.json(
-      { error: "Both email and phone are required for submission." },
+      { error: "Email is required for submission." },
       { status: 400 },
     );
   }
@@ -158,17 +157,17 @@ export async function POST(request: Request) {
   const usersCollection = process.env.MONGODB_USERS_COLLECTION || "users";
   await db
     .collection(usersCollection)
-    .createIndex({ email: 1, phone: 1 }, { unique: true });
+    .createIndex({ email: 1 }, { unique: true });
 
   await db.collection(usersCollection).updateOne(
-    { email, phone },
+    { email },
     {
       $setOnInsert: {
         email,
-        phone,
         createdAt: submittedAt,
       },
       $set: {
+        ...(phone ? { phone } : {}),
         updatedAt: submittedAt,
       },
       $push: {

@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
 
 const defaultQuestionnaire: Questionnaire = {
-  slug: 'cortisol-detox',
-  title: 'Cortisol Detox Assessment',
-  description: 'Answer a wellness questionnaire step by step, with a clear category shown for every question.',
+  slug: 'dpht-master-wellness-questionnaire',
+  title: 'DIVINE POWER HOLISTIC THERAPY (DPHT)',
+  description: 'Healthcare without medicine: complete this guided holistic wellness questionnaire.',
   questions: [
     {
       key: 'name',
@@ -98,6 +98,7 @@ function useQuestionnaireState(questionnaire: Questionnaire | null) {
 }
 
 export default function SurveyRenderer() {
+  const surveyCardRef = useRef<HTMLDivElement>(null);
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
   const [activeSlug, setActiveSlug] = useState<string>(defaultQuestionnaire.slug);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -157,14 +158,55 @@ export default function SurveyRenderer() {
 
   const currentQuestion = activeQuestionnaire.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === activeQuestionnaire.questions.length - 1;
-  const progressPercent = Math.round(((currentQuestionIndex + 1) / activeQuestionnaire.questions.length) * 100);
   const isMultiSelectQuestion = currentQuestion.type === 'checkbox';
+  const sections = useMemo(() => {
+    const grouped = new Map<string, { name: string; start: number; end: number }>();
+
+    activeQuestionnaire.questions.forEach((question, index) => {
+      const sectionName = question.category?.trim() || 'General';
+      const existing = grouped.get(sectionName);
+      if (existing) {
+        existing.end = index;
+        return;
+      }
+
+      grouped.set(sectionName, {
+        name: sectionName,
+        start: index,
+        end: index,
+      });
+    });
+
+    return Array.from(grouped.values());
+  }, [activeQuestionnaire.questions]);
+
+  const currentSectionIndex = sections.findIndex(
+    (section) => currentQuestionIndex >= section.start && currentQuestionIndex <= section.end,
+  );
+
+  const completedSections = sections.filter((section, index) => {
+    if (currentQuestionIndex > section.end) {
+      return true;
+    }
+
+    if (index === currentSectionIndex && currentQuestionIndex === section.end) {
+      return isQuestionAnswered(values[currentQuestion.key], currentQuestion);
+    }
+
+    return false;
+  }).length;
 
   function scrollToTop() {
     if (typeof window !== 'undefined') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({ top: 0, behavior: 'auto' });
     }
+
+    surveyCardRef.current?.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
+
+  useEffect(() => {
+    scrollToTop();
+  }, [currentQuestionIndex, activeQuestionnaire.slug]);
 
   function handleNext() {
     if (currentQuestion.required && !isQuestionAnswered(values[currentQuestion.key], currentQuestion)) {
@@ -214,7 +256,8 @@ export default function SurveyRenderer() {
       });
 
       if (!response.ok) {
-        throw new Error('Submission failed');
+        const payload = await response.json().catch(() => null);
+        throw new Error(payload?.error || 'Submission failed');
       }
 
       if (typeof window !== 'undefined') {
@@ -233,7 +276,7 @@ export default function SurveyRenderer() {
       setStatus('Your answers were submitted successfully.');
     } catch (err) {
       console.error(err);
-      setStatus('Unable to save your answers. Please check your server setup.');
+      setStatus(err instanceof Error ? err.message : 'Unable to save your answers. Please check your server setup.');
     } finally {
       setSending(false);
     }
@@ -323,13 +366,45 @@ export default function SurveyRenderer() {
       );
     }
 
-    if (question.type === 'number' || question.type === 'phone') {
+    if (question.type === 'number') {
+      const isAgeQuestion = question.key.toLowerCase().includes('age');
+
+      if (isAgeQuestion) {
+        const min = question.minValue ?? 1;
+        const max = question.maxValue ?? 120;
+        const selectedValue = rawValue === '' || rawValue === undefined ? '' : String(rawValue);
+        return (
+          <select value={selectedValue} onChange={(event) => updateValue(question.key, Number(event.target.value))}>
+            <option value="">Select age</option>
+            {Array.from({ length: max - min + 1 }, (_, index) => min + index).map((age) => (
+              <option key={age} value={age}>
+                {age}
+              </option>
+            ))}
+          </select>
+        );
+      }
+
       return (
         <input
-          type={question.type === 'number' ? 'number' : 'tel'}
+          type="number"
+          value={rawValue ?? ''}
+          min={question.minValue}
+          max={question.maxValue}
+          step={question.step}
+          placeholder={question.placeholder ?? ''}
+          onChange={(event) => updateValue(question.key, Number(event.target.value))}
+        />
+      );
+    }
+
+    if (question.type === 'phone') {
+      return (
+        <input
+          type="tel"
           value={rawValue ?? ''}
           placeholder={question.placeholder ?? ''}
-          onChange={(event) => updateValue(question.key, question.type === 'number' ? Number(event.target.value) : event.target.value)}
+          onChange={(event) => updateValue(question.key, event.target.value)}
         />
       );
     }
@@ -349,15 +424,26 @@ export default function SurveyRenderer() {
   }
 
   return (
-    <div className="survey-card">
+    <div className="survey-card" ref={surveyCardRef}>
       <form>
         <div className="question-card">
           <div className="question-topbar">
             <span className="question-badge">{currentQuestion.category ?? 'General'}</span>
             <div className="question-progress">
-              <div className="progress-label">Question {currentQuestionIndex + 1} of {activeQuestionnaire.questions.length}</div>
-              <div className="progress-bar">
-                <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
+              <div className="progress-label">Section progress</div>
+              <div className="section-progress" aria-label="Section progress tracker">
+                {sections.map((section, index) => {
+                  const isComplete = index < completedSections;
+                  const isActive = index === currentSectionIndex;
+                  const connectorClass = index < sections.length - 1 && index < completedSections ? 'section-line complete' : 'section-line';
+
+                  return (
+                    <div key={section.name} className="section-item" title={section.name}>
+                      <span className={`section-dot${isComplete ? ' complete' : ''}${isActive ? ' active' : ''}`} />
+                      {index < sections.length - 1 ? <span className={connectorClass} /> : null}
+                    </div>
+                  );
+                })}
               </div>
             </div>
           </div>

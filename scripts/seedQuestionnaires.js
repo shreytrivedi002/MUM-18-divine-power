@@ -1,4 +1,8 @@
-require("dotenv").config();
+const path = require("path");
+const dotenv = require("dotenv");
+
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+dotenv.config();
 const { MongoClient } = require("mongodb");
 const questionnaires = require("./questionnaires.json");
 
