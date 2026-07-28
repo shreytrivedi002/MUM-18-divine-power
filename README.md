@@ -50,7 +50,13 @@ npm run seed:questionnaires
 
 This will upsert the questionnaire documents into the `questionnaires` collection.
 
-5. Run dev server
+5. Configure the admin portal
+
+- Set `ADMIN_AUTH_SECRET`, `ADMIN_BOOTSTRAP_EMAIL`, and `ADMIN_BOOTSTRAP_PASSWORD` in `.env.local`.
+- The first admin login uses the bootstrap credentials and stores a hashed admin account in MongoDB.
+- Admin pages are available at `/admin/login`, `/admin`, `/admin/users/:userId`, and `/admin/change-password`.
+
+6. Run dev server
 
 ```bash
 npm run dev
@@ -61,3 +67,4 @@ npm run dev
 - This sample uses server-side API routes to connect to MongoDB Atlas.
 - Keep `MONGODB_URI` secret and do not expose it to browser-side code.
 - The client fetches questionnaires through `/api/questionnaires` and submits responses through `/api/submit`.
+- The admin portal uses secure hashed passwords and signed session cookies.
