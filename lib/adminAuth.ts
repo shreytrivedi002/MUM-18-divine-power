@@ -142,11 +142,6 @@ function toStringId(value: unknown) {
 
 export async function ensureBootstrapAdmin(db: Db) {
   const { admins } = getAdminCollections(db);
-  const adminCount = await db.collection(admins).countDocuments();
-  if (adminCount > 0) {
-    return null;
-  }
-
   const email = process.env.ADMIN_BOOTSTRAP_EMAIL?.trim().toLowerCase();
   const password = process.env.ADMIN_BOOTSTRAP_PASSWORD?.trim();
   const displayName = process.env.ADMIN_DISPLAY_NAME?.trim() || "Administrator";
@@ -166,6 +161,33 @@ export async function ensureBootstrapAdmin(db: Db) {
   };
 
   await db.collection(admins).createIndex({ email: 1 }, { unique: true });
+  const existing = await db.collection(admins).findOne({ email });
+
+  if (existing) {
+    await db.collection(admins).updateOne(
+      { email },
+      {
+        $set: {
+          displayName,
+          role: "superadmin",
+          passwordHash: doc.passwordHash,
+          updatedAt: now,
+        },
+        $setOnInsert: {
+          createdAt: now,
+        },
+      },
+    );
+
+    return {
+      ...existing,
+      displayName,
+      role: "superadmin",
+      passwordHash: doc.passwordHash,
+      updatedAt: now,
+    };
+  }
+
   await db.collection(admins).insertOne(doc as any);
   return doc;
 }
