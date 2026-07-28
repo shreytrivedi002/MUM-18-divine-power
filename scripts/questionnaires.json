@@ -22,24 +22,24 @@
       },
       {
         "key": "q3_height",
-        "label": "What is your height?",
+        "label": "What is your height (cm)?",
         "type": "text",
         "category": "Personal & Lifestyle",
-        "placeholder": "Enter height (ft/cm)"
+        "placeholder": "Enter height in centimetres (e.g., 168)"
       },
       {
         "key": "q4_weight",
-        "label": "What is your current weight?",
+        "label": "What is your current weight (kg)?",
         "type": "text",
         "category": "Personal & Lifestyle",
-        "placeholder": "Enter weight (lbs/kg)"
+        "placeholder": "Enter weight in kg"
       },
       {
         "key": "q5_goal_weight",
-        "label": "What is your goal weight?",
+        "label": "What is your goal weight (kg)?",
         "type": "text",
         "category": "Personal & Lifestyle",
-        "placeholder": "Enter weight (lbs/kg)"
+        "placeholder": "Enter goal weight in kg"
       },
       {
         "key": "q6_name",
@@ -597,7 +597,7 @@
         "key": "q55_cortisol_knowledge",
         "label": "How familiar are you with the Cortisol Detox Diet?",
         "type": "radio",
-        "category": "Knowledge & Contact",
+        "category": "Health & Medication",
         "options": [
           "😊 I'm a beginner",
           "😎 I have some basic knowledge",
@@ -608,7 +608,7 @@
         "key": "q56_cbt_knowledge",
         "label": "How much do you know about Cognitive Behavioral Therapy (CBT)?",
         "type": "radio",
-        "category": "Knowledge & Contact",
+        "category": "Health & Medication",
         "options": [
           "Never heard of it",
           "Heard of it",
@@ -621,14 +621,14 @@
         "key": "q57_therapist_recommendation",
         "label": "Did a therapist recommend this program?",
         "type": "radio",
-        "category": "Knowledge & Contact",
+        "category": "Health & Medication",
         "options": ["Yes", "No"]
       },
       {
         "key": "q58_dopamine_vision",
         "label": "How do you think your life will improve if you overcome dopamine dependence?",
         "type": "checkbox",
-        "category": "Knowledge & Contact",
+        "category": "Health & Medication",
         "options": [
           "Better Focus",
           "Better Relationships",
@@ -642,10 +642,62 @@
         ]
       },
       {
+        "key": "health_bp_status",
+        "label": "Have you ever been told that you have high blood pressure (BP)?",
+        "type": "radio",
+        "category": "Health & Medication",
+        "options": [
+          "No, never",
+          "Yes, previously diagnosed",
+          "Borderline or sometimes high",
+          "Not sure"
+        ]
+      },
+      {
+        "key": "health_sugar_status",
+        "label": "Have you ever been told that your blood sugar is high (pre-diabetes/diabetes)?",
+        "type": "radio",
+        "category": "Health & Medication",
+        "options": ["No", "Yes, pre-diabetes", "Yes, diabetes", "Not sure"]
+      },
+      {
+        "key": "health_thyroid_status",
+        "label": "Do you have any thyroid condition?",
+        "type": "radio",
+        "category": "Health & Medication",
+        "options": ["No", "Yes", "Not sure"]
+      },
+      {
+        "key": "health_current_medications",
+        "label": "Are you currently taking any regular medicines?",
+        "type": "checkbox",
+        "category": "Health & Medication",
+        "options": [
+          "None",
+          "Blood pressure medicine",
+          "Blood sugar/diabetes medicine",
+          "Thyroid medicine",
+          "Cholesterol medicine",
+          "Other regular medicine"
+        ]
+      },
+      {
+        "key": "health_recent_tests",
+        "label": "When did you last check BP or blood sugar?",
+        "type": "radio",
+        "category": "Health & Medication",
+        "options": [
+          "Within last 3 months",
+          "Within last 6-12 months",
+          "More than a year ago",
+          "Never checked"
+        ]
+      },
+      {
         "key": "q59_email",
         "label": "What's your email address?",
         "type": "email",
-        "category": "Knowledge & Contact",
+        "category": "Contact",
         "placeholder": "Enter email address",
         "required": true
       },
@@ -653,7 +705,7 @@
         "key": "q60_phone",
         "label": "What's your mobile phone number?",
         "type": "phone",
-        "category": "Knowledge & Contact",
+        "category": "Contact",
         "placeholder": "Enter phone number"
       }
     ]
