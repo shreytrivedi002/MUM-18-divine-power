@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed:questionnaires": "node scripts/seedQuestionnaires.js"
+    "seed:questionnaires": "node scripts/seedQuestionnaires.js",
+    "seed:mock-users": "node scripts/seedMockUsers.js"
   },
   "dependencies": {
+    "jspdf": "^4.2.1",
     "mongodb": "^7.5.0",
     "next": "14.2.6",
     "react": "18.3.1",

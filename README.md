@@ -54,7 +54,15 @@ This will upsert the questionnaire documents into the `questionnaires` collectio
 
 - Set `ADMIN_AUTH_SECRET`, `ADMIN_BOOTSTRAP_EMAIL`, and `ADMIN_BOOTSTRAP_PASSWORD` in `.env.local`.
 - The first admin login uses the bootstrap credentials and stores a hashed admin account in MongoDB.
-- Admin pages are available at `/admin/login`, `/admin`, `/admin/users/:userId`, and `/admin/change-password`.
+- Admin pages are available at `/admin/login`, `/admin`, `/admin/admins`, `/admin/users/:userId`, and `/admin/change-password`.
+
+7. Seed mock users for admin portal testing (optional)
+
+```bash
+npm run seed:mock-users
+```
+
+This creates or updates around 25 mock users with realistic response histories in the `users` collection.
 
 6. Run dev server
 

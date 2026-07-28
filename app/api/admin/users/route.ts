@@ -13,6 +13,16 @@ function normalizeSearch(value: string | null) {
   return (value || "").trim().toLowerCase();
 }
 
+function parsePage(value: string | null) {
+  const parsed = Number.parseInt(value || "1", 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+}
+
+function parsePageSize(value: string | null) {
+  const parsed = Number.parseInt(value || "10", 10);
+  return [10, 20, 30].includes(parsed) ? parsed : 10;
+}
+
 export async function GET(request: Request) {
   const token = parseAdminSessionToken(request.headers.get("cookie"));
   const { db } = await getMongoDb();
@@ -26,6 +36,8 @@ export async function GET(request: Request) {
   const search = normalizeSearch(url.searchParams.get("search"));
   const sort = url.searchParams.get("sort") || "lastSubmissionAt";
   const order = url.searchParams.get("order") === "asc" ? 1 : -1;
+  const page = parsePage(url.searchParams.get("page"));
+  const pageSize = parsePageSize(url.searchParams.get("pageSize"));
 
   const usersCollection = process.env.MONGODB_USERS_COLLECTION || "users";
   const documents = (await db
@@ -66,5 +78,21 @@ export async function GET(request: Request) {
       return String(leftValue).localeCompare(String(rightValue)) * order;
     });
 
-  return NextResponse.json({ users: filtered });
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const start = (currentPage - 1) * pageSize;
+  const users = filtered.slice(start, start + pageSize);
+
+  return NextResponse.json({
+    users,
+    pagination: {
+      page: currentPage,
+      pageSize,
+      total,
+      totalPages,
+      hasPrevious: currentPage > 1,
+      hasNext: currentPage < totalPages,
+    },
+  });
 }
