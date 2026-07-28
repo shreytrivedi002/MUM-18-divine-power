@@ -1,0 +1,684 @@
+[
+  {
+    "slug": "master-wellness-questionnaire",
+    "title": "HealthyFi Master Wellness Questionnaire",
+    "description": "Comprehensive wellness assessment covering health profile, lifestyle, nutrition, sleep, stress, focus, productivity, and wellbeing goals.",
+    "questions": [
+      {
+        "key": "q1_gender",
+        "label": "Choose your gender",
+        "type": "radio",
+        "category": "Profile",
+        "options": ["Female", "Male"]
+      },
+      {
+        "key": "q2_age",
+        "label": "How old are you?",
+        "type": "number",
+        "category": "Profile",
+        "placeholder": "Enter age",
+        "minValue": 1,
+        "maxValue": 120
+      },
+      {
+        "key": "q3_height",
+        "label": "What is your height?",
+        "type": "text",
+        "category": "Profile",
+        "placeholder": "Enter height (ft/cm)"
+      },
+      {
+        "key": "q4_weight",
+        "label": "What is your current weight?",
+        "type": "text",
+        "category": "Profile",
+        "placeholder": "Enter weight (lbs/kg)"
+      },
+      {
+        "key": "q5_goal_weight",
+        "label": "What is your goal weight?",
+        "type": "text",
+        "category": "Profile",
+        "placeholder": "Enter weight (lbs/kg)"
+      },
+      {
+        "key": "q6_name",
+        "label": "What is your name?",
+        "type": "text",
+        "category": "Profile",
+        "placeholder": "Enter your name",
+        "required": true
+      },
+      {
+        "key": "q7_health_goal",
+        "label": "What is your primary health goal?",
+        "type": "radio",
+        "category": "Profile",
+        "options": [
+          "Lose 1–10 kg for good",
+          "Lose 11–20 kg for good",
+          "Lose over 20 kg for good",
+          "Maintain weight and get fit",
+          "I haven't decided yet"
+        ]
+      },
+      {
+        "key": "q8_activity_level",
+        "label": "What's your typical activity level?",
+        "type": "radio",
+        "category": "Lifestyle",
+        "options": [
+          "🛋 Not active (Mostly sedentary)",
+          "🚶 Lightly active (Activities of daily living only)",
+          "🏃 Moderately active (Walking 1.5–3 miles daily)",
+          "🚴 Active (Walking or exercising daily)"
+        ]
+      },
+      {
+        "key": "q9_area_type",
+        "label": "Which type of area do you live in?",
+        "type": "radio",
+        "category": "Lifestyle",
+        "options": ["The countryside", "A major city", "The suburbs"]
+      },
+      {
+        "key": "q10_work_schedule",
+        "label": "What's your work schedule?",
+        "type": "radio",
+        "category": "Lifestyle",
+        "options": [
+          "Flexible",
+          "Nine to five",
+          "Shifts",
+          "Between jobs or unemployed",
+          "Seasonal",
+          "Retired",
+          "Other"
+        ]
+      },
+      {
+        "key": "q11_weekly_activity",
+        "label": "How much physical activity do you get each week?",
+        "type": "radio",
+        "category": "Lifestyle",
+        "options": ["None", "1–2 hrs", "3–5 hrs", "6–8 hrs", "8+ hrs"]
+      },
+      {
+        "key": "q12_learning",
+        "label": "When was the last time you learned a new skill?",
+        "type": "radio",
+        "category": "Lifestyle",
+        "options": [
+          "This week",
+          "This month",
+          "Last 6 months",
+          "Over a year ago",
+          "I can't remember"
+        ]
+      },
+      {
+        "key": "q13_eating_habits",
+        "label": "How would you describe your eating habits?",
+        "type": "radio",
+        "category": "Nutrition",
+        "options": [
+          "I eat the same food every day",
+          "I eat similar foods, with some variation",
+          "I rotate between familiar foods",
+          "I like to experiment with different foods"
+        ]
+      },
+      {
+        "key": "q14_cooking_skills",
+        "label": "How would you describe your cooking skills?",
+        "type": "radio",
+        "category": "Nutrition",
+        "options": [
+          "I'm an expert cook",
+          "I'm learning to be a better cook",
+          "I don't know how to cook at all"
+        ]
+      },
+      {
+        "key": "q15_favorite_foods",
+        "label": "What foods do you enjoy eating?",
+        "type": "checkbox",
+        "category": "Nutrition",
+        "options": [
+          "Avocados",
+          "Eggs",
+          "Mushrooms",
+          "Onions",
+          "Cheese",
+          "Nuts",
+          "Butter",
+          "Coconut",
+          "Milk",
+          "Seafood",
+          "Olives",
+          "Tofu",
+          "Cottage cheese"
+        ]
+      },
+      {
+        "key": "q16_meats",
+        "label": "Which meats do you eat?",
+        "type": "checkbox",
+        "category": "Nutrition",
+        "options": [
+          "Chicken",
+          "Pork",
+          "Bacon",
+          "Beef",
+          "Turkey",
+          "Fish",
+          "Lamb",
+          "I'm a vegetarian"
+        ]
+      },
+      {
+        "key": "q17_allergies",
+        "label": "Do you have any food allergies or intolerances?",
+        "type": "checkbox",
+        "category": "Nutrition",
+        "options": [
+          "None",
+          "Lactose or milk protein",
+          "Gluten",
+          "Nuts",
+          "Eggs",
+          "Fish or seafood",
+          "Other"
+        ]
+      },
+      {
+        "key": "q18_water_intake",
+        "label": "How much water do you drink daily?",
+        "type": "radio",
+        "category": "Nutrition",
+        "options": [
+          "☕ I only have coffee or tea",
+          "💧 Less than 2 glasses",
+          "💦 About 3–6 glasses",
+          "🌊 More than 6 glasses"
+        ]
+      },
+      {
+        "key": "q19_weekend_eating",
+        "label": "Is it difficult to eat healthy during weekends?",
+        "type": "radio",
+        "category": "Nutrition",
+        "options": ["Yes", "No"]
+      },
+      {
+        "key": "q20_meal_timing",
+        "label": "Do you usually eat meals at the same time every day?",
+        "type": "radio",
+        "category": "Nutrition",
+        "options": ["Yes", "No"]
+      },
+      {
+        "key": "q21_sleep_quality",
+        "label": "How would you rate your sleep quality?",
+        "type": "radio",
+        "category": "Sleep & Recovery",
+        "options": [
+          "I have trouble falling asleep",
+          "It varies",
+          "I sleep well most nights"
+        ]
+      },
+      {
+        "key": "q22_wake_unrefreshed",
+        "label": "I often wake up feeling like I didn't sleep at all.",
+        "type": "likert",
+        "category": "Sleep & Recovery",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q23_energy_levels",
+        "label": "I often feel tired, physically drained or low on energy.",
+        "type": "likert",
+        "category": "Sleep & Recovery",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q24_weight_loss_history",
+        "label": "Have you successfully lost weight before but regained it?",
+        "type": "radio",
+        "category": "Weight History",
+        "options": ["Yes", "No"]
+      },
+      {
+        "key": "q25_ideal_weight_time",
+        "label": "When was the last time you were at your ideal weight?",
+        "type": "radio",
+        "category": "Weight History",
+        "options": [
+          "Less than a year ago",
+          "1–2 years ago",
+          "More than 3 years ago",
+          "Never"
+        ]
+      },
+      {
+        "key": "q26_current_clothing_size",
+        "label": "What clothing size do you currently wear?",
+        "type": "radio",
+        "category": "Weight History",
+        "options": [
+          "XXXL+",
+          "XXXL",
+          "XXL",
+          "XL",
+          "L",
+          "M",
+          "S",
+          "XS",
+          "I don't know"
+        ]
+      },
+      {
+        "key": "q27_desired_clothing_size",
+        "label": "What clothing size would you like to wear?",
+        "type": "radio",
+        "category": "Weight History",
+        "options": [
+          "XXXL+",
+          "XXXL",
+          "XXL",
+          "XL",
+          "L",
+          "M",
+          "S",
+          "XS",
+          "I don't know"
+        ]
+      },
+      {
+        "key": "q28_racing_thoughts",
+        "label": "How often does your mind race with thoughts you can't turn off?",
+        "type": "radio",
+        "category": "Stress & Mental Health",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
+      },
+      {
+        "key": "q29_overthinking",
+        "label": "How often do you overthink or dwell on the past?",
+        "type": "radio",
+        "category": "Stress & Mental Health",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
+      },
+      {
+        "key": "q30_self_doubt",
+        "label": "How often do you doubt yourself or your abilities?",
+        "type": "radio",
+        "category": "Stress & Mental Health",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
+      },
+      {
+        "key": "q31_mental_exhaustion",
+        "label": "I often feel mentally exhausted or overloaded.",
+        "type": "likert",
+        "category": "Stress & Mental Health",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q32_distraction",
+        "label": "How easily are you distracted?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Almost Always"]
+      },
+      {
+        "key": "q33_phone_checking",
+        "label": "How often do you check your phone or social media?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
+      },
+      {
+        "key": "q34_scrolling_time_loss",
+        "label": "Do you lose track of time while scrolling?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Very Often"]
+      },
+      {
+        "key": "q35_scrolling_instead_of_task",
+        "label": "Do you end up scrolling instead of doing what you planned?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
+      },
+      {
+        "key": "q36_focus_decline",
+        "label": "Have you noticed that you can't focus like you used to?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": [
+          "Not at all",
+          "Slightly",
+          "Moderately",
+          "Significantly",
+          "Extremely"
+        ]
+      },
+      {
+        "key": "q37_task_switching",
+        "label": "How often do you jump between tasks?",
+        "type": "radio",
+        "category": "Attention & Focus",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
+      },
+      {
+        "key": "q38_time_wasted",
+        "label": "How often do you feel your time isn't spent wisely?",
+        "type": "radio",
+        "category": "Productivity",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
+      },
+      {
+        "key": "q39_productivity_decline",
+        "label": "Do you find it harder to get things done than before?",
+        "type": "radio",
+        "category": "Productivity",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
+      },
+      {
+        "key": "q40_task_delay",
+        "label": "I often delay important tasks.",
+        "type": "likert",
+        "category": "Productivity",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q41_postponing",
+        "label": "I keep postponing things until tomorrow.",
+        "type": "likert",
+        "category": "Productivity",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q42_procrastination_goals",
+        "label": "Procrastination is stopping me from reaching my goals.",
+        "type": "likert",
+        "category": "Productivity",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q43_goal_reflection",
+        "label": "How often do you reflect on your future and set goals?",
+        "type": "radio",
+        "category": "Goals & Motivation",
+        "options": ["Never", "Rarely", "Sometimes", "Often", "Regularly"]
+      },
+      {
+        "key": "q44_goal_track",
+        "label": "Do you feel you're on track to achieve your goals this year?",
+        "type": "radio",
+        "category": "Goals & Motivation",
+        "options": [
+          "Definitely No",
+          "Probably No",
+          "Not Sure",
+          "Probably Yes",
+          "Definitely Yes"
+        ]
+      },
+      {
+        "key": "q45_self_sabotage",
+        "label": "I feel like I'm unknowingly holding myself back.",
+        "type": "likert",
+        "category": "Goals & Motivation",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q46_motivation_rating",
+        "label": "How motivated are you to make meaningful changes?",
+        "type": "rating",
+        "category": "Goals & Motivation",
+        "minValue": 1,
+        "maxValue": 10
+      },
+      {
+        "key": "q47_lost_joy",
+        "label": "Things that used to bring me joy no longer feel interesting.",
+        "type": "likert",
+        "category": "Emotional Wellbeing",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q48_life_satisfaction",
+        "label": "I feel like I'm not living the life I truly want.",
+        "type": "likert",
+        "category": "Emotional Wellbeing",
+        "options": [
+          "Strongly Disagree",
+          "Disagree",
+          "Neutral",
+          "Agree",
+          "Strongly Agree"
+        ]
+      },
+      {
+        "key": "q49_wellbeing_improvements",
+        "label": "Which aspects of your wellbeing would you like to improve?",
+        "type": "checkbox",
+        "category": "Wellbeing Goals",
+        "options": [
+          "Focus",
+          "Motivation",
+          "Sleep",
+          "Stress",
+          "Anxiety",
+          "Mood",
+          "Energy",
+          "Productivity",
+          "Relationships",
+          "Self-confidence",
+          "Physical Health",
+          "Digital Balance"
+        ]
+      },
+      {
+        "key": "q50_wellness_goals",
+        "label": "What do you want to achieve through this wellness journey?",
+        "type": "checkbox",
+        "category": "Wellbeing Goals",
+        "options": [
+          "Improve focus",
+          "Stop procrastinating",
+          "Reduce screen time",
+          "Increase productivity",
+          "Better sleep",
+          "Improve mood",
+          "More energy",
+          "Better habits",
+          "Better mental health",
+          "More self-control"
+        ]
+      },
+      {
+        "key": "q51_top_improvement",
+        "label": "What do you think you need to improve the most?",
+        "type": "checkbox",
+        "category": "Wellbeing Goals",
+        "options": [
+          "Discipline",
+          "Time Management",
+          "Focus",
+          "Motivation",
+          "Consistency",
+          "Confidence",
+          "Emotional Control",
+          "Sleep",
+          "Physical Health",
+          "Relationships"
+        ]
+      },
+      {
+        "key": "q52_procrastination_habits",
+        "label": "Which activities do you tend to procrastinate on?",
+        "type": "checkbox",
+        "category": "Habits",
+        "options": [
+          "Work",
+          "Studying",
+          "Exercise",
+          "Household chores",
+          "Reading",
+          "Personal Projects",
+          "Socializing",
+          "Finances",
+          "Self-care"
+        ]
+      },
+      {
+        "key": "q53_habits_to_quit",
+        "label": "Which habits would you like to quit?",
+        "type": "checkbox",
+        "category": "Habits",
+        "options": [
+          "Excessive Phone Use",
+          "Social Media",
+          "Doomscrolling",
+          "Gaming",
+          "Binge Watching",
+          "Smoking",
+          "Alcohol",
+          "Junk Food",
+          "Late Night Sleeping",
+          "Other"
+        ]
+      },
+      {
+        "key": "q54_habits_to_build",
+        "label": "Which healthy habits would you like to build?",
+        "type": "checkbox",
+        "category": "Habits",
+        "options": [
+          "Daily Exercise",
+          "Balanced Eating",
+          "Proper Hydration",
+          "Consistent Sleep Routine",
+          "Daily Mindfulness/Meditation",
+          "Reading Daily",
+          "Journaling",
+          "Other"
+        ]
+      },
+      {
+        "key": "q55_cortisol_knowledge",
+        "label": "How familiar are you with the Cortisol Detox Diet?",
+        "type": "radio",
+        "category": "Knowledge",
+        "options": [
+          "😊 I'm a beginner",
+          "😎 I have some basic knowledge",
+          "🧐 I'm experienced"
+        ]
+      },
+      {
+        "key": "q56_cbt_knowledge",
+        "label": "How much do you know about Cognitive Behavioral Therapy (CBT)?",
+        "type": "radio",
+        "category": "Knowledge",
+        "options": [
+          "Never heard of it",
+          "Heard of it",
+          "Know the basics",
+          "Quite familiar",
+          "Very knowledgeable"
+        ]
+      },
+      {
+        "key": "q57_therapist_recommendation",
+        "label": "Did a therapist recommend this program?",
+        "type": "radio",
+        "category": "Knowledge",
+        "options": ["Yes", "No"]
+      },
+      {
+        "key": "q58_dopamine_vision",
+        "label": "How do you think your life will improve if you overcome dopamine dependence?",
+        "type": "checkbox",
+        "category": "Vision",
+        "options": [
+          "Better Focus",
+          "Better Relationships",
+          "Better Career",
+          "Better Grades",
+          "Better Sleep",
+          "Less Stress",
+          "More Happiness",
+          "Better Health",
+          "More Free Time"
+        ]
+      },
+      {
+        "key": "q59_email",
+        "label": "What's your email address?",
+        "type": "email",
+        "category": "Contact",
+        "placeholder": "Enter email address",
+        "required": true
+      },
+      {
+        "key": "q60_phone",
+        "label": "What's your mobile phone number?",
+        "type": "phone",
+        "category": "Contact",
+        "placeholder": "Enter phone number"
+      }
+    ]
+  }
+]

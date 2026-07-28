@@ -1,0 +1,38 @@
+
+> healthi-fi@0.1.0 build
+> next build
+
+  ▲ Next.js 14.2.6
+  - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/11) ...
+   Generating static pages (2/11) 
+   Generating static pages (5/11) 
+   Generating static pages (8/11) 
+ ✓ Generating static pages (11/11)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+┌ ○ /                                    183 B            94 kB
+├ ○ /_not-found                          871 B          87.9 kB
+├ ○ /api/questionnaires                  0 B                0 B
+├ ƒ /api/submit                          0 B                0 B
+├ ○ /survey                              2.68 kB        89.7 kB
+├ ○ /survey/step1                        183 B            94 kB
+├ ○ /survey/step2                        183 B            94 kB
+├ ○ /survey/step3                        183 B            94 kB
+└ ○ /survey/summary                      183 B            94 kB
++ First Load JS shared by all            87 kB
+  ├ chunks/23-3fe41797661a50cf.js        31.5 kB
+  ├ chunks/fd9d1056-b6e16a5f15b47ad4.js  53.6 kB
+  └ other shared chunks (total)          1.86 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
