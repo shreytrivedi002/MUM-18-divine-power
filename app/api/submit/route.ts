@@ -13,6 +13,22 @@ type AnswerEntry = {
   answer: unknown;
 };
 
+function normalizeIndianPhone(value: string) {
+  const compact = value.replace(/[\s()-]/g, "");
+  if (compact.startsWith("+91")) {
+    return compact.slice(3);
+  }
+  if (compact.startsWith("91") && compact.length === 12) {
+    return compact.slice(2);
+  }
+  return compact;
+}
+
+function isValidIndianPhone(value: string) {
+  const normalized = normalizeIndianPhone(value);
+  return /^[6-9]\d{9}$/.test(normalized);
+}
+
 function toSafeString(value: unknown) {
   if (value === null || value === undefined) {
     return "";
@@ -129,6 +145,15 @@ export async function POST(request: Request) {
     );
   }
 
+  if (phone && !isValidIndianPhone(phone)) {
+    return NextResponse.json(
+      { error: "Please provide a valid Indian mobile number." },
+      { status: 400 },
+    );
+  }
+
+  const normalizedPhone = phone ? `+91${normalizeIndianPhone(phone)}` : "";
+
   const answers: AnswerEntry[] =
     questions.length > 0
       ? questions.map((question) => {
@@ -167,7 +192,7 @@ export async function POST(request: Request) {
         createdAt: submittedAt,
       },
       $set: {
-        ...(phone ? { phone } : {}),
+        ...(normalizedPhone ? { phone: normalizedPhone } : {}),
         updatedAt: submittedAt,
       },
       $push: {

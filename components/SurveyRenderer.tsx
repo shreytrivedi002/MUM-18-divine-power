@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
 
@@ -61,6 +62,22 @@ function isQuestionAnswered(value: unknown, question: Question) {
   return value !== '' && value !== null && value !== undefined;
 }
 
+function normalizeIndianPhone(value: string) {
+  const compact = value.replace(/[\s()-]/g, '');
+  if (compact.startsWith('+91')) {
+    return compact.slice(3);
+  }
+  if (compact.startsWith('91') && compact.length === 12) {
+    return compact.slice(2);
+  }
+  return compact;
+}
+
+function isValidIndianPhone(value: string) {
+  const normalized = normalizeIndianPhone(value);
+  return /^[6-9]\d{9}$/.test(normalized);
+}
+
 function useQuestionnaireState(questionnaire: Questionnaire | null) {
   const [values, setValues] = useState<Record<string, any>>({});
 
@@ -98,6 +115,7 @@ function useQuestionnaireState(questionnaire: Questionnaire | null) {
 }
 
 export default function SurveyRenderer() {
+  const router = useRouter();
   const surveyCardRef = useRef<HTMLDivElement>(null);
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
   const [activeSlug, setActiveSlug] = useState<string>(defaultQuestionnaire.slug);
@@ -214,6 +232,14 @@ export default function SurveyRenderer() {
       return;
     }
 
+    if (currentQuestion.type === 'phone') {
+      const phoneValue = String(values[currentQuestion.key] ?? '').trim();
+      if (phoneValue && !isValidIndianPhone(phoneValue)) {
+        setValidationError('Please enter a valid Indian mobile number.');
+        return;
+      }
+    }
+
     setValidationError(null);
     setCurrentQuestionIndex((current) => Math.min(current + 1, activeQuestionnaire.questions.length - 1));
     scrollToTop();
@@ -240,6 +266,18 @@ export default function SurveyRenderer() {
       scrollToTop();
       setSending(false);
       return;
+    }
+
+    const phoneQuestion = activeQuestionnaire.questions.find((question) => question.type === 'phone');
+    if (phoneQuestion) {
+      const phoneValue = String(values[phoneQuestion.key] ?? '').trim();
+      if (phoneValue && !isValidIndianPhone(phoneValue)) {
+        setValidationError('Please enter a valid Indian mobile number.');
+        setCurrentQuestionIndex(activeQuestionnaire.questions.indexOf(phoneQuestion));
+        scrollToTop();
+        setSending(false);
+        return;
+      }
     }
 
     try {
@@ -273,7 +311,7 @@ export default function SurveyRenderer() {
       }
 
       clearSurveyData();
-      setStatus('Your answers were submitted successfully.');
+      router.push('/thank-you');
     } catch (err) {
       console.error(err);
       setStatus(err instanceof Error ? err.message : 'Unable to save your answers. Please check your server setup.');
@@ -403,7 +441,9 @@ export default function SurveyRenderer() {
         <input
           type="tel"
           value={rawValue ?? ''}
-          placeholder={question.placeholder ?? ''}
+          placeholder={question.placeholder ?? 'Enter 10-digit Indian mobile number'}
+          inputMode="numeric"
+          maxLength={14}
           onChange={(event) => updateValue(question.key, event.target.value)}
         />
       );
