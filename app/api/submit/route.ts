@@ -129,6 +129,12 @@ export async function POST(request: Request) {
     ["email"],
     ["email", "e-mail", "mail"],
   );
+  const fullNameRaw = pickContactValue(
+    submittedValues,
+    questions,
+    ["text"],
+    ["name", "full name", "fullname"],
+  );
   const phoneRaw = pickContactValue(
     submittedValues,
     questions,
@@ -192,6 +198,7 @@ export async function POST(request: Request) {
         createdAt: submittedAt,
       },
       $set: {
+        ...(fullNameRaw ? { fullName: fullNameRaw } : {}),
         ...(normalizedPhone ? { phone: normalizedPhone } : {}),
         updatedAt: submittedAt,
       },
