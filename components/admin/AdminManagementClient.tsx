@@ -151,6 +151,7 @@ export default function AdminManagementClient() {
         </div>
         <div className="admin-toolbar-actions">
           <Link href="/admin" className="secondary-button">Back to Dashboard</Link>
+          <Link href="/admin/questionnaires" className="secondary-button">Manage Questionnaires</Link>
           <Link href="/admin/change-password" className="secondary-button">Change Password</Link>
           <button type="button" className="secondary-button" onClick={handleLogout}>Logout</button>
         </div>

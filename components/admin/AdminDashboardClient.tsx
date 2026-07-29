@@ -111,6 +111,7 @@ export default function AdminDashboardClient() {
           <p className="subtitle">Search and review completed questionnaire submissions.</p>
         </div>
         <div className="admin-toolbar-actions">
+          <Link href="/admin/questionnaires" className="secondary-button">Manage Questionnaires</Link>
           <Link href="/admin/admins" className="secondary-button">Admin Management</Link>
           <Link href="/admin/change-password" className="secondary-button">Change Password</Link>
           <button type="button" className="secondary-button" onClick={handleLogout}>Logout</button>
