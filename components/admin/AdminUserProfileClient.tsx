@@ -8,6 +8,7 @@ type SubmissionAnswer = {
   key: string;
   question: string;
   answer: unknown;
+  section?: string;
 };
 
 type Submission = {
@@ -101,6 +102,23 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
   const whatsappPhone = user.phone ? user.phone.replace(/\D+/g, '') : '';
   const whatsappHref = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '';
 
+  function groupAnswersBySection(answers: SubmissionAnswer[]) {
+    const grouped = new Map<string, SubmissionAnswer[]>();
+
+    for (const answer of answers) {
+      const section = (answer.section || 'General').trim() || 'General';
+      if (!grouped.has(section)) {
+        grouped.set(section, []);
+      }
+      grouped.get(section)?.push(answer);
+    }
+
+    return Array.from(grouped.entries()).map(([section, sectionAnswers]) => ({
+      section,
+      answers: sectionAnswers,
+    }));
+  }
+
   function downloadResponsesPdf() {
     if (!user) {
       return;
@@ -141,9 +159,13 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
       addWrappedLine(`Answers: ${submission.answers.length}`);
       cursorY += 4;
 
-      submission.answers.forEach((answer, answerIndex) => {
-        addWrappedLine(`${answerIndex + 1}. ${answer.question}`, 11, 'bold');
-        addWrappedLine(`   ${renderAnswer(answer.answer)}`);
+      const groupedSections = groupAnswersBySection(submission.answers);
+      groupedSections.forEach((group) => {
+        addWrappedLine(`Section: ${group.section}`, 11, 'bold');
+        group.answers.forEach((answer, answerIndex) => {
+          addWrappedLine(`${answerIndex + 1}. ${answer.question}`);
+          addWrappedLine(`   ${renderAnswer(answer.answer)}`);
+        });
       });
 
       cursorY += 10;
@@ -163,6 +185,7 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
         </div>
         <div className="admin-toolbar-actions">
           <Link href="/admin" className="secondary-button">Back to Dashboard</Link>
+          <Link href="/admin/questionnaires" className="secondary-button">Manage Questionnaires</Link>
           <Link href="/admin/change-password" className="secondary-button">Change Password</Link>
           <button type="button" className="secondary-button" onClick={downloadResponsesPdf}>Download PDF</button>
         </div>
@@ -205,14 +228,19 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
                 </div>
                 <span className="admin-badge">{submission.answers.length} answers</span>
               </div>
-              <div className="admin-answer-list">
-                {submission.answers.map((answer, answerIndex) => (
-                  <div className="admin-answer-row" key={`${answer.key}-${answer.question}-${answerIndex}`}>
-                    <strong>{answer.question}</strong>
-                    <span>{renderAnswer(answer.answer)}</span>
+              {groupAnswersBySection(submission.answers).map((group) => (
+                <div className="admin-section-group" key={`${submission.timestamp}-${group.section}`}>
+                  <h4 className="admin-section-title">{group.section}</h4>
+                  <div className="admin-answer-list">
+                    {group.answers.map((answer, answerIndex) => (
+                      <div className="admin-answer-row" key={`${answer.key}-${answer.question}-${answerIndex}`}>
+                        <strong>{answer.question}</strong>
+                        <span>{renderAnswer(answer.answer)}</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </article>
           ))
         ) : (
