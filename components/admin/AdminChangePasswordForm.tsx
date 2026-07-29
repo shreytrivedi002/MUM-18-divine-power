@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { InlineSpinner } from '../ui/LoadingSpinner';
 
 export default function AdminChangePasswordForm() {
   const router = useRouter();
@@ -59,7 +60,7 @@ export default function AdminChangePasswordForm() {
       </label>
       {error ? <p className="validation-error">{error}</p> : null}
       <button type="submit" className="primary-button" disabled={loading}>
-        {loading ? 'Saving…' : 'Update Password'}
+        {loading ? <InlineSpinner label="Saving..." /> : 'Update Password'}
       </button>
     </form>
   );

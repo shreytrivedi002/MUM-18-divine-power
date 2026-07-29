@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import jsPDF from 'jspdf';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 type SubmissionAnswer = {
   key: string;
@@ -87,7 +88,7 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
   }, [userId]);
 
   if (loading) {
-    return <p>Loading user profile…</p>;
+    return <LoadingSpinner message="Loading user profile..." />;
   }
 
   if (error) {

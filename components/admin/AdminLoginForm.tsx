@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { InlineSpinner } from '../ui/LoadingSpinner';
 
 export default function AdminLoginForm() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function AdminLoginForm() {
       </label>
       {error ? <p className="validation-error">{error}</p> : null}
       <button type="submit" className="primary-button" disabled={loading}>
-        {loading ? 'Signing in…' : 'Sign In'}
+        {loading ? <InlineSpinner label="Signing in..." /> : 'Sign In'}
       </button>
     </form>
   );

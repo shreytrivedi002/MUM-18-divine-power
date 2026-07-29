@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import { InlineSpinner } from '../ui/LoadingSpinner';
 
 type QuestionType =
   | 'text'
@@ -258,7 +260,7 @@ export default function AdminQuestionEditorClient({
         </div>
       </div>
 
-      {loading ? <p>Loading question editor…</p> : null}
+      {loading ? <LoadingSpinner message="Loading question editor..." /> : null}
       {error ? <p className="validation-error">{error}</p> : null}
       {success ? <p className="validation-success">{success}</p> : null}
 
@@ -322,7 +324,7 @@ export default function AdminQuestionEditorClient({
               Required
             </label>
             <button type="button" className="primary-button" onClick={saveQuestion} disabled={saving}>
-              {saving ? 'Saving…' : mode === 'edit' ? 'Save Changes' : 'Create Question'}
+              {saving ? <InlineSpinner label="Saving..." /> : mode === 'edit' ? 'Save Changes' : 'Create Question'}
             </button>
           </div>
         </div>
