@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
+import LoadingSpinner from './ui/LoadingSpinner';
+import { InlineSpinner } from './ui/LoadingSpinner';
 
 const defaultQuestionnaire: Questionnaire = {
   slug: 'dpht-master-wellness-questionnaire',
@@ -460,7 +462,7 @@ export default function SurveyRenderer() {
   }
 
   if (loading) {
-    return <p>Loading questionnaires…</p>;
+    return <LoadingSpinner message="Loading questionnaires..." />;
   }
 
   return (
@@ -514,7 +516,7 @@ export default function SurveyRenderer() {
             </button>
           ) : (
             <button type="button" onClick={handleSubmit} disabled={sending} className="primary-button">
-              {sending ? 'Submitting…' : 'Submit answers'}
+              {sending ? <InlineSpinner label="Submitting..." /> : 'Submit answers'}
             </button>
           )}
         </div>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 type UserRow = {
   id: string;
@@ -142,7 +143,7 @@ export default function AdminDashboardClient() {
         </p>
       ) : null}
 
-      {loading ? <p>Loading users…</p> : null}
+      {loading ? <LoadingSpinner message="Loading users..." /> : null}
       {error ? <p className="validation-error">{error}</p> : null}
 
       {!loading && !error ? (

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 type AdminQuestion = {
   key: string;
@@ -262,7 +263,7 @@ export default function AdminQuestionnaireManagerClient() {
       {error ? <p className="validation-error">{error}</p> : null}
       {success ? <p className="validation-success">{success}</p> : null}
 
-      {loadingSummaries ? <p>Loading questionnaires…</p> : null}
+      {loadingSummaries ? <LoadingSpinner message="Loading questionnaires..." /> : null}
 
       {!loadingSummaries && summaries.length > 0 ? (
         <div className="questionnaire-simple-controls">
@@ -306,7 +307,7 @@ export default function AdminQuestionnaireManagerClient() {
         </div>
       ) : null}
 
-      {loadingDetail ? <p>Loading section questions…</p> : null}
+      {loadingDetail ? <LoadingSpinner message="Loading section questions..." /> : null}
 
       {!loadingDetail && detail ? (
         <section className="questionnaire-section-card">

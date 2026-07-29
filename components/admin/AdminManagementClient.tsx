@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import type { FormEvent } from 'react';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import { InlineSpinner } from '../ui/LoadingSpinner';
 
 type AdminRow = {
   id: string;
@@ -194,7 +196,7 @@ export default function AdminManagementClient() {
         </label>
 
         <button type="submit" className="primary-button" disabled={createAdminLoading}>
-          {createAdminLoading ? 'Creating…' : 'Create Admin'}
+          {createAdminLoading ? <InlineSpinner label="Creating..." /> : 'Create Admin'}
         </button>
       </form>
       ) : null}
@@ -209,7 +211,7 @@ export default function AdminManagementClient() {
         </p>
       ) : null}
 
-      {loading ? <p>Loading admins…</p> : null}
+      {loading ? <LoadingSpinner message="Loading admins..." /> : null}
 
       {!loading && canManageAdmins ? (
         <div className="admin-table-wrap">
