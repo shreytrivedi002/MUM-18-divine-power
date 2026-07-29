@@ -5,8 +5,9 @@ import { useState } from 'react';
 
 export default function AdminLoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  // Temporary testing defaults for quick SuperAdmin sign-in on local/dev.
+  const [email, setEmail] = useState('admin@dpht.local');
+  const [password, setPassword] = useState('DPHT@Admin123!');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
