@@ -6,53 +6,81 @@ import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
 import LoadingSpinner from './ui/LoadingSpinner';
 import { InlineSpinner } from './ui/LoadingSpinner';
+import fallbackQuestionnaires from '../scripts/questionnaires.json';
 
-const defaultQuestionnaire: Questionnaire = {
-  slug: 'dpht-master-wellness-questionnaire',
-  title: 'DIVINE POWER HOLISTIC THERAPY (DPHT)',
-  description: 'Healthcare without medicine: complete this guided holistic wellness questionnaire.',
-  questions: [
-    {
-      key: 'name',
-      label: 'Full name',
-      type: 'text',
-      required: true,
-      placeholder: 'Your name',
-      category: 'Profile',
-    },
-    {
-      key: 'email',
-      label: 'Email address',
-      type: 'email',
-      required: true,
-      placeholder: 'you@example.com',
-      category: 'Contact',
-    },
-    {
-      key: 'stressLevel',
-      label: 'Current stress level',
-      type: 'select',
-      options: ['Low', 'Moderate', 'High'],
-      category: 'Wellbeing',
-    },
-    {
-      key: 'sleepQuality',
-      label: 'Sleep quality',
-      type: 'select',
-      options: ['Poor', 'Fair', 'Good'],
-      category: 'Recovery',
-    },
-    {
-      key: 'energy',
-      label: 'Energy levels',
-      type: 'select',
-      options: ['Low', 'Moderate', 'High'],
-      category: 'Recovery',
-    },
-  ],
+type PlanItem = {
+  id: string;
+  name: string;
+  details: string;
+  description: string;
+  durationWeeks: number;
+  costInr: number;
 };
 
+const fallbackPlans: PlanItem[] = [
+  {
+    id: 'trial',
+    name: '1 Week Trial',
+    details: 'Trial of 4-week transformation path',
+    description: 'Introductory plan to begin your DPHT journey.',
+    durationWeeks: 1,
+    costInr: 1000,
+  },
+  {
+    id: 'visible',
+    name: '4 Weeks Plan',
+    details: 'Visible Improvement',
+    description: 'Focused support for visible improvement in 30 days.',
+    durationWeeks: 4,
+    costInr: 3000,
+  },
+  {
+    id: 'consistent',
+    name: '12 Weeks Plan',
+    details: 'Consistent',
+    description: 'Structured progression for consistency and momentum.',
+    durationWeeks: 12,
+    costInr: 10000,
+  },
+  {
+    id: 'reversal',
+    name: '25 Weeks Plan',
+    details: 'Reversal Of Symptoms',
+    description: 'Longer care cycle aimed at deeper symptom reversal.',
+    durationWeeks: 25,
+    costInr: 18000,
+  },
+  {
+    id: 'complete',
+    name: '52 Weeks Plan',
+    details: 'Completely Healthy',
+    description: 'Comprehensive long-term lifestyle transformation plan.',
+    durationWeeks: 52,
+    costInr: 35000,
+  },
+];
+
+function formatInr(value: number) {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(value);
+}
+
+const defaultQuestionnaire: Questionnaire =
+  (Array.isArray(fallbackQuestionnaires) && (fallbackQuestionnaires[0] as Questionnaire)) || {
+    slug: 'dpht-master-wellness-questionnaire',
+    title: 'DIVINE POWER HOLISTIC THERAPY (DPHT) FOR HEALTHCARE WITHOUT MEDICINE',
+    description: 'Healthcare without medicine: complete this guided holistic wellness questionnaire.',
+    questions: [],
+  };
+
 function isQuestionAnswered(value: unknown, question: Question) {
+  if (question.type === 'info') {
+    return true;
+  }
+
   if (question.type === 'checkbox') {
     return Array.isArray(value) && value.length > 0;
   }
@@ -78,6 +106,58 @@ function normalizeIndianPhone(value: string) {
 function isValidIndianPhone(value: string) {
   const normalized = normalizeIndianPhone(value);
   return /^[6-9]\d{9}$/.test(normalized);
+}
+
+function renderInfoText(text: string) {
+  const lines = text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+  const bullets = lines.filter((line) => line.startsWith('- ')).map((line) => line.slice(2));
+  const paragraphs = lines.filter((line) => !line.startsWith('- '));
+
+  return { bullets, paragraphs };
+}
+
+function toNumber(value: unknown) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function getBmiInsights(values: Record<string, unknown>) {
+  const heightCm = toNumber(values.personal_height_cm);
+  const weightKg = toNumber(values.personal_weight_kg);
+
+  if (!heightCm || !weightKg || heightCm <= 0 || weightKg <= 0) {
+    return null;
+  }
+
+  const heightM = heightCm / 100;
+  const bmi = weightKg / (heightM * heightM);
+
+  let categoryLabel = 'obese';
+  let riskLabel = 'high';
+
+  if (bmi < 18.5) {
+    categoryLabel = 'underweight';
+    riskLabel = 'moderate';
+  } else if (bmi < 25) {
+    categoryLabel = 'normal';
+    riskLabel = 'low';
+  } else if (bmi < 30) {
+    categoryLabel = 'overweight';
+    riskLabel = 'moderate to high';
+  } else {
+    categoryLabel = 'obese';
+    riskLabel = 'high';
+  }
+
+  return {
+    bmi: Number(bmi.toFixed(1)),
+    categoryLabel,
+    riskLabel,
+  };
 }
 
 function useQuestionnaireState(questionnaire: Questionnaire | null) {
@@ -127,6 +207,7 @@ export default function SurveyRenderer() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
+  const [plans, setPlans] = useState<PlanItem[]>(fallbackPlans);
 
   useEffect(() => {
     async function load() {
@@ -146,7 +227,8 @@ export default function SurveyRenderer() {
             _id: item._id,
           }));
           setQuestionnaires(normalized as Questionnaire[]);
-          setActiveSlug(normalized[0]?.slug || defaultQuestionnaire.slug);
+          const preferred = normalized.find((item: any) => item.slug === defaultQuestionnaire.slug);
+          setActiveSlug(preferred?.slug || normalized[0]?.slug || defaultQuestionnaire.slug);
         } else {
           setQuestionnaires([defaultQuestionnaire]);
           setActiveSlug(defaultQuestionnaire.slug);
@@ -162,6 +244,33 @@ export default function SurveyRenderer() {
     }
 
     load();
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPlans() {
+      try {
+        const response = await fetch('/api/plans', { cache: 'no-store' });
+        const payload = await response.json().catch(() => null);
+        if (!response.ok) {
+          return;
+        }
+
+        const list = Array.isArray(payload?.plans) ? (payload.plans as PlanItem[]) : [];
+        if (!cancelled && list.length > 0) {
+          setPlans(list);
+        }
+      } catch {
+        // Keep fallback plans when API is unavailable.
+      }
+    }
+
+    loadPlans();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const activeQuestionnaire = useMemo(
@@ -324,6 +433,97 @@ export default function SurveyRenderer() {
 
   function renderInput(question: Question) {
     const rawValue = values[question.key];
+
+    if (question.type === 'info') {
+      const infoText = question.helpText || '';
+      const { bullets, paragraphs } = renderInfoText(infoText);
+      const isBmiCard = question.key.toLowerCase().includes('bmi');
+      const isFinalPlanCard = question.key === 'final_plan_info';
+      const bmiInsights = isBmiCard ? getBmiInsights(values) : null;
+      const resolvedParagraphs = isBmiCard
+        ? paragraphs.map((line) => {
+            if (line.includes('is ___')) {
+              return `Your Body Mass Index (BMI) is ${bmiInsights ? bmiInsights.bmi : '__'}.`;
+            }
+
+            if (line.toLowerCase().includes('obese range')) {
+              return bmiInsights
+                ? `which is in the ${bmiInsights.categoryLabel} range.`
+                : 'which is in the __ range.';
+            }
+
+            if (line.toLowerCase().includes('risk of unhealthy bmi ___')) {
+              return `Risk of unhealthy BMI ${bmiInsights ? bmiInsights.riskLabel : '__'}.`;
+            }
+
+            if (line.includes('ideally your BMI should be ___')) {
+              return 'Your personal profile Body Mass Index BMI is __ ideally your BMI should be 18.5-24.9.';
+            }
+
+            if (line.includes('BMI range of __')) {
+              return 'The National Institute of Health (NHI) recommends the BMI range of 18.5-24.9 to be within the health range.';
+            }
+
+            return line;
+          })
+        : paragraphs;
+
+      return (
+        <div className="info-panel">
+          {isBmiCard ? (
+            <div className="bmi-panel-head">
+              <div className="bmi-summary">
+                <div className="bmi-metric">
+                  <span className="bmi-metric-label">BMI</span>
+                  <strong>{bmiInsights ? bmiInsights.bmi : '--'}</strong>
+                </div>
+                <div className="bmi-metric">
+                  <span className="bmi-metric-label">Category</span>
+                  <strong>{bmiInsights ? bmiInsights.categoryLabel : '--'}</strong>
+                </div>
+                <div className="bmi-metric">
+                  <span className="bmi-metric-label">Risk</span>
+                  <strong>{bmiInsights ? bmiInsights.riskLabel : '--'}</strong>
+                </div>
+              </div>
+              <div className="bmi-scale">
+                <span>18.5</span>
+                <span>25</span>
+                <span>30</span>
+                <div className="bmi-scale-line" />
+              </div>
+            </div>
+          ) : null}
+          {bullets.length > 0 ? (
+            <ul>
+              {bullets.map((line, index) => (
+                <li key={`${line}-${index}`}>{line}</li>
+              ))}
+            </ul>
+          ) : null}
+          {isFinalPlanCard ? (
+            <div className="plan-grid survey-plan-grid">
+              {plans.map((plan) => (
+                <article className="plan-card" key={plan.id}>
+                  <h3>{plan.name}</h3>
+                  <p><strong>{plan.details}</strong></p>
+                  <p>{plan.description}</p>
+                  <p>Duration: {plan.durationWeeks} week{plan.durationWeeks > 1 ? 's' : ''}</p>
+                  <p>Cost: {formatInr(plan.costInr)}</p>
+                </article>
+              ))}
+            </div>
+          ) : (
+            resolvedParagraphs.map((line, index) => (
+              <p key={`${line}-${index}`}>{line}</p>
+            ))
+          )}
+          {isBmiCard && !bmiInsights ? (
+            <p className="bmi-note">Fill Height and Current Weight to auto-calculate BMI.</p>
+          ) : null}
+        </div>
+      );
+    }
 
     if (question.type === 'textarea') {
       return (
@@ -493,8 +693,9 @@ export default function SurveyRenderer() {
           <label className="question-label">
             <span>{currentQuestion.label}</span>
             {isMultiSelectQuestion ? <p className="question-subhint">Select all that are applicable.</p> : null}
+            {currentQuestion.type === 'info' ? <p className="question-subhint">Review and continue.</p> : null}
             {renderInput(currentQuestion)}
-            {currentQuestion.helpText ? <p className="question-help">{currentQuestion.helpText}</p> : null}
+            {currentQuestion.helpText && currentQuestion.type !== 'info' ? <p className="question-help">{currentQuestion.helpText}</p> : null}
           </label>
         </div>
 
@@ -509,7 +710,7 @@ export default function SurveyRenderer() {
             <button 
               type="button" 
               onClick={handleNext} 
-              disabled={!isQuestionAnswered(values[currentQuestion.key], currentQuestion)}
+              disabled={Boolean(currentQuestion.required) && !isQuestionAnswered(values[currentQuestion.key], currentQuestion)}
               className="primary-button"
             >
               Next question

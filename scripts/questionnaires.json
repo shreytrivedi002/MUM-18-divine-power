@@ -1,712 +1,462 @@
 [
   {
-    "slug": "master-wellness-questionnaire",
-    "title": "DIVINE POWER HOLISTIC THERAPY (DPHT)",
-    "description": "Healthcare without medicine: a comprehensive holistic assessment covering health profile, lifestyle, nutrition, sleep, stress, focus, productivity, and wellbeing goals.",
+    "slug": "dpht-master-wellness-questionnaire",
+    "title": "DIVINE POWER HOLISTIC THERAPY (DPHT) FOR HEALTHCARE WITHOUT MEDICINE",
+    "description": "Structured DPHT questionnaire flow as shared for healthcare without medicine.",
     "questions": [
       {
-        "key": "q1_gender",
-        "label": "Choose your gender",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
-        "options": ["Female", "Male"]
+        "key": "personal_name",
+        "label": "Name: Please enter your full name as you would like it to appear in your DPHT profile.",
+        "type": "text",
+        "required": true,
+        "placeholder": "Example: Aditi Sharma",
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q2_age",
-        "label": "How old are you?",
+        "key": "personal_age_years",
+        "label": "Age: Please select your current age in completed years.",
         "type": "number",
-        "category": "Personal & Lifestyle",
-        "placeholder": "Enter age",
-        "minValue": 1,
-        "maxValue": 120
+        "required": true,
+        "minValue": 12,
+        "maxValue": 100,
+        "step": 1,
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q3_height",
-        "label": "What is your height (cm)?",
+        "key": "personal_gender",
+        "label": "Gender: Please choose your gender.",
+        "type": "radio",
+        "required": true,
+        "options": ["F", "M"],
+        "category": "PERSONAL INFO"
+      },
+      {
+        "key": "personal_height_cm",
+        "label": "Height: Please enter your height in centimeters (cm).",
+        "type": "number",
+        "required": true,
+        "minValue": 90,
+        "maxValue": 250,
+        "step": 0.1,
+        "category": "PERSONAL INFO"
+      },
+      {
+        "key": "personal_weight_kg",
+        "label": "Current Weight: Please enter your present body weight in kilograms (kg).",
+        "type": "number",
+        "required": true,
+        "minValue": 20,
+        "maxValue": 300,
+        "step": 0.1,
+        "category": "PERSONAL INFO"
+      },
+      {
+        "key": "personal_waist_cm",
+        "label": "Current Waist: Please enter your waist circumference in centimeters (cm).",
+        "type": "number",
+        "required": true,
+        "minValue": 30,
+        "maxValue": 200,
+        "step": 0.1,
+        "category": "PERSONAL INFO"
+      },
+      {
+        "key": "personal_location",
+        "label": "Location/Area: Please share your State and Postal Pincode for better regional planning.",
         "type": "text",
-        "category": "Personal & Lifestyle",
-        "placeholder": "Enter height in centimetres (e.g., 168)"
+        "required": true,
+        "placeholder": "Example: Maharashtra - 400001",
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q4_weight",
-        "label": "What is your current weight (kg)?",
-        "type": "text",
-        "category": "Personal & Lifestyle",
-        "placeholder": "Enter weight in kg"
+        "key": "personal_whatsapp",
+        "label": "WhatsApp Number: Please enter your active WhatsApp number for follow-up support.",
+        "type": "phone",
+        "required": true,
+        "placeholder": "Enter 10-digit Indian mobile number",
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q5_goal_weight",
-        "label": "What is your goal weight (kg)?",
-        "type": "text",
-        "category": "Personal & Lifestyle",
-        "placeholder": "Enter goal weight in kg"
+        "key": "email",
+        "label": "Email ID: Please enter your email address for your DPHT records and updates.",
+        "type": "email",
+        "required": true,
+        "placeholder": "you@example.com",
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q6_name",
-        "label": "What is your name?",
-        "type": "text",
-        "category": "Personal & Lifestyle",
-        "placeholder": "Enter your name",
-        "required": true
+        "key": "personal_bmi_intro",
+        "label": "Your Body Mass Index (BMI) context and risk overview",
+        "type": "info",
+        "helpText": "Your Body Mass Index (BMI) is ___.\nwhich is in the obese range.\nRisk of unhealthy BMI ___.\nScale (as shown in Cortisol diet app.)\n18.5 (64kg) --- 25 (73kg) --- 30 (86kg)\nReaching and maintaining a healthy BMI (18.5-24.9) reduces the risk of many chronic diseases like Heart Disease, High Blood Pressure, Type2 Diabetes, Breathing problems, and certain types of Cancer.\nWe will use this index to personalize your DPHT plan.\nPlease review this carefully, as it helps us tailor your guidance journey.",
+        "category": "PERSONAL INFO"
       },
       {
-        "key": "q7_health_goal",
-        "label": "What is your primary health goal?",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
+        "key": "q10sc_daily_routine",
+        "label": "What is your daily routine schedule? Please describe your full day pattern.",
+        "type": "textarea",
+        "required": true,
+        "placeholder": "Include: morning wakeup to workplace, at workplace (active/seated), and from workplace till bedtime",
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "q11_c10_snacks",
+        "label": "How would you describe your eating habits? (Snacks frequency)",
+        "type": "select",
+        "required": true,
         "options": [
-          "Lose 1–10 kg for good",
-          "Lose 11–20 kg for good",
-          "Lose over 20 kg for good",
-          "Maintain weight and get fit",
-          "I haven't decided yet"
-        ]
+          "2 times a day",
+          "3 times a day",
+          "4 times a day",
+          "More times a day"
+        ],
+        "category": "REGULAR DAILY ROUTINE"
       },
       {
-        "key": "q8_activity_level",
-        "label": "What's your typical activity level?",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
+        "key": "q11_c10_meals",
+        "label": "How would you describe your eating habits? (Meals frequency)",
+        "type": "select",
+        "required": true,
         "options": [
-          "🛋 Not active (Mostly sedentary)",
-          "🚶 Lightly active (Activities of daily living only)",
-          "🏃 Moderately active (Walking 1.5–3 miles daily)",
-          "🚴 Active (Walking or exercising daily)"
-        ]
+          "2 times a day",
+          "3 times a day",
+          "4 times a day",
+          "More times a day"
+        ],
+        "category": "REGULAR DAILY ROUTINE"
       },
       {
-        "key": "q9_area_type",
-        "label": "Which type of area do you live in?",
+        "key": "q11_c10_eating_style",
+        "label": "In most cases, how do you end up eating?",
         "type": "radio",
-        "category": "Personal & Lifestyle",
-        "options": ["The countryside", "A major city", "The suburbs"]
+        "required": true,
+        "options": ["Emotional Eating", "When Hungry", "Both"],
+        "category": "REGULAR DAILY ROUTINE"
       },
       {
-        "key": "q10_work_schedule",
-        "label": "What's your work schedule?",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
-        "options": [
-          "Flexible",
-          "Nine to five",
-          "Shifts",
-          "Between jobs or unemployed",
-          "Seasonal",
-          "Retired",
-          "Other"
-        ]
-      },
-      {
-        "key": "q11_weekly_activity",
-        "label": "How much physical activity do you get each week?",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
-        "options": ["None", "1–2 hrs", "3–5 hrs", "6–8 hrs", "8+ hrs"]
-      },
-      {
-        "key": "q12_learning",
-        "label": "When was the last time you learned a new skill?",
-        "type": "radio",
-        "category": "Personal & Lifestyle",
-        "options": [
-          "This week",
-          "This month",
-          "Last 6 months",
-          "Over a year ago",
-          "I can't remember"
-        ]
-      },
-      {
-        "key": "q13_eating_habits",
-        "label": "How would you describe your eating habits?",
-        "type": "radio",
-        "category": "Nutrition",
-        "options": [
-          "I eat the same food every day",
-          "I eat similar foods, with some variation",
-          "I rotate between familiar foods",
-          "I like to experiment with different foods"
-        ]
-      },
-      {
-        "key": "q14_cooking_skills",
-        "label": "How would you describe your cooking skills?",
-        "type": "radio",
-        "category": "Nutrition",
-        "options": [
-          "I'm an expert cook",
-          "I'm learning to be a better cook",
-          "I don't know how to cook at all"
-        ]
-      },
-      {
-        "key": "q15_favorite_foods",
-        "label": "Which vegetarian foods and Indian vegetables do you enjoy eating?",
+        "key": "q11_indian_vegetables",
+        "label": "Indian vegetarian food choices: Which of these are regularly part of your routine?",
         "type": "checkbox",
-        "category": "Nutrition",
+        "required": true,
         "options": [
-          "Spinach (Palak)",
-          "Fenugreek leaves (Methi)",
-          "Bottle gourd (Lauki)",
-          "Ridge gourd (Turai)",
-          "Bitter gourd (Karela)",
-          "Okra (Bhindi)",
-          "Cauliflower (Gobi)",
-          "Cabbage (Patta Gobi)",
-          "Pumpkin (Kaddu)",
-          "Carrot",
-          "Beetroot",
-          "Cucumber",
-          "Tomato",
-          "Paneer",
-          "Tofu",
-          "Curd (Dahi)",
-          "Nuts and seeds"
-        ]
+          "Leafy vegetables (Palak, Methi)",
+          "Gourd family (Lauki, Tori, Tinda)",
+          "Cruciferous (Cabbage, Cauliflower)",
+          "Root vegetables (Carrot, Beetroot, Radish)",
+          "Legumes/Pulses (Moong, Masoor, Chana)",
+          "Paneer/Curd based meals"
+        ],
+        "category": "REGULAR DAILY ROUTINE"
       },
       {
-        "key": "q16_veg_proteins",
-        "label": "Which vegetarian protein sources do you eat regularly?",
+        "key": "q12_c1_activity_level",
+        "label": "What's your typical activity level in day-to-day life?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          "Mostly Sedentary",
+          "Lightly Active (Activity of daily living only)",
+          "Moderately Active (Walking 2-3 Kms daily)",
+          "Active (Walking and Exercising daily)"
+        ],
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "q13_c20_medications",
+        "label": "Are you currently taking any medicines for the following conditions?",
         "type": "checkbox",
-        "category": "Nutrition",
+        "required": true,
         "options": [
-          "Moong dal",
-          "Masoor dal",
-          "Toor dal",
-          "Chana",
-          "Rajma",
-          "Soy chunks",
-          "Paneer",
-          "Tofu",
-          "Peanuts",
-          "None of these"
-        ]
+          "Diabetes",
+          "High Blood Pressure",
+          "Cholestrol",
+          "Heart Disease",
+          "Depression",
+          "Others",
+          "None"
+        ],
+        "category": "REGULAR DAILY ROUTINE"
       },
       {
-        "key": "q17_allergies",
-        "label": "Do you have any food allergies or intolerances?",
+        "key": "q14_sc_primary_goal",
+        "label": "What is your primary health goal at this stage?",
+        "type": "radio",
+        "required": true,
+        "options": ["Relationship", "Health"],
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "dpht_customise_intro",
+        "label": "Now let's customise your DPHT Plan",
+        "type": "info",
+        "helpText": "Please take your time while answering the following questions. Every answer will slightly influence your personal plan.",
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "q15_d14_tired",
+        "label": "How often do you feel tired, physically drained, or lacking energy during the day?",
+        "type": "radio",
+        "required": true,
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "category": "ENERGY & MENTAL HEALTH"
+      },
+      {
+        "key": "q16_d10_mind_race",
+        "label": "How often does your mind race with thoughts that are hard to switch off?",
+        "type": "radio",
+        "required": true,
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "category": "ENERGY & MENTAL HEALTH"
+      },
+      {
+        "key": "q17_d11_overthinking",
+        "label": "How often do you find yourself overthinking or repeatedly dwelling on the past?",
+        "type": "radio",
+        "required": true,
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "category": "ENERGY & MENTAL HEALTH"
+      },
+      {
+        "key": "q18_t18_childhood",
+        "label": "How was your childhood overall? (Choose all that apply)",
         "type": "checkbox",
-        "category": "Nutrition",
+        "required": true,
         "options": [
-          "None",
-          "Lactose or milk protein",
-          "Gluten",
-          "Nuts",
-          "Eggs",
-          "Fish or seafood",
-          "Other"
-        ]
+          "It was often happy and supportive",
+          "It was often lonely and isolating",
+          "It was often challenging or unstable",
+          "It involved abuse and violence",
+          "It involved neglect or abandonment",
+          "It involved a traumatic family event",
+          "I don't remember"
+        ],
+        "category": "TRAUMA & STRESS"
       },
       {
-        "key": "q18_water_intake",
-        "label": "How much water do you drink daily?",
+        "key": "q19_t29_triggered",
+        "label": "In daily life, how easily do situations emotionally trigger you?",
         "type": "radio",
-        "category": "Nutrition",
+        "required": true,
+        "options": ["Very Much", "Somewhat", "Hardly"],
+        "category": "TRAUMA & STRESS"
+      },
+      {
+        "key": "q20_s11_drained",
+        "label": "Do you feel emotionally flat, disconnected, or drained?",
+        "type": "radio",
+        "required": true,
         "options": [
-          "☕ I only have coffee or tea",
-          "💧 Less than 2 glasses",
-          "💦 About 3–6 glasses",
-          "🌊 More than 6 glasses"
-        ]
+          "Strongly Agree",
+          "Somewhat Agree",
+          "Somewhat Disagree",
+          "Strongly Disagree"
+        ],
+        "category": "TRAUMA & STRESS"
       },
       {
-        "key": "q19_weekend_eating",
-        "label": "Is it difficult to eat healthy during weekends?",
-        "type": "radio",
-        "category": "Nutrition",
-        "options": ["Yes", "No"]
-      },
-      {
-        "key": "q20_meal_timing",
-        "label": "Do you usually eat meals at the same time every day?",
-        "type": "radio",
-        "category": "Nutrition",
-        "options": ["Yes", "No"]
-      },
-      {
-        "key": "q21_sleep_quality",
-        "label": "How would you rate your sleep quality?",
-        "type": "radio",
-        "category": "Sleep, Energy & Recovery",
+        "key": "q21_s16_weighing",
+        "label": "What has been weighing on you most lately? (Choose all that apply)",
+        "type": "checkbox",
+        "required": true,
         "options": [
-          "I have trouble falling asleep",
+          "Health Issues",
+          "Financial Issues",
+          "Relationship Issues",
+          "Parenthood",
+          "Life Crisis",
+          "Trauma"
+        ],
+        "category": "TRAUMA & STRESS"
+      },
+      {
+        "key": "dpht_benefits_info",
+        "label": "Benefits of the DPHT PLAN",
+        "type": "info",
+        "helpText": "Benefits of DPHT PLAN:\n- Increases Energy and quantity of life.\n- Better Blood Sugar control.\n- Enhanced Cardio Vascular Health.\n- Improves Mobility.\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
+        "category": "ENERGY & MENTAL HEALTH"
+      },
+      {
+        "key": "motivation_mcq",
+        "label": "would you describe your motivation level for building healthy habits in the first 3 months?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          "Highly motivated",
+          "Moderately motivated",
+          "Need support but willing",
+          "Not sure yet"
+        ],
+        "category": "ENERGY & MENTAL HEALTH"
+      },
+      {
+        "key": "q22_d2_phone_social",
+        "label": "How often do you check your phone or social media during a typical day?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          "!!!! Almost always",
+          "!!! Every Few Hours",
+          "!! Once or Twice a day",
+          "! Rarely"
+        ],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q23_d3_scrolling",
+        "label": "Do you ever find yourself scrolling for long periods without realizing how much time has passed?",
+        "type": "radio",
+        "required": true,
+        "options": ["Often", "Sometimes", "Rarely"],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q24_c10_snacks",
+        "label": "In your current environment, how frequent are your snacks?",
+        "type": "select",
+        "required": true,
+        "options": [
+          "2 times a day",
+          "3 times a day",
+          "4 times a day",
+          "More times a day"
+        ],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q24_c10_meals",
+        "label": "In your current environment, how frequent are your meals?",
+        "type": "select",
+        "required": true,
+        "options": [
+          "2 times a day",
+          "3 times a day",
+          "4 times a day",
+          "More times a day"
+        ],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q24_c10_eating_style",
+        "label": "In your current environment, what mostly drives your eating pattern?",
+        "type": "radio",
+        "required": true,
+        "options": ["Emotional Eating", "When Hungry", "Both"],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q25_c28_emotional_eating",
+        "label": "Do you engage in emotional eating when you are stressed, emotionally low, or excited?",
+        "type": "radio",
+        "required": true,
+        "options": ["Yes", "No"],
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q26_c18_sleep_quality",
+        "label": "How would you rate your overall sleep quality these days?",
+        "type": "radio",
+        "required": true,
+        "options": [
+          "I have trouble in felling sleep",
           "It varies",
           "I sleep well most nights"
-        ]
+        ],
+        "category": "ENVIRONMENTS THERAPY"
       },
       {
-        "key": "q22_wake_unrefreshed",
-        "label": "I often wake up feeling like I didn't sleep at all.",
-        "type": "likert",
-        "category": "Sleep, Energy & Recovery",
+        "key": "q27_c19_work_schedule",
+        "label": "What best describes your current work schedule?",
+        "type": "radio",
+        "required": true,
         "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
+          "Flexible",
+          "Nine to Five",
+          "Shifts",
+          "Seasonal",
+          "Retired"
+        ],
+        "category": "ENVIRONMENTS THERAPY"
       },
       {
-        "key": "q23_energy_levels",
-        "label": "I often feel tired, physically drained or low on energy.",
-        "type": "likert",
-        "category": "Sleep, Energy & Recovery",
+        "key": "almost_finished_info",
+        "label": "We're almost finished customizing your plan.",
+        "type": "info",
+        "helpText": "We're almost finished in customizing your plan. Tell us a little more about your habits so we can further personalize your DPHT recommendations.",
+        "category": "ENVIRONMENTS THERAPY"
+      },
+      {
+        "key": "q28_sc_travel_preference",
+        "label": "During holidays, where do you prefer to travel with friends and family?",
+        "type": "radio",
+        "required": true,
         "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
+          "Religious Places",
+          "Hill Station",
+          "Forest Safari",
+          "Waterfalls/Beaches",
+          "Explore Adventure"
+        ],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q24_weight_loss_history",
-        "label": "Have you successfully lost weight before but regained it?",
+        "key": "q29_sc_weekend",
+        "label": "How do you usually spend weekends with your family or friends?",
         "type": "radio",
-        "category": "Sleep, Energy & Recovery",
-        "options": ["Yes", "No"]
+        "required": true,
+        "options": ["Social Gatherings", "Clubbing", "Shopping", "New Venues"],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q25_ideal_weight_time",
-        "label": "When was the last time you were at your ideal weight?",
+        "key": "q30_sc_society_connection",
+        "label": "How would you describe your connection with your society/community?",
         "type": "radio",
-        "category": "Sleep, Energy & Recovery",
+        "required": true,
         "options": [
-          "Less than a year ago",
-          "1–2 years ago",
-          "More than 3 years ago",
-          "Never"
-        ]
+          "Meet frequently",
+          "Meet Moderately",
+          "Meet When needed",
+          "Rarely"
+        ],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q28_racing_thoughts",
-        "label": "How often does your mind race with thoughts you can't turn off?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
-      },
-      {
-        "key": "q29_overthinking",
-        "label": "How often do you overthink or dwell on the past?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
-      },
-      {
-        "key": "q30_self_doubt",
-        "label": "How often do you doubt yourself or your abilities?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
-      },
-      {
-        "key": "q31_mental_exhaustion",
-        "label": "I often feel mentally exhausted or overloaded.",
-        "type": "likert",
-        "category": "Mental Health & Focus",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q32_distraction",
-        "label": "How easily are you distracted?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Almost Always"]
-      },
-      {
-        "key": "q33_phone_checking",
-        "label": "How often do you check your phone or social media?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
-      },
-      {
-        "key": "q34_scrolling_time_loss",
-        "label": "Do you lose track of time while scrolling?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Very Often"]
-      },
-      {
-        "key": "q35_scrolling_instead_of_task",
-        "label": "Do you end up scrolling instead of doing what you planned?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
-      },
-      {
-        "key": "q36_focus_decline",
-        "label": "Have you noticed that you can't focus like you used to?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": [
-          "Not at all",
-          "Slightly",
-          "Moderately",
-          "Significantly",
-          "Extremely"
-        ]
-      },
-      {
-        "key": "q37_task_switching",
-        "label": "How often do you jump between tasks?",
-        "type": "radio",
-        "category": "Mental Health & Focus",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Constantly"]
-      },
-      {
-        "key": "q38_time_wasted",
-        "label": "How often do you feel your time isn't spent wisely?",
-        "type": "radio",
-        "category": "Productivity & Discipline",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
-      },
-      {
-        "key": "q39_productivity_decline",
-        "label": "Do you find it harder to get things done than before?",
-        "type": "radio",
-        "category": "Productivity & Discipline",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Always"]
-      },
-      {
-        "key": "q40_task_delay",
-        "label": "I often delay important tasks.",
-        "type": "likert",
-        "category": "Productivity & Discipline",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q41_postponing",
-        "label": "I keep postponing things until tomorrow.",
-        "type": "likert",
-        "category": "Productivity & Discipline",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q42_procrastination_goals",
-        "label": "Procrastination is stopping me from reaching my goals.",
-        "type": "likert",
-        "category": "Productivity & Discipline",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q43_goal_reflection",
-        "label": "How often do you reflect on your future and set goals?",
-        "type": "radio",
-        "category": "Goals, Habits & Growth",
-        "options": ["Never", "Rarely", "Sometimes", "Often", "Regularly"]
-      },
-      {
-        "key": "q44_goal_track",
-        "label": "Do you feel you're on track to achieve your goals this year?",
-        "type": "radio",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Definitely No",
-          "Probably No",
-          "Not Sure",
-          "Probably Yes",
-          "Definitely Yes"
-        ]
-      },
-      {
-        "key": "q45_self_sabotage",
-        "label": "I feel like I'm unknowingly holding myself back.",
-        "type": "likert",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q46_motivation_rating",
-        "label": "How motivated are you to make meaningful changes?",
-        "type": "radio",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Not motivated right now",
-          "Slightly motivated",
-          "Moderately motivated",
-          "Highly motivated",
-          "Fully committed"
-        ]
-      },
-      {
-        "key": "q47_lost_joy",
-        "label": "Things that used to bring me joy no longer feel interesting.",
-        "type": "likert",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q48_life_satisfaction",
-        "label": "I feel like I'm not living the life I truly want.",
-        "type": "likert",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Strongly Disagree",
-          "Disagree",
-          "Neutral",
-          "Agree",
-          "Strongly Agree"
-        ]
-      },
-      {
-        "key": "q49_wellbeing_improvements",
-        "label": "Which aspects of your wellbeing would you like to improve?",
+        "key": "q31_sc_society_obligation",
+        "label": "Which social responsibilities do you actively identify with?",
         "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Focus",
-          "Motivation",
-          "Sleep",
-          "Stress",
-          "Anxiety",
-          "Mood",
-          "Energy",
-          "Productivity",
-          "Relationships",
-          "Self-confidence",
-          "Physical Health",
-          "Digital Balance"
-        ]
+        "required": true,
+        "options": ["Help", "Donate", "Social Services", "Gratitude"],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q50_wellness_goals",
-        "label": "What do you want to achieve through this wellness journey?",
-        "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Improve focus",
-          "Stop procrastinating",
-          "Reduce screen time",
-          "Increase productivity",
-          "Better sleep",
-          "Improve mood",
-          "More energy",
-          "Better habits",
-          "Better mental health",
-          "More self-control"
-        ]
-      },
-      {
-        "key": "q51_top_improvement",
-        "label": "What do you think you need to improve the most?",
-        "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Discipline",
-          "Time Management",
-          "Focus",
-          "Motivation",
-          "Consistency",
-          "Confidence",
-          "Emotional Control",
-          "Sleep",
-          "Physical Health",
-          "Relationships"
-        ]
-      },
-      {
-        "key": "q52_procrastination_habits",
-        "label": "Which activities do you tend to procrastinate on?",
-        "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Work",
-          "Studying",
-          "Exercise",
-          "Household chores",
-          "Reading",
-          "Personal Projects",
-          "Socializing",
-          "Finances",
-          "Self-care"
-        ]
-      },
-      {
-        "key": "q53_habits_to_quit",
-        "label": "Which habits would you like to quit?",
-        "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Excessive Phone Use",
-          "Social Media",
-          "Doomscrolling",
-          "Gaming",
-          "Binge Watching",
-          "Smoking",
-          "Alcohol",
-          "Junk Food",
-          "Late Night Sleeping",
-          "Other"
-        ]
-      },
-      {
-        "key": "q54_habits_to_build",
-        "label": "Which healthy habits would you like to build?",
-        "type": "checkbox",
-        "category": "Goals, Habits & Growth",
-        "options": [
-          "Daily Exercise",
-          "Balanced Eating",
-          "Proper Hydration",
-          "Consistent Sleep Routine",
-          "Daily Mindfulness/Meditation",
-          "Reading Daily",
-          "Journaling",
-          "Other"
-        ]
-      },
-      {
-        "key": "q55_cortisol_knowledge",
-        "label": "How familiar are you with the Cortisol Detox Diet?",
+        "key": "q32_sc_meditation",
+        "label": "Do you practice morning meditation and deep-breathing exercises?",
         "type": "radio",
-        "category": "Health & Medication",
-        "options": [
-          "😊 I'm a beginner",
-          "😎 I have some basic knowledge",
-          "🧐 I'm experienced"
-        ]
+        "required": true,
+        "options": ["Sometimes", "Regularly", "No"],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q56_cbt_knowledge",
-        "label": "How much do you know about Cognitive Behavioral Therapy (CBT)?",
+        "key": "q33_sc_pray",
+        "label": "Do you pray as part of your routine?",
         "type": "radio",
-        "category": "Health & Medication",
-        "options": [
-          "Never heard of it",
-          "Heard of it",
-          "Know the basics",
-          "Quite familiar",
-          "Very knowledgeable"
-        ]
+        "required": true,
+        "options": ["Daily", "Weekly", "Sometimes", "Never"],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "q57_therapist_recommendation",
-        "label": "Did a therapist recommend this program?",
-        "type": "radio",
-        "category": "Health & Medication",
-        "options": ["Yes", "No"]
-      },
-      {
-        "key": "q58_dopamine_vision",
-        "label": "How do you think your life will improve if you overcome dopamine dependence?",
+        "key": "q34_wellbeing_improvement",
+        "label": "Which aspects of your well-being would you most like to improve first?",
         "type": "checkbox",
-        "category": "Health & Medication",
-        "options": [
-          "Better Focus",
-          "Better Relationships",
-          "Better Career",
-          "Better Grades",
-          "Better Sleep",
-          "Less Stress",
-          "More Happiness",
-          "Better Health",
-          "More Free Time"
-        ]
+        "required": true,
+        "options": ["Mental Health", "Physical Health", "Relationship"],
+        "category": "SOCIAL & SPIRITUAL"
       },
       {
-        "key": "health_bp_status",
-        "label": "Have you ever been told that you have high blood pressure (BP)?",
-        "type": "radio",
-        "category": "Health & Medication",
-        "options": [
-          "No, never",
-          "Yes, previously diagnosed",
-          "Borderline or sometimes high",
-          "Not sure"
-        ]
-      },
-      {
-        "key": "health_sugar_status",
-        "label": "Have you ever been told that your blood sugar is high (pre-diabetes/diabetes)?",
-        "type": "radio",
-        "category": "Health & Medication",
-        "options": ["No", "Yes, pre-diabetes", "Yes, diabetes", "Not sure"]
-      },
-      {
-        "key": "health_thyroid_status",
-        "label": "Do you have any thyroid condition?",
-        "type": "radio",
-        "category": "Health & Medication",
-        "options": ["No", "Yes", "Not sure"]
-      },
-      {
-        "key": "health_current_medications",
-        "label": "Are you currently taking any regular medicines?",
-        "type": "checkbox",
-        "category": "Health & Medication",
-        "options": [
-          "None",
-          "Blood pressure medicine",
-          "Blood sugar/diabetes medicine",
-          "Thyroid medicine",
-          "Cholesterol medicine",
-          "Other regular medicine"
-        ]
-      },
-      {
-        "key": "health_recent_tests",
-        "label": "When did you last check BP or blood sugar?",
-        "type": "radio",
-        "category": "Health & Medication",
-        "options": [
-          "Within last 3 months",
-          "Within last 6-12 months",
-          "More than a year ago",
-          "Never checked"
-        ]
-      },
-      {
-        "key": "q59_email",
-        "label": "What's your email address?",
-        "type": "email",
-        "category": "Contact",
-        "placeholder": "Enter email address",
-        "required": true
-      },
-      {
-        "key": "q60_phone",
-        "label": "What's your mobile phone number?",
-        "type": "phone",
-        "category": "Contact",
-        "placeholder": "Enter phone number"
+        "key": "final_plan_info",
+        "label": "Your DPHT plan is ready",
+        "type": "info",
+        "helpText": "- Get visible results in 4 weeks/30 days",
+        "category": "SOCIAL & SPIRITUAL"
       }
     ]
   }
