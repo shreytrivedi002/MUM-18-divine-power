@@ -658,6 +658,43 @@ h1 {
   gap: 0.45rem;
 }
 
+.admin-plan-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.admin-plan-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 0.75rem;
+}
+
+.admin-plan-row-content {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.admin-plan-row-content strong {
+  color: #0f172a;
+}
+
+.admin-plan-row-content span {
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.admin-plan-row-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
 @media (max-width: 980px) {
   .questionnaire-manager-grid {
     grid-template-columns: 1fr;
@@ -677,6 +714,81 @@ h1 {
   margin: 0.75rem 0 1.25rem;
   color: #475569;
   font-size: 0.95rem;
+}
+
+.info-panel {
+  margin-top: 0.9rem;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.info-panel p {
+  margin: 0.4rem 0;
+  color: #334155;
+}
+
+.info-panel ul {
+  margin: 0.4rem 0 0.4rem 1.2rem;
+  color: #334155;
+}
+
+.bmi-scale {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+  color: #0f766e;
+  font-weight: 700;
+}
+
+.bmi-scale-line {
+  grid-column: 1 / -1;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #22c55e 0%, #f59e0b 50%, #ef4444 100%);
+}
+
+.bmi-panel-head {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.bmi-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+}
+
+.bmi-metric {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 10px;
+  padding: 0.45rem 0.55rem;
+  background: #ffffff;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.bmi-metric-label {
+  color: #64748b;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+}
+
+.bmi-metric strong {
+  color: #0f766e;
+  font-size: 0.95rem;
+}
+
+.bmi-note {
+  margin-top: 0.6rem;
+  color: #475569;
+  font-size: 0.84rem;
+  font-style: italic;
 }
 
 .question-card {
@@ -920,6 +1032,72 @@ h1 {
   margin-top: 1rem;
 }
 
+.survey-plan-grid {
+  margin-top: 0.6rem;
+}
+
+.survey-plan-grid .plan-card {
+  border-radius: 18px;
+  padding: 1.1rem;
+  border: 1px solid rgba(15, 23, 42, 0.14);
+  background: #ffffff;
+}
+
+.survey-plan-grid .plan-card h3 {
+  margin-bottom: 0.35rem;
+}
+
+.progress-chart {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 1.5rem 0 1.2rem;
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f8fbff;
+}
+
+.progress-chart-line {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 2.2rem;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0ea5e9 0%, #14b8a6 55%, #22c55e 100%);
+}
+
+.progress-chart-point {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: 0.2rem;
+  z-index: 1;
+}
+
+.progress-chart-point::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #0f766e;
+  box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.18);
+  margin-bottom: 0.5rem;
+}
+
+.progress-chart-point strong {
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.progress-chart-point span {
+  color: #475569;
+  font-size: 0.84rem;
+}
+
 label {
   display: block;
   margin-bottom: 1rem;
@@ -1011,5 +1189,16 @@ code {
 
   .plan-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  .progress-chart {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .progress-chart-line {
+    display: none;
   }
 }

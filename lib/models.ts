@@ -8,7 +8,8 @@ export type QuestionType =
   | "radio"
   | "checkbox"
   | "likert"
-  | "rating";
+  | "rating"
+  | "info";
 
 export type Question = {
   key: string;
@@ -51,4 +52,17 @@ export type User = {
   submittedAt: Date;
   questionnaireSlug?: string;
   questionnaireTitle?: string;
+};
+
+export type Plan = {
+  id?: string;
+  name: string;
+  details: string;
+  description: string;
+  durationWeeks: number;
+  costInr: number;
+  isActive: boolean;
+  sortOrder?: number;
+  createdAt?: string | Date;
+  updatedAt?: string | Date;
 };
