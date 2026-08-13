@@ -20,6 +20,28 @@ type Submission = {
   answers: SubmissionAnswer[];
 };
 
+type PlanOption = {
+  id: string;
+  name: string;
+  details: string;
+  costInr: number;
+};
+
+type UserPayment = {
+  id: string;
+  planId: string;
+  planName: string;
+  amountInr: number;
+  status: string;
+  paymentLinkUrl: string;
+  createdAt: string | null;
+  paidAt: string | null;
+  dispatchLog: Array<{
+    channel: string;
+    dispatchedAt: string;
+  }>;
+};
+
 type UserProfile = {
   id: string;
   fullName: string;
@@ -28,6 +50,14 @@ type UserProfile = {
   registrationDate: string | null;
   lastQuestionnaireSubmissionDate: string | null;
   submissionCount: number;
+  planEnrollment: {
+    planId: string;
+    planName: string;
+    status: string;
+    enrolledAt: string | null;
+    paymentId: string;
+  } | null;
+  payments: UserPayment[];
   responses: Submission[];
 };
 
@@ -49,6 +79,12 @@ function renderAnswer(answer: unknown) {
 
 export default function AdminUserProfileClient({ userId }: { userId: string }) {
   const [user, setUser] = useState<UserProfile | null>(null);
+  const [plans, setPlans] = useState<PlanOption[]>([]);
+  const [selectedPlanId, setSelectedPlanId] = useState('');
+  const [creatingPayment, setCreatingPayment] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+  const [latestPaymentLink, setLatestPaymentLink] = useState<string>('');
+  const [latestPaymentId, setLatestPaymentId] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -87,6 +123,96 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
     };
   }, [userId]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadPlans() {
+      try {
+        const response = await fetch('/api/admin/plans', { cache: 'no-store' });
+        const payload = await response.json().catch(() => null);
+        if (!response.ok) {
+          return;
+        }
+
+        const nextPlans = Array.isArray(payload?.plans)
+          ? payload.plans.map((item: any) => ({
+              id: String(item.id),
+              name: String(item.name || ''),
+              details: String(item.details || ''),
+              costInr: Number(item.costInr || 0),
+            }))
+          : [];
+
+        if (!cancelled) {
+          setPlans(nextPlans);
+          if (nextPlans.length > 0) {
+            setSelectedPlanId(nextPlans[0].id);
+          }
+        }
+      } catch {
+        // Ignore failures here and keep page usable.
+      }
+    }
+
+    loadPlans();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  async function markDispatched(channel: 'email' | 'whatsapp') {
+    if (!latestPaymentId) {
+      return;
+    }
+
+    await fetch(`/api/admin/payments/${encodeURIComponent(latestPaymentId)}/dispatch`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ channel }),
+    }).catch(() => null);
+  }
+
+  async function createPaymentRequest() {
+    if (!selectedPlanId) {
+      setPaymentStatus('Please select a plan first.');
+      return;
+    }
+
+    setCreatingPayment(true);
+    setPaymentStatus(null);
+
+    try {
+      const response = await fetch('/api/admin/payments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, planId: selectedPlanId }),
+      });
+
+      const payload = await response.json().catch(() => null);
+      if (!response.ok) {
+        throw new Error(payload?.error || 'Unable to create payment request.');
+      }
+
+      const payment = payload?.payment;
+      const link = String(payment?.paymentLinkUrl || '');
+      const paymentId = String(payment?.id || '');
+      setLatestPaymentLink(link);
+      setLatestPaymentId(paymentId);
+      setPaymentStatus('Payment link created successfully. Use the send buttons below.');
+
+      const refreshed = await fetch(`/api/admin/users/${userId}`, { cache: 'no-store' });
+      const refreshedPayload = await refreshed.json().catch(() => null);
+      if (refreshed.ok && refreshedPayload?.user) {
+        setUser(refreshedPayload.user);
+      }
+    } catch (err) {
+      setPaymentStatus(err instanceof Error ? err.message : 'Unable to create payment request.');
+    } finally {
+      setCreatingPayment(false);
+    }
+  }
+
   if (loading) {
     return <LoadingSpinner message="Loading user profile..." />;
   }
@@ -102,6 +228,16 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
   const phoneHref = user.phone ? user.phone.replace(/\s+/g, '') : '';
   const whatsappPhone = user.phone ? user.phone.replace(/\D+/g, '') : '';
   const whatsappHref = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '';
+  const selectedPlan = plans.find((item) => item.id === selectedPlanId) || null;
+  const paymentMessage = latestPaymentLink
+    ? `Hello ${user.fullName}, please complete your DPHT plan payment using this secure link: ${latestPaymentLink}`
+    : '';
+  const whatsappPaymentHref = whatsappPhone && paymentMessage
+    ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(paymentMessage)}`
+    : '';
+  const emailPaymentHref = paymentMessage
+    ? `mailto:${encodeURIComponent(user.email)}?subject=${encodeURIComponent('DPHT Plan Payment Link')}&body=${encodeURIComponent(paymentMessage)}`
+    : '';
 
   function groupAnswersBySection(answers: SubmissionAnswer[]) {
     const grouped = new Map<string, SubmissionAnswer[]>();
@@ -186,6 +322,7 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
         </div>
         <div className="admin-toolbar-actions">
           <Link href="/admin" className="secondary-button">Back to Dashboard</Link>
+          <Link href="/admin/payments" className="secondary-button">Payments</Link>
           <Link href="/admin/questionnaires" className="secondary-button">Manage Questionnaires</Link>
           <Link href="/admin/change-password" className="secondary-button">Change Password</Link>
           <button type="button" className="secondary-button" onClick={downloadResponsesPdf}>Download PDF</button>
@@ -201,6 +338,9 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
           <p><strong>Registered:</strong> {user.registrationDate ? new Date(user.registrationDate).toLocaleString() : '-'}</p>
           <p><strong>Last Submission:</strong> {user.lastQuestionnaireSubmissionDate ? new Date(user.lastQuestionnaireSubmissionDate).toLocaleString() : '-'}</p>
           <p><strong>Total Submissions:</strong> {user.submissionCount}</p>
+          <p><strong>Enrolled Plan:</strong> {user.planEnrollment?.planName || '-'}</p>
+          <p><strong>Enrollment Status:</strong> {user.planEnrollment?.status || '-'}</p>
+          <p><strong>Enrolled At:</strong> {user.planEnrollment?.enrolledAt ? new Date(user.planEnrollment.enrolledAt).toLocaleString() : '-'}</p>
         </div>
 
         <div className="admin-profile-panel">
@@ -214,6 +354,82 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
             ) : null}
           </div>
         </div>
+
+        <div className="admin-profile-panel">
+          <h2>Send Plan Payment Link</h2>
+          <p>Select a plan, generate Razorpay payment link, then send to user on WhatsApp and Email.</p>
+          <label>
+            Choose plan for payment request
+            <select value={selectedPlanId} onChange={(e) => setSelectedPlanId(e.target.value)}>
+              {plans.map((plan) => (
+                <option key={plan.id} value={plan.id}>
+                  {plan.name} ({plan.details}) - INR {plan.costInr}
+                </option>
+              ))}
+            </select>
+          </label>
+          <div className="admin-contact-actions">
+            <button type="button" className="primary-button" onClick={createPaymentRequest} disabled={creatingPayment || !selectedPlan}>
+              {creatingPayment ? 'Creating link...' : 'Create Payment Link'}
+            </button>
+            {latestPaymentLink ? (
+              <a href={latestPaymentLink} className="secondary-button" target="_blank" rel="noopener noreferrer">
+                Open Payment Link
+              </a>
+            ) : null}
+            {whatsappPaymentHref ? (
+              <a
+                href={whatsappPaymentHref}
+                className="secondary-button"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => markDispatched('whatsapp')}
+              >
+                Send on WhatsApp
+              </a>
+            ) : null}
+            {emailPaymentHref ? (
+              <a href={emailPaymentHref} className="secondary-button" onClick={() => markDispatched('email')}>
+                Send on Email
+              </a>
+            ) : null}
+          </div>
+          {paymentStatus ? <p className="status">{paymentStatus}</p> : null}
+        </div>
+      </div>
+
+      <div className="admin-history">
+        <h2>Payment Requests</h2>
+        {user.payments && user.payments.length > 0 ? (
+          <div className="admin-table-wrap">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Plan</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Paid At</th>
+                  <th>Link</th>
+                </tr>
+              </thead>
+              <tbody>
+                {user.payments.map((payment) => (
+                  <tr key={payment.id}>
+                    <td>{payment.planName || '-'}</td>
+                    <td>INR {payment.amountInr}</td>
+                    <td>{payment.status || '-'}</td>
+                    <td>{payment.createdAt ? new Date(payment.createdAt).toLocaleString() : '-'}</td>
+                    <td>{payment.paidAt ? new Date(payment.paidAt).toLocaleString() : '-'}</td>
+                    <td>{payment.paymentLinkUrl ? <a href={payment.paymentLinkUrl} target="_blank" rel="noopener noreferrer">Open</a> : '-'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p>No payment requests recorded for this user.</p>
+        )}
       </div>
 
       <div className="admin-history">

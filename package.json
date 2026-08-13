@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed:questionnaires": "node scripts/seedQuestionnaires.js",
-    "seed:mock-users": "node scripts/seedMockUsers.js"
+    "seed:mock-users": "node scripts/seedMockUsers.js",
+    "seed:mock-plans": "node scripts/seedMockPlans.js"
   },
   "dependencies": {
     "jspdf": "^4.2.1",

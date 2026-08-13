@@ -21,6 +21,13 @@ export type AdminUserDocument = {
   createdAt?: string | Date;
   updatedAt?: string | Date;
   fullName?: string;
+  planEnrollment?: {
+    planId?: string;
+    planName?: string;
+    status?: string;
+    enrolledAt?: string | Date;
+    paymentId?: string;
+  };
   responses?: AdminSubmission[];
 };
 
@@ -106,6 +113,16 @@ export function normalizeUserDocument(user: AdminUserDocument) {
 
   return {
     ...deriveUserProfile(user),
+    planEnrollment: user.planEnrollment
+      ? {
+          planId: user.planEnrollment.planId || "",
+          planName: user.planEnrollment.planName || "",
+          status: user.planEnrollment.status || "",
+          enrolledAt:
+            toDate(user.planEnrollment.enrolledAt)?.toISOString() || null,
+          paymentId: user.planEnrollment.paymentId || "",
+        }
+      : null,
     responses: sortedResponses.map((submission) => ({
       questionnaireSlug: submission.questionnaireSlug,
       questionnaireTitle: submission.questionnaireTitle,
