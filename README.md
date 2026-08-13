@@ -56,6 +56,20 @@ This will upsert the questionnaire documents into the `questionnaires` collectio
 - The first admin login uses the bootstrap credentials and stores a hashed admin account in MongoDB.
 - Admin pages are available at `/admin/login`, `/admin`, `/admin/admins`, `/admin/users/:userId`, and `/admin/change-password`.
 
+6. Configure payments (Razorpay)
+
+- Set `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` in `.env.local`.
+- Set `RAZORPAY_WEBHOOK_SECRET` in `.env.local`.
+- Optional: set `MONGODB_PAYMENTS_COLLECTION` if you want a custom collection name (default: `payments`).
+- Optional: set `MONGODB_PLANS_COLLECTION` for custom plans collection (default: `plans`).
+- Configure Razorpay webhook URL to:
+
+```text
+https://<your-domain>/api/razorpay/webhook
+```
+
+- Subscribe webhook events: `payment_link.paid`, `payment_link.cancelled`, `payment_link.expired`, and `payment.captured`.
+
 7. Seed mock users for admin portal testing (optional)
 
 ```bash
