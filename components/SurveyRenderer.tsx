@@ -160,6 +160,19 @@ function getBmiInsights(values: Record<string, unknown>) {
   };
 }
 
+function getBmiMotivation(categoryLabel: string) {
+  switch (categoryLabel) {
+    case 'underweight':
+      return "You're on the starting line of your transformation. With the right nourishment and guidance, you'll build strength and reach a healthier weight step by step. We're with you on this journey!";
+    case 'normal':
+      return "Great work — you're already in the healthy BMI range! Let's focus on sustaining this balance and building lifelong healthy habits together.";
+    case 'overweight':
+      return "You're closer to your healthy BMI than you think. Small, consistent changes with DPHT guidance can bring you back into the healthy range — your progress starts today!";
+    default:
+      return "Every transformation begins with a single decision, and you've already made it by being here. With consistent effort and our DPHT support, real, lasting change is within your reach.";
+  }
+}
+
 function useQuestionnaireState(questionnaire: Questionnaire | null) {
   const [values, setValues] = useState<Record<string, any>>({});
 
@@ -441,31 +454,29 @@ export default function SurveyRenderer() {
       const isFinalPlanCard = question.key === 'final_plan_info';
       const bmiInsights = isBmiCard ? getBmiInsights(values) : null;
       const resolvedParagraphs = isBmiCard
-        ? paragraphs.map((line) => {
-            if (line.includes('is ___')) {
-              return `Your Body Mass Index (BMI) is ${bmiInsights ? bmiInsights.bmi : '__'}.`;
-            }
+        ? paragraphs
+            .filter((line) => !line.toLowerCase().includes('obese range'))
+            .map((line) => {
+              if (line.includes('is ___')) {
+                return bmiInsights
+                  ? `Your Body Mass Index (BMI) is ${bmiInsights.bmi}, which is in the ${bmiInsights.categoryLabel} range.`
+                  : 'Your Body Mass Index (BMI) is __, which is in the __ range.';
+              }
 
-            if (line.toLowerCase().includes('obese range')) {
-              return bmiInsights
-                ? `which is in the ${bmiInsights.categoryLabel} range.`
-                : 'which is in the __ range.';
-            }
+              if (line.toLowerCase().includes('risk of unhealthy bmi ___')) {
+                return `Risk of unhealthy BMI ${bmiInsights ? bmiInsights.riskLabel : '__'}.`;
+              }
 
-            if (line.toLowerCase().includes('risk of unhealthy bmi ___')) {
-              return `Risk of unhealthy BMI ${bmiInsights ? bmiInsights.riskLabel : '__'}.`;
-            }
+              if (line.includes('ideally your BMI should be ___')) {
+                return 'Your personal profile Body Mass Index BMI is __ ideally your BMI should be 18.5-24.9.';
+              }
 
-            if (line.includes('ideally your BMI should be ___')) {
-              return 'Your personal profile Body Mass Index BMI is __ ideally your BMI should be 18.5-24.9.';
-            }
+              if (line.includes('BMI range of __')) {
+                return 'The National Institute of Health (NHI) recommends the BMI range of 18.5-24.9 to be within the health range.';
+              }
 
-            if (line.includes('BMI range of __')) {
-              return 'The National Institute of Health (NHI) recommends the BMI range of 18.5-24.9 to be within the health range.';
-            }
-
-            return line;
-          })
+              return line;
+            })
         : paragraphs;
 
       return (
@@ -492,6 +503,9 @@ export default function SurveyRenderer() {
                 <span>30</span>
                 <div className="bmi-scale-line" />
               </div>
+              {bmiInsights ? (
+                <p className="bmi-motivation">{getBmiMotivation(bmiInsights.categoryLabel)}</p>
+              ) : null}
             </div>
           ) : null}
           {bullets.length > 0 ? (
@@ -607,18 +621,30 @@ export default function SurveyRenderer() {
     }
 
     if (question.type === 'number') {
-      const isAgeQuestion = question.key.toLowerCase().includes('age');
+      const keyLower = question.key.toLowerCase();
+      const isScrollField = ['age', 'height', 'weight', 'waist'].some((token) => keyLower.includes(token));
 
-      if (isAgeQuestion) {
+      if (isScrollField) {
         const min = question.minValue ?? 1;
         const max = question.maxValue ?? 120;
+        const step = question.step && question.step > 0 ? question.step : 1;
+        const decimals = step % 1 !== 0 ? String(step).split('.')[1]?.length ?? 1 : 0;
+        const optionCount = Math.round((max - min) / step) + 1;
+        const options = Array.from({ length: optionCount }, (_, index) => {
+          const raw = min + index * step;
+          return decimals > 0 ? Number(raw.toFixed(decimals)) : raw;
+        });
         const selectedValue = rawValue === '' || rawValue === undefined ? '' : String(rawValue);
         return (
-          <select value={selectedValue} onChange={(event) => updateValue(question.key, Number(event.target.value))}>
-            <option value="">Select age</option>
-            {Array.from({ length: max - min + 1 }, (_, index) => min + index).map((age) => (
-              <option key={age} value={age}>
-                {age}
+          <select
+            className="scroll-select"
+            value={selectedValue}
+            onChange={(event) => updateValue(question.key, Number(event.target.value))}
+          >
+            <option value="">Select value</option>
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
             ))}
           </select>

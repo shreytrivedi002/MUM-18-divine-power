@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createHash, createHmac } from "crypto";
+import { timingSafeEqual } from "crypto";
 import { ObjectId } from "mongodb";
 import { getMongoDb } from "../../../../lib/mongodbClient";
 
@@ -11,7 +12,12 @@ function toSafeString(value: unknown) {
 
 function verifySignature(payload: string, signature: string, secret: string) {
   const digest = createHmac("sha256", secret).update(payload).digest("hex");
-  return digest === signature;
+  const expected = Buffer.from(digest, "utf8");
+  const provided = Buffer.from(signature, "utf8");
+  if (expected.length !== provided.length) {
+    return false;
+  }
+  return timingSafeEqual(expected, provided);
 }
 
 async function ensurePaymentsIndexes(db: any, collectionName: string) {
