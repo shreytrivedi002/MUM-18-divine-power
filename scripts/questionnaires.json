@@ -88,7 +88,7 @@
         "key": "personal_bmi_intro",
         "label": "Your Body Mass Index (BMI) context and risk overview",
         "type": "info",
-        "helpText": "Your Body Mass Index (BMI) is ___.\nwhich is in the obese range.\nRisk of unhealthy BMI ___.\nScale (as shown in Cortisol diet app.)\n18.5 (64kg) --- 25 (73kg) --- 30 (86kg)\nReaching and maintaining a healthy BMI (18.5-24.9) reduces the risk of many chronic diseases like Heart Disease, High Blood Pressure, Type2 Diabetes, Breathing problems, and certain types of Cancer.\nWe will use this index to personalize your DPHT plan.\nPlease review this carefully, as it helps us tailor your guidance journey.",
+        "helpText": "Your Body Mass Index (BMI) is ___.\nwhich is in the obese range.\nRisk of unhealthy BMI ___.\nScale\n18.5 (64kg) --- 25 (73kg) --- 30 (86kg)\nReaching and maintaining a healthy BMI (18.5-24.9) reduces the risk of many chronic diseases like Heart Disease, High Blood Pressure, Type2 Diabetes, Breathing problems, and certain types of Cancer.\nWe will use this index to personalize your DPHT plan.\nPlease review this carefully, as it helps us tailor your guidance journey.",
         "category": "PERSONAL INFO"
       },
       {
