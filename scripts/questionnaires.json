@@ -18,7 +18,7 @@
         "type": "number",
         "required": true,
         "minValue": 12,
-        "maxValue": 100,
+        "maxValue": 120,
         "step": 1,
         "category": "PERSONAL INFO"
       },
@@ -27,7 +27,7 @@
         "label": "Gender: Please choose your gender.",
         "type": "radio",
         "required": true,
-        "options": ["F", "M"],
+        "options": ["Female", "Male"],
         "category": "PERSONAL INFO"
       },
       {
@@ -36,8 +36,8 @@
         "type": "number",
         "required": true,
         "minValue": 90,
-        "maxValue": 250,
-        "step": 0.1,
+        "maxValue": 200,
+        "step": 1,
         "category": "PERSONAL INFO"
       },
       {
@@ -46,8 +46,8 @@
         "type": "number",
         "required": true,
         "minValue": 20,
-        "maxValue": 300,
-        "step": 0.1,
+        "maxValue": 250,
+        "step": 1,
         "category": "PERSONAL INFO"
       },
       {
@@ -55,9 +55,9 @@
         "label": "Current Waist: Please enter your waist circumference in centimeters (cm).",
         "type": "number",
         "required": true,
-        "minValue": 30,
-        "maxValue": 200,
-        "step": 0.1,
+        "minValue": 25,
+        "maxValue": 150,
+        "step": 1,
         "category": "PERSONAL INFO"
       },
       {
@@ -88,15 +88,31 @@
         "key": "personal_bmi_intro",
         "label": "Your Body Mass Index (BMI) context and risk overview",
         "type": "info",
-        "helpText": "Your Body Mass Index (BMI) is ___.\nwhich is in the obese range.\nRisk of unhealthy BMI ___.\nScale\n18.5 (64kg) --- 25 (73kg) --- 30 (86kg)\nReaching and maintaining a healthy BMI (18.5-24.9) reduces the risk of many chronic diseases like Heart Disease, High Blood Pressure, Type2 Diabetes, Breathing problems, and certain types of Cancer.\nWe will use this index to personalize your DPHT plan.\nPlease review this carefully, as it helps us tailor your guidance journey.",
+        "helpText": "Your Body Mass Index (BMI) is ___.\nwhich is in the obese range.\nRisk of unhealthy BMI ___.\nReaching and maintaining a healthy BMI (18.5-24.9) reduces the risk of many chronic diseases like Heart Disease, High Blood Pressure, Type2 Diabetes, Breathing problems, and certain types of Cancer.\nWe will use this index to personalize your DPHT plan.\nPlease review this carefully, as it helps us tailor your guidance journey.",
         "category": "PERSONAL INFO"
       },
       {
-        "key": "q10sc_daily_routine",
-        "label": "What is your daily routine schedule? Please describe your full day pattern.",
-        "type": "textarea",
+        "key": "q10a_morning_wakeup_time",
+        "label": "What is your daily routine schedule? Morning Wakeup Time",
+        "type": "time",
         "required": true,
-        "placeholder": "Include: morning wakeup to workplace, at workplace (active/seated), and from workplace till bedtime",
+        "helpText": "Scroll to select hours and minutes.",
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "q10b_workplace_time",
+        "label": "What is your daily routine schedule? Workplace Time (from - to)",
+        "type": "time_range",
+        "required": true,
+        "helpText": "Scroll to select hours and minutes for start and end time.",
+        "category": "REGULAR DAILY ROUTINE"
+      },
+      {
+        "key": "q10c_bedtime",
+        "label": "What is your daily routine schedule? Bedtime",
+        "type": "time",
+        "required": true,
+        "helpText": "Scroll to select hours and minutes.",
         "category": "REGULAR DAILY ROUTINE"
       },
       {

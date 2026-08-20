@@ -26,6 +26,7 @@ export type AdminUserDocument = {
     planName?: string;
     status?: string;
     enrolledAt?: string | Date;
+    durationWeeks?: number;
     paymentId?: string;
   };
   responses?: AdminSubmission[];
@@ -120,6 +121,7 @@ export function normalizeUserDocument(user: AdminUserDocument) {
           status: user.planEnrollment.status || "",
           enrolledAt:
             toDate(user.planEnrollment.enrolledAt)?.toISOString() || null,
+          durationWeeks: user.planEnrollment.durationWeeks || 0,
           paymentId: user.planEnrollment.paymentId || "",
         }
       : null,

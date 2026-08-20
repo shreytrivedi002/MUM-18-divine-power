@@ -223,12 +223,15 @@ export default function AdminPlanEditorClient({
           <div className="questionnaire-question-row">
             <label>
               Duration (weeks)
-              <input
-                type="number"
-                min={1}
-                value={String(form.durationWeeks)}
-                onChange={(e) => setForm((c) => ({ ...c, durationWeeks: Number(e.target.value) }))}
-              />
+              <div className="input-suffix-group">
+                <input
+                  type="number"
+                  min={1}
+                  value={String(form.durationWeeks)}
+                  onChange={(e) => setForm((c) => ({ ...c, durationWeeks: Number(e.target.value) }))}
+                />
+                <span className="input-suffix">week{form.durationWeeks === 1 ? '' : 's'}</span>
+              </div>
             </label>
 
             <label>

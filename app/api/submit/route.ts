@@ -190,7 +190,7 @@ export async function POST(request: Request) {
     .collection(usersCollection)
     .createIndex({ email: 1 }, { unique: true });
 
-  await db.collection(usersCollection).updateOne(
+  const updateResult = await db.collection(usersCollection).updateOne(
     { email },
     {
       $setOnInsert: {
@@ -209,5 +209,15 @@ export async function POST(request: Request) {
     { upsert: true },
   );
 
-  return NextResponse.json({ success: true });
+  const userId = updateResult.upsertedId
+    ? String(updateResult.upsertedId)
+    : String(
+        (
+          await db
+            .collection(usersCollection)
+            .findOne({ email }, { projection: { _id: 1 } })
+        )?._id ?? "",
+      );
+
+  return NextResponse.json({ success: true, userId });
 }
