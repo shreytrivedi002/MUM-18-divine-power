@@ -55,6 +55,7 @@ type UserProfile = {
     planName: string;
     status: string;
     enrolledAt: string | null;
+    durationWeeks: number;
     paymentId: string;
   } | null;
   payments: UserPayment[];
@@ -75,6 +76,21 @@ function renderAnswer(answer: unknown) {
   }
 
   return String(answer);
+}
+
+function getEnrollmentEndDate(enrolledAt: string | null, durationWeeks: number) {
+  if (!enrolledAt || !durationWeeks) {
+    return null;
+  }
+
+  const start = new Date(enrolledAt);
+  if (Number.isNaN(start.getTime())) {
+    return null;
+  }
+
+  const end = new Date(start);
+  end.setDate(end.getDate() + durationWeeks * 7);
+  return end;
 }
 
 export default function AdminUserProfileClient({ userId }: { userId: string }) {
@@ -229,6 +245,17 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
   const whatsappPhone = user.phone ? user.phone.replace(/\D+/g, '') : '';
   const whatsappHref = whatsappPhone ? `https://wa.me/${whatsappPhone}` : '';
   const selectedPlan = plans.find((item) => item.id === selectedPlanId) || null;
+
+  const planPageUrl = typeof window !== 'undefined' ? `${window.location.origin}/plans/${userId}` : '';
+  const planPageMessage = planPageUrl
+    ? `Hello ${user.fullName}, please choose your DPHT plan and complete payment using this link: ${planPageUrl}`
+    : '';
+  const whatsappPlanPageHref = whatsappPhone && planPageMessage
+    ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(planPageMessage)}`
+    : '';
+  const emailPlanPageHref = planPageMessage
+    ? `mailto:${encodeURIComponent(user.email)}?subject=${encodeURIComponent('DPHT Plan Selection & Payment Link')}&body=${encodeURIComponent(planPageMessage)}`
+    : '';
   const paymentMessage = latestPaymentLink
     ? `Hello ${user.fullName}, please complete your DPHT plan payment using this secure link: ${latestPaymentLink}`
     : '';
@@ -341,6 +368,12 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
           <p><strong>Enrolled Plan:</strong> {user.planEnrollment?.planName || '-'}</p>
           <p><strong>Enrollment Status:</strong> {user.planEnrollment?.status || '-'}</p>
           <p><strong>Enrolled At:</strong> {user.planEnrollment?.enrolledAt ? new Date(user.planEnrollment.enrolledAt).toLocaleString() : '-'}</p>
+          <p><strong>Enrollment End Date:</strong> {(() => {
+            const endDate = user.planEnrollment
+              ? getEnrollmentEndDate(user.planEnrollment.enrolledAt, user.planEnrollment.durationWeeks)
+              : null;
+            return endDate ? endDate.toLocaleDateString() : '-';
+          })()}</p>
         </div>
 
         <div className="admin-profile-panel">
@@ -351,6 +384,23 @@ export default function AdminUserProfileClient({ userId }: { userId: string }) {
             {user.phone ? <a href={`tel:${phoneHref}`} className="secondary-button">Call User</a> : null}
             {whatsappHref ? (
               <a href={whatsappHref} className="secondary-button" target="_blank" rel="noopener noreferrer">WhatsApp User</a>
+            ) : null}
+          </div>
+        </div>
+
+        <div className="admin-profile-panel">
+          <h2>Send Plan Page Link</h2>
+          <p>Send the plan selection page link so the user can pick a plan and pay themselves.</p>
+          <div className="admin-contact-actions">
+            {whatsappPlanPageHref ? (
+              <a href={whatsappPlanPageHref} className="secondary-button" target="_blank" rel="noopener noreferrer">
+                Send Plan Link on WhatsApp
+              </a>
+            ) : null}
+            {emailPlanPageHref ? (
+              <a href={emailPlanPageHref} className="secondary-button">
+                Send Plan Link on Email
+              </a>
             ) : null}
           </div>
         </div>

@@ -9,6 +9,8 @@ export type QuestionType =
   | "checkbox"
   | "likert"
   | "rating"
+  | "time"
+  | "time_range"
   | "info";
 
 export type Question = {

@@ -237,6 +237,7 @@ export async function GET(
                 planName: toSafeString((payment as any).planName),
                 status: "active",
                 enrolledAt: paidAt || now,
+                durationWeeks: toSafeNumber((payment as any).durationWeeks),
                 paymentId: String((payment as any)._id),
               },
               updatedAt: now,

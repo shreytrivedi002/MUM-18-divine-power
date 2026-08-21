@@ -81,6 +81,16 @@ function isQuestionAnswered(value: unknown, question: Question) {
     return true;
   }
 
+  if (question.type === 'time') {
+    return /^\d{1,2}:\d{2}\s*(AM|PM)$/i.test(String(value ?? '').trim());
+  }
+
+  if (question.type === 'time_range') {
+    const [start, end] = String(value ?? '').split(' - ');
+    const timePattern = /^\d{1,2}:\d{2}\s*(AM|PM)$/i;
+    return timePattern.test((start ?? '').trim()) && timePattern.test((end ?? '').trim());
+  }
+
   if (question.type === 'checkbox') {
     return Array.isArray(value) && value.length > 0;
   }
@@ -172,6 +182,75 @@ function getBmiMotivation(categoryLabel: string) {
       return "Every transformation begins with a single decision, and you've already made it by being here. With consistent effort and our DPHT support, real, lasting change is within your reach.";
   }
 }
+
+const TIME_HOURS = Array.from({ length: 12 }, (_, index) => index + 1);
+const TIME_MINUTES = Array.from({ length: 12 }, (_, index) => index * 5);
+const TIME_PERIODS = ['AM', 'PM'];
+
+function parseTimeValue(value: string) {
+  const match = /^(\d{1,2}|--):(\d{2}|--)\s*(AM|PM|--)$/i.exec((value || '').trim());
+  if (!match) {
+    return { hour: '', minute: '', period: '' };
+  }
+  return {
+    hour: match[1] === '--' ? '' : match[1],
+    minute: match[2] === '--' ? '' : match[2],
+    period: match[3] === '--' ? '' : match[3].toUpperCase(),
+  };
+}
+
+function formatTimeValue(hour: string, minute: string, period: string) {
+  if (!hour && !minute && !period) {
+    return '';
+  }
+  return `${hour || '--'}:${minute || '--'} ${period || '--'}`;
+}
+
+function polarPoint(cx: number, cy: number, r: number, angleDeg: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return { x: cx + r * Math.cos(rad), y: cy - r * Math.sin(rad) };
+}
+
+function arcPath(cx: number, cy: number, r: number, fromAngle: number, toAngle: number) {
+  const start = polarPoint(cx, cy, r, fromAngle);
+  const end = polarPoint(cx, cy, r, toAngle);
+  const largeArcFlag = Math.abs(fromAngle - toAngle) > 180 ? 1 : 0;
+  return `M ${start.x} ${start.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${end.x} ${end.y}`;
+}
+
+function BmiGauge({ bmi }: { bmi: number | null }) {
+  const min = 10;
+  const max = 40;
+  const clamped = bmi === null ? min : Math.min(Math.max(bmi, min), max);
+  const bmiToAngle = (value: number) => 180 - ((value - min) / (max - min)) * 180;
+
+  const cx = 100;
+  const cy = 100;
+  const r = 82;
+  const needleLength = 74;
+  const needleAngle = bmiToAngle(clamped);
+  const needleTip = polarPoint(cx, cy, needleLength, needleAngle);
+
+  const labelPoint = (value: number, offset: number) => polarPoint(cx, cy, r + offset, bmiToAngle(value));
+  const label185 = labelPoint(18.5, 16);
+  const label25 = labelPoint(25, 20);
+  const label30 = labelPoint(30, 16);
+
+  return (
+    <svg viewBox="0 0 200 116" className="bmi-gauge" role="img" aria-label="Live BMI speedometer">
+      <path d={arcPath(cx, cy, r, 180, bmiToAngle(18.5))} fill="none" stroke="#3b82f6" strokeWidth="18" strokeLinecap="round" />
+      <path d={arcPath(cx, cy, r, bmiToAngle(18.5), bmiToAngle(25))} fill="none" stroke="#22c55e" strokeWidth="18" strokeLinecap="round" />
+      <path d={arcPath(cx, cy, r, bmiToAngle(25), bmiToAngle(30))} fill="none" stroke="#f59e0b" strokeWidth="18" strokeLinecap="round" />
+      <path d={arcPath(cx, cy, r, bmiToAngle(30), 0)} fill="none" stroke="#ef4444" strokeWidth="18" strokeLinecap="round" />
+      <line x1={cx} y1={cy} x2={needleTip.x} y2={needleTip.y} stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+      <circle cx={cx} cy={cy} r="7" fill="#111827" />
+      <text x={label185.x} y={label185.y} fontSize="9" fill="#374151" textAnchor="middle">18.5</text>
+      <text x={label25.x} y={label25.y} fontSize="9" fill="#374151" textAnchor="middle">25</text>
+      <text x={label30.x} y={label30.y} fontSize="9" fill="#374151" textAnchor="middle">30+</text>
+    </svg>
+  );
+}
+
 
 function useQuestionnaireState(questionnaire: Questionnaire | null) {
   const [values, setValues] = useState<Record<string, any>>({});
@@ -422,6 +501,9 @@ export default function SurveyRenderer() {
         throw new Error(payload?.error || 'Submission failed');
       }
 
+      const payload = await response.json().catch(() => null);
+      const userId = typeof payload?.userId === 'string' ? payload.userId : '';
+
       if (typeof window !== 'undefined') {
         window.localStorage.setItem(
           'healthifi-submission',
@@ -435,7 +517,7 @@ export default function SurveyRenderer() {
       }
 
       clearSurveyData();
-      router.push('/thank-you');
+      router.push(userId ? `/plans/${userId}` : '/thank-you');
     } catch (err) {
       console.error(err);
       setStatus(err instanceof Error ? err.message : 'Unable to save your answers. Please check your server setup.');
@@ -497,11 +579,9 @@ export default function SurveyRenderer() {
                   <strong>{bmiInsights ? bmiInsights.riskLabel : '--'}</strong>
                 </div>
               </div>
-              <div className="bmi-scale">
-                <span>18.5</span>
-                <span>25</span>
-                <span>30</span>
-                <div className="bmi-scale-line" />
+              <div className="bmi-gauge-wrap">
+                <BmiGauge bmi={bmiInsights ? bmiInsights.bmi : null} />
+                <p className="bmi-gauge-caption">Live BMI meter (Speed-o-meter type)</p>
               </div>
               {bmiInsights ? (
                 <p className="bmi-motivation">{getBmiMotivation(bmiInsights.categoryLabel)}</p>
@@ -598,6 +678,83 @@ export default function SurveyRenderer() {
               {option}
             </label>
           ))}
+        </div>
+      );
+    }
+
+    if (question.type === 'time') {
+      const parsed = parseTimeValue(String(rawValue ?? ''));
+      const setPart = (part: 'hour' | 'minute' | 'period', partValue: string) => {
+        const next = { ...parsed, [part]: partValue };
+        updateValue(question.key, formatTimeValue(next.hour, next.minute, next.period));
+      };
+      return (
+        <div className="time-scroll-group">
+          <select className="scroll-select" value={parsed.hour} onChange={(e) => setPart('hour', e.target.value)}>
+            <option value="">HH</option>
+            {TIME_HOURS.map((hour) => (
+              <option key={hour} value={String(hour)}>{hour}</option>
+            ))}
+          </select>
+          <span className="time-scroll-sep">:</span>
+          <select className="scroll-select" value={parsed.minute} onChange={(e) => setPart('minute', e.target.value)}>
+            <option value="">MM</option>
+            {TIME_MINUTES.map((minute) => (
+              <option key={minute} value={String(minute).padStart(2, '0')}>{String(minute).padStart(2, '0')}</option>
+            ))}
+          </select>
+          <select className="scroll-select" value={parsed.period} onChange={(e) => setPart('period', e.target.value)}>
+            <option value="">AM/PM</option>
+            {TIME_PERIODS.map((period) => (
+              <option key={period} value={period}>{period}</option>
+            ))}
+          </select>
+        </div>
+      );
+    }
+
+    if (question.type === 'time_range') {
+      const [startRaw, endRaw] = String(rawValue ?? '').split(' - ');
+      const start = parseTimeValue(startRaw ?? '');
+      const end = parseTimeValue(endRaw ?? '');
+
+      const setPart = (side: 'start' | 'end', part: 'hour' | 'minute' | 'period', partValue: string) => {
+        const nextStart = side === 'start' ? { ...start, [part]: partValue } : start;
+        const nextEnd = side === 'end' ? { ...end, [part]: partValue } : end;
+        const startText = formatTimeValue(nextStart.hour, nextStart.minute, nextStart.period);
+        const endText = formatTimeValue(nextEnd.hour, nextEnd.minute, nextEnd.period);
+        updateValue(question.key, `${startText} - ${endText}`);
+      };
+
+      const renderTimeSelects = (side: 'start' | 'end', part: { hour: string; minute: string; period: string }) => (
+        <div className="time-scroll-group">
+          <select className="scroll-select" value={part.hour} onChange={(e) => setPart(side, 'hour', e.target.value)}>
+            <option value="">HH</option>
+            {TIME_HOURS.map((hour) => (
+              <option key={hour} value={String(hour)}>{hour}</option>
+            ))}
+          </select>
+          <span className="time-scroll-sep">:</span>
+          <select className="scroll-select" value={part.minute} onChange={(e) => setPart(side, 'minute', e.target.value)}>
+            <option value="">MM</option>
+            {TIME_MINUTES.map((minute) => (
+              <option key={minute} value={String(minute).padStart(2, '0')}>{String(minute).padStart(2, '0')}</option>
+            ))}
+          </select>
+          <select className="scroll-select" value={part.period} onChange={(e) => setPart(side, 'period', e.target.value)}>
+            <option value="">AM/PM</option>
+            {TIME_PERIODS.map((period) => (
+              <option key={period} value={period}>{period}</option>
+            ))}
+          </select>
+        </div>
+      );
+
+      return (
+        <div className="time-range-group">
+          {renderTimeSelects('start', start)}
+          <span className="time-range-sep">to</span>
+          {renderTimeSelects('end', end)}
         </div>
       );
     }

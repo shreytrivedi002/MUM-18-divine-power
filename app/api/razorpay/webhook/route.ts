@@ -10,6 +10,11 @@ function toSafeString(value: unknown) {
   return value === null || value === undefined ? "" : String(value).trim();
 }
 
+function toSafeNumber(value: unknown, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
 function verifySignature(payload: string, signature: string, secret: string) {
   const digest = createHmac("sha256", secret).update(payload).digest("hex");
   const expected = Buffer.from(digest, "utf8");
@@ -141,6 +146,7 @@ export async function POST(request: Request) {
     const userId = toSafeString((paymentDoc as any).userId);
     const planId = toSafeString((paymentDoc as any).planId);
     const planName = toSafeString((paymentDoc as any).planName);
+    const durationWeeks = toSafeNumber((paymentDoc as any).durationWeeks);
 
     if (userId) {
       try {
@@ -153,6 +159,7 @@ export async function POST(request: Request) {
                 planName,
                 status: "active",
                 enrolledAt: now,
+                durationWeeks,
                 paymentId: String(paymentDoc._id),
               },
               updatedAt: now,

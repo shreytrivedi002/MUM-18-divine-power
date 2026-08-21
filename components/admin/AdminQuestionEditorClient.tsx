@@ -16,7 +16,9 @@ type QuestionType =
   | 'radio'
   | 'checkbox'
   | 'likert'
-  | 'rating';
+  | 'rating'
+  | 'time'
+  | 'time_range';
 
 type AdminQuestion = {
   key: string;
@@ -51,6 +53,8 @@ const questionTypes: QuestionType[] = [
   'checkbox',
   'likert',
   'rating',
+  'time',
+  'time_range',
 ];
 
 function normalizeKey(label: string) {
