@@ -97,6 +97,7 @@
         "type": "time",
         "required": true,
         "helpText": "Scroll to select hours and minutes.",
+        "defaultPeriod": "AM",
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -105,6 +106,8 @@
         "type": "time_range",
         "required": true,
         "helpText": "Scroll to select hours and minutes for start and end time.",
+        "defaultStartPeriod": "AM",
+        "defaultEndPeriod": "PM",
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -113,6 +116,7 @@
         "type": "time",
         "required": true,
         "helpText": "Scroll to select hours and minutes.",
+        "defaultPeriod": "PM",
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -155,12 +159,12 @@
         "type": "checkbox",
         "required": true,
         "options": [
-          "Leafy vegetables (Palak, Methi)",
-          "Gourd family (Lauki, Tori, Tinda)",
-          "Cruciferous (Cabbage, Cauliflower)",
-          "Root vegetables (Carrot, Beetroot, Radish)",
-          "Legumes/Pulses (Moong, Masoor, Chana)",
-          "Paneer/Curd based meals"
+          "Fresh Fruits (Banana, apple, pomofrenate, seasonal fruits, etc)",
+          "Dry fruits/ Dry nuts (Kaju, Badaam, Pumpkin seeds and others)",
+          "Leafy vegetables (Palak, Methi, etc)",
+          "Fresh vegetables(Tomato, Potato, Bhindi,etc)",
+          "Legumes/Pulses (Moong, Masoor, Chana, etc)",
+          "Milk and Milk products(Paneer, curd, etc)"
         ],
         "category": "REGULAR DAILY ROUTINE"
       },
@@ -209,6 +213,37 @@
         "category": "REGULAR DAILY ROUTINE"
       },
       {
+        "key": "q21_s16_weighing",
+        "label": "What has been weighing on you most lately? (Choose all that apply)",
+        "type": "checkbox",
+        "required": true,
+        "options": [
+          "Health Issues",
+          "Financial Issues",
+          "Relationship Issues",
+          "Parenthood",
+          "Life Crisis",
+          "Trauma"
+        ],
+        "category": "TRAUMA & STRESS"
+      },
+      {
+        "key": "q18_t18_childhood",
+        "label": "How was your childhood overall? (Choose all that apply)",
+        "type": "checkbox",
+        "required": true,
+        "options": [
+          "It was often happy and supportive",
+          "It was often lonely and isolating",
+          "It was often challenging or unstable",
+          "It involved abuse and violence",
+          "It involved neglect or abandonment",
+          "It involved a traumatic family event",
+          "I don't remember"
+        ],
+        "category": "TRAUMA & STRESS"
+      },
+      {
         "key": "q15_d14_tired",
         "label": "How often do you feel tired, physically drained, or lacking energy during the day?",
         "type": "radio",
@@ -233,22 +268,6 @@
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
-        "key": "q18_t18_childhood",
-        "label": "How was your childhood overall? (Choose all that apply)",
-        "type": "checkbox",
-        "required": true,
-        "options": [
-          "It was often happy and supportive",
-          "It was often lonely and isolating",
-          "It was often challenging or unstable",
-          "It involved abuse and violence",
-          "It involved neglect or abandonment",
-          "It involved a traumatic family event",
-          "I don't remember"
-        ],
-        "category": "TRAUMA & STRESS"
-      },
-      {
         "key": "q19_t29_triggered",
         "label": "In daily life, how easily do situations emotionally trigger you?",
         "type": "radio",
@@ -270,30 +289,15 @@
         "category": "TRAUMA & STRESS"
       },
       {
-        "key": "q21_s16_weighing",
-        "label": "What has been weighing on you most lately? (Choose all that apply)",
-        "type": "checkbox",
-        "required": true,
-        "options": [
-          "Health Issues",
-          "Financial Issues",
-          "Relationship Issues",
-          "Parenthood",
-          "Life Crisis",
-          "Trauma"
-        ],
-        "category": "TRAUMA & STRESS"
-      },
-      {
         "key": "dpht_benefits_info",
         "label": "Benefits of the DPHT PLAN",
         "type": "info",
-        "helpText": "Benefits of DPHT PLAN:\n- Increases Energy and quantity of life.\n- Better Blood Sugar control.\n- Enhanced Cardio Vascular Health.\n- Improves Mobility.\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
+        "helpText": "Increases Energy and quantity of life.\n- Better Blood Sugar control.\n- Enhanced Cardio Vascular Health.\n- Improves Mobility.\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
         "key": "motivation_mcq",
-        "label": "would you describe your motivation level for building healthy habits in the first 3 months?",
+        "label": "Would you describe your motivation level for building healthy habits in the first 3 months?",
         "type": "radio",
         "required": true,
         "options": [
@@ -310,10 +314,10 @@
         "type": "radio",
         "required": true,
         "options": [
-          "!!!! Almost always",
-          "!!! Every Few Hours",
-          "!! Once or Twice a day",
-          "! Rarely"
+          "Almost always",
+          "Every Few Hours",
+          "Once or Twice a day",
+          "Rarely"
         ],
         "category": "ENVIRONMENTS THERAPY"
       },
@@ -419,7 +423,7 @@
         "label": "How do you usually spend weekends with your family or friends?",
         "type": "radio",
         "required": true,
-        "options": ["Social Gatherings", "Clubbing", "Shopping", "New Venues"],
+        "options": ["Social Gatherings", "Clubbing/ Partying", "Shopping", "New Venues"],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -471,7 +475,7 @@
         "key": "final_plan_info",
         "label": "Your DPHT plan is ready",
         "type": "info",
-        "helpText": "- Get visible results in 4 weeks/30 days",
+        "helpText": "- Get visible results in 4 weeks",
         "category": "SOCIAL & SPIRITUAL"
       }
     ]
