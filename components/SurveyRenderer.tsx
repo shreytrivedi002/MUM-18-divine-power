@@ -581,7 +581,7 @@ export default function SurveyRenderer() {
               </div>
               <div className="bmi-gauge-wrap">
                 <BmiGauge bmi={bmiInsights ? bmiInsights.bmi : null} />
-                <p className="bmi-gauge-caption">Live BMI meter (Speed-o-meter type)</p>
+                <p className="bmi-gauge-caption">Live BMI Meter</p>
               </div>
               {bmiInsights ? (
                 <p className="bmi-motivation">{getBmiMotivation(bmiInsights.categoryLabel)}</p>
@@ -853,9 +853,12 @@ export default function SurveyRenderer() {
       <form>
         <div className="question-card">
           <div className="question-topbar">
-            <span className="question-badge">{currentQuestion.category ?? 'General'}</span>
+            <div className="question-topbar-side">
+              {currentQuestion.category === 'PERSONAL INFO' ? (
+                <span className="question-badge">{'PROFILE'}</span>
+              ) : null}
+            </div>
             <div className="question-progress">
-              <div className="progress-label">Section progress</div>
               <div className="section-progress" aria-label="Section progress tracker">
                 {sections.map((section, index) => {
                   const isComplete = index < completedSections;
@@ -863,7 +866,7 @@ export default function SurveyRenderer() {
                   const connectorClass = index < sections.length - 1 && index < completedSections ? 'section-line complete' : 'section-line';
 
                   return (
-                    <div key={section.name} className="section-item" title={section.name}>
+                    <div key={section.name} className="section-item">
                       <span className={`section-dot${isComplete ? ' complete' : ''}${isActive ? ' active' : ''}`} />
                       {index < sections.length - 1 ? <span className={connectorClass} /> : null}
                     </div>
@@ -871,6 +874,7 @@ export default function SurveyRenderer() {
                 })}
               </div>
             </div>
+            <div className="question-topbar-side" />
           </div>
 
           <label className="question-label">

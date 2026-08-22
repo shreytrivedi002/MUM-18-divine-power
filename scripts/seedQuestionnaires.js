@@ -31,6 +31,12 @@ async function seed() {
       process.exit(1);
     }
 
+    // Remove all existing questionnaires before re-seeding
+    const deleteResult = await collection.deleteMany({});
+    console.log(
+      `Removed ${deleteResult.deletedCount} old questionnaire document(s) from ${dbName}.${collectionName}`,
+    );
+
     let inserted = 0;
     for (const questionnaire of questionnaires) {
       if (!questionnaire.slug) {
@@ -41,17 +47,14 @@ async function seed() {
       const safeQuestionnaire = { ...questionnaire };
       delete safeQuestionnaire._id;
 
-      await collection.updateOne(
-        { slug: questionnaire.slug },
-        { $set: safeQuestionnaire },
-        { upsert: true },
-      );
+      await collection.insertOne(safeQuestionnaire);
       inserted += 1;
     }
 
     console.log(
-      `Seeded ${inserted} questionnaire(s) into ${dbName}.${collectionName}`,
+      `Reinserted ${inserted} questionnaire(s) into ${dbName}.${collectionName}`,
     );
+    console.log("Questionnaire reset complete.");
   } catch (error) {
     console.error("Failed to seed questionnaires:", error);
     process.exit(1);
