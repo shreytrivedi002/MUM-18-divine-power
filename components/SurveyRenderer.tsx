@@ -2,14 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  clearSurveyData,
-  clearStoredQuestionIndex,
-  getStoredQuestionIndex,
-  getStoredSurveyValues,
-  saveStoredQuestionIndex,
-  saveStoredSurveyValues,
-} from '../lib/surveyStorage';
+import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
 import LoadingSpinner from './ui/LoadingSpinner';
 import { InlineSpinner } from './ui/LoadingSpinner';
@@ -378,26 +371,11 @@ export default function SurveyRenderer() {
   );
 
   const { values, updateValue, toggleCheckbox } = useQuestionnaireState(activeQuestionnaire);
-  const profileSavedRef = useRef(false);
 
   useEffect(() => {
-    const restoredIndex = getStoredQuestionIndex(activeQuestionnaire.slug);
-    const clamped = Math.min(Math.max(restoredIndex, 0), activeQuestionnaire.questions.length - 1);
-    setCurrentQuestionIndex(Number.isFinite(clamped) ? clamped : 0);
+    setCurrentQuestionIndex(0);
     setValidationError(null);
   }, [activeQuestionnaire.slug]);
-
-  useEffect(() => {
-    if (activeQuestionnaire.questions.length > 0) {
-      saveStoredQuestionIndex(activeQuestionnaire.slug, currentQuestionIndex);
-    }
-  }, [activeQuestionnaire.slug, currentQuestionIndex, activeQuestionnaire.questions.length]);
-
-  useEffect(() => {
-    if (Object.keys(values).length > 0) {
-      saveStoredSurveyValues(values);
-    }
-  }, [values]);
 
   const currentQuestion = activeQuestionnaire.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === activeQuestionnaire.questions.length - 1;
@@ -426,30 +404,6 @@ export default function SurveyRenderer() {
   const currentSectionIndex = sections.findIndex(
     (section) => currentQuestionIndex >= section.start && currentQuestionIndex <= section.end,
   );
-
-  const profileSectionEnd = sections.find(
-    (section) => section.name.trim().toLowerCase() === 'personal info',
-  )?.end;
-
-  useEffect(() => {
-    if (profileSavedRef.current || profileSectionEnd === undefined) {
-      return;
-    }
-
-    if (currentQuestionIndex > profileSectionEnd) {
-      profileSavedRef.current = true;
-      fetch('/api/profile/save', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          questionnaireSlug: activeQuestionnaire.slug,
-          values,
-        }),
-      }).catch(() => {
-        // Non-blocking: full submission at the end still saves everything.
-      });
-    }
-  }, [currentQuestionIndex, profileSectionEnd, activeQuestionnaire.slug, values]);
 
   const completedSections = sections.filter((section, index) => {
     if (currentQuestionIndex > section.end) {
@@ -563,7 +517,6 @@ export default function SurveyRenderer() {
       }
 
       clearSurveyData();
-      clearStoredQuestionIndex();
       router.push(userId ? `/plans/${userId}` : '/thank-you');
     } catch (err) {
       console.error(err);
@@ -628,7 +581,7 @@ export default function SurveyRenderer() {
               </div>
               <div className="bmi-gauge-wrap">
                 <BmiGauge bmi={bmiInsights ? bmiInsights.bmi : null} />
-                <p className="bmi-gauge-caption">Live BMI Meter</p>
+                <p className="bmi-gauge-caption">Live BMI meter (Speed-o-meter type)</p>
               </div>
               {bmiInsights ? (
                 <p className="bmi-motivation">{getBmiMotivation(bmiInsights.categoryLabel)}</p>
@@ -731,27 +684,26 @@ export default function SurveyRenderer() {
 
     if (question.type === 'time') {
       const parsed = parseTimeValue(String(rawValue ?? ''));
-      const resolved = !parsed.period && question.defaultPeriod ? { ...parsed, period: question.defaultPeriod } : parsed;
       const setPart = (part: 'hour' | 'minute' | 'period', partValue: string) => {
-        const next = { ...resolved, [part]: partValue };
+        const next = { ...parsed, [part]: partValue };
         updateValue(question.key, formatTimeValue(next.hour, next.minute, next.period));
       };
       return (
         <div className="time-scroll-group">
-          <select className="scroll-select" value={resolved.hour} onChange={(e) => setPart('hour', e.target.value)}>
+          <select className="scroll-select" value={parsed.hour} onChange={(e) => setPart('hour', e.target.value)}>
             <option value="">HH</option>
             {TIME_HOURS.map((hour) => (
               <option key={hour} value={String(hour)}>{hour}</option>
             ))}
           </select>
           <span className="time-scroll-sep">:</span>
-          <select className="scroll-select" value={resolved.minute} onChange={(e) => setPart('minute', e.target.value)}>
+          <select className="scroll-select" value={parsed.minute} onChange={(e) => setPart('minute', e.target.value)}>
             <option value="">MM</option>
             {TIME_MINUTES.map((minute) => (
               <option key={minute} value={String(minute).padStart(2, '0')}>{String(minute).padStart(2, '0')}</option>
             ))}
           </select>
-          <select className="scroll-select" value={resolved.period} onChange={(e) => setPart('period', e.target.value)}>
+          <select className="scroll-select" value={parsed.period} onChange={(e) => setPart('period', e.target.value)}>
             <option value="">AM/PM</option>
             {TIME_PERIODS.map((period) => (
               <option key={period} value={period}>{period}</option>
@@ -763,10 +715,8 @@ export default function SurveyRenderer() {
 
     if (question.type === 'time_range') {
       const [startRaw, endRaw] = String(rawValue ?? '').split(' - ');
-      const parsedStart = parseTimeValue(startRaw ?? '');
-      const parsedEnd = parseTimeValue(endRaw ?? '');
-      const start = !parsedStart.period && question.defaultStartPeriod ? { ...parsedStart, period: question.defaultStartPeriod } : parsedStart;
-      const end = !parsedEnd.period && question.defaultEndPeriod ? { ...parsedEnd, period: question.defaultEndPeriod } : parsedEnd;
+      const start = parseTimeValue(startRaw ?? '');
+      const end = parseTimeValue(endRaw ?? '');
 
       const setPart = (side: 'start' | 'end', part: 'hour' | 'minute' | 'period', partValue: string) => {
         const nextStart = side === 'start' ? { ...start, [part]: partValue } : start;
@@ -903,10 +853,9 @@ export default function SurveyRenderer() {
       <form>
         <div className="question-card">
           <div className="question-topbar">
-            <span className="question-badge">
-              {currentQuestion.category?.trim().toLowerCase() === 'personal info' ? 'Profile' : ''}
-            </span>
+            <span className="question-badge">{currentQuestion.category ?? 'General'}</span>
             <div className="question-progress">
+              <div className="progress-label">Section progress</div>
               <div className="section-progress" aria-label="Section progress tracker">
                 {sections.map((section, index) => {
                   const isComplete = index < completedSections;

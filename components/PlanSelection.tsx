@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 
 type PlanRow = {
   id: string;
@@ -138,17 +137,6 @@ export default function PlanSelection({ userId }: { userId: string }) {
             </button>
           </article>
         ))}
-      </div>
-
-      <div className="retake-prompt">
-        <p>
-          {user
-            ? `Changed your mind about an answer, ${user.fullName}? You can retake the questionnaire anytime and your plan choices above will stay the same.`
-            : 'Want to update your answers? You can retake the questionnaire anytime.'}
-        </p>
-        <Link href="/survey" className="secondary-button">
-          Retake Questionnaire
-        </Link>
       </div>
     </section>
   );
