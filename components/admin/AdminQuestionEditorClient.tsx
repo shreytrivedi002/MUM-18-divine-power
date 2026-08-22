@@ -32,6 +32,9 @@ type AdminQuestion = {
   minValue?: number;
   maxValue?: number;
   step?: number;
+  defaultPeriod?: string;
+  defaultStartPeriod?: string;
+  defaultEndPeriod?: string;
 };
 
 type QuestionnaireDetail = {
@@ -107,6 +110,9 @@ export default function AdminQuestionEditorClient({
   const [required, setRequired] = useState(false);
   const [helpText, setHelpText] = useState('');
   const [options, setOptions] = useState<string[]>([]);
+  const [defaultPeriod, setDefaultPeriod] = useState<string>('');
+  const [defaultStartPeriod, setDefaultStartPeriod] = useState<string>('');
+  const [defaultEndPeriod, setDefaultEndPeriod] = useState<string>('');
 
   useEffect(() => {
     async function loadDetail() {
@@ -136,6 +142,9 @@ export default function AdminQuestionEditorClient({
           setRequired(Boolean(target.required));
           setHelpText(target.helpText || '');
           setOptions(target.options || []);
+          setDefaultPeriod((target as any).defaultPeriod || '');
+          setDefaultStartPeriod((target as any).defaultStartPeriod || '');
+          setDefaultEndPeriod((target as any).defaultEndPeriod || '');
         } else {
           setLabel('');
           setType('text');
@@ -143,6 +152,9 @@ export default function AdminQuestionEditorClient({
           setRequired(false);
           setHelpText('');
           setOptions([]);
+          setDefaultPeriod('');
+          setDefaultStartPeriod('');
+          setDefaultEndPeriod('');
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unable to load questionnaire details.');
@@ -210,6 +222,9 @@ export default function AdminQuestionEditorClient({
         options: (type === 'select' || type === 'radio' || type === 'checkbox')
           ? options.map((option) => option.trim()).filter(Boolean)
           : undefined,
+      defaultPeriod: defaultPeriod || undefined,
+      defaultStartPeriod: defaultStartPeriod || undefined,
+      defaultEndPeriod: defaultEndPeriod || undefined,
       };
 
       const nextQuestions = [...detail.questions];
@@ -284,6 +299,40 @@ export default function AdminQuestionEditorClient({
               </select>
             </label>
           </div>
+
+          {type === 'time' ? (
+            <div className="questionnaire-question-row">
+              <label>
+                Default period
+                <select className="admin-input" value={defaultPeriod} onChange={(e) => setDefaultPeriod(e.target.value)}>
+                  <option value="">(none)</option>
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </label>
+            </div>
+          ) : null}
+
+          {type === 'time_range' ? (
+            <div className="questionnaire-question-row">
+              <label>
+                Default start period
+                <select className="admin-input" value={defaultStartPeriod} onChange={(e) => setDefaultStartPeriod(e.target.value)}>
+                  <option value="">(none)</option>
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </label>
+              <label>
+                Default end period
+                <select className="admin-input" value={defaultEndPeriod} onChange={(e) => setDefaultEndPeriod(e.target.value)}>
+                  <option value="">(none)</option>
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </label>
+            </div>
+          ) : null}
 
           <div className="questionnaire-question-row">
             <label>

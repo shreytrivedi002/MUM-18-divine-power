@@ -47,6 +47,8 @@ async function seed() {
       const safeQuestionnaire = { ...questionnaire };
       delete safeQuestionnaire._id;
 
+      // Preserve all question fields (including default start/end periods) when seeding.
+
       await collection.insertOne(safeQuestionnaire);
       inserted += 1;
     }

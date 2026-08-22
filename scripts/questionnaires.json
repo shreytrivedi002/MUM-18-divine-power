@@ -9,7 +9,6 @@
         "label": "Name: Please enter your full name as you would like it to appear in your DPHT profile.",
         "type": "text",
         "required": true,
-        "placeholder": "Example: Aditi Sharma",
         "category": "PERSONAL INFO"
       },
       {
@@ -81,7 +80,6 @@
         "label": "Email ID: Please enter your email address for your DPHT records and updates.",
         "type": "email",
         "required": true,
-        "placeholder": "you@example.com",
         "category": "PERSONAL INFO"
       },
       {
@@ -96,7 +94,7 @@
         "label": "What is your daily routine schedule? Morning Wakeup Time",
         "type": "time",
         "required": true,
-        "helpText": "Scroll to select hours and minutes.",
+        "helpText": "Scroll to select",
         "defaultPeriod": "AM",
         "category": "REGULAR DAILY ROUTINE"
       },
@@ -159,7 +157,7 @@
         "type": "checkbox",
         "required": true,
         "options": [
-          "Fresh Fruits (Banana, apple, pomofrenate, seasonal fruits, etc)",
+          "Fresh Fruits (Banana, apple, pomogrenate, seasonal fruits, etc)",
           "Dry fruits/ Dry nuts (Kaju, Badaam, Pumpkin seeds and others)",
           "Leafy vegetables (Palak, Methi, etc)",
           "Fresh vegetables(Tomato, Potato, Bhindi,etc)",
