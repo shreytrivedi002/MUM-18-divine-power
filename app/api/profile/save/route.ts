@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
-import { getMongoDb } from "../../../lib/mongodbClient";
+import { getMongoDb } from "../../../../lib/mongodbClient";
 import {
   QuestionnaireQuestion,
   isValidIndianPhone,
   normalizeIndianPhone,
   pickContactValue,
   toSafeString,
-} from "../../../lib/surveyContact";
+} from "../../../../lib/surveyContact";
 
-type AnswerEntry = {
-  key: string;
-  question: string;
-  answer: unknown;
-};
-
+/**
+ * Upserts core contact fields as soon as the profile section is completed,
+ * so the user appears in the admin panel even before the full survey is submitted.
+ */
 export async function POST(request: Request) {
   if (!process.env.MONGODB_URI) {
     return NextResponse.json(
@@ -22,8 +20,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const body = await request.json();
-
+  const body = await request.json().catch(() => null);
   if (!body || typeof body !== "object") {
     return NextResponse.json(
       { error: "Invalid request body" },
@@ -32,7 +29,6 @@ export async function POST(request: Request) {
   }
 
   const questionnaireSlug = toSafeString((body as any).questionnaireSlug);
-  const questionnaireTitle = toSafeString((body as any).questionnaireTitle);
   const submittedValues =
     (body as any).values && typeof (body as any).values === "object"
       ? ((body as any).values as Record<string, unknown>)
@@ -78,49 +74,25 @@ export async function POST(request: Request) {
     ["phone", "mobile", "contact"],
   );
   const email = emailRaw.toLowerCase();
-  const phone = phoneRaw;
 
   if (!email) {
     return NextResponse.json(
-      { error: "Email is required for submission." },
+      { error: "Email is required to save profile." },
       { status: 400 },
     );
   }
 
-  if (phone && !isValidIndianPhone(phone)) {
+  if (phoneRaw && !isValidIndianPhone(phoneRaw)) {
     return NextResponse.json(
       { error: "Please provide a valid Indian mobile number." },
       { status: 400 },
     );
   }
 
-  const normalizedPhone = phone ? `+91${normalizeIndianPhone(phone)}` : "";
-
-  const answers: AnswerEntry[] =
-    questions.length > 0
-      ? questions.map((question) => {
-          const key = toSafeString(question.key);
-          return {
-            key,
-            question: toSafeString(question.label) || key,
-            answer: submittedValues[key],
-          };
-        })
-      : Object.entries(submittedValues).map(([key, answer]) => ({
-          key,
-          question: key,
-          answer,
-        }));
-
-  const submittedAt = new Date();
-  const submission = {
-    questionnaireSlug,
-    questionnaireTitle,
-    submittedAt,
-    timestamp: submittedAt.toISOString(),
-    answers,
-  };
-
+  const normalizedPhone = phoneRaw
+    ? `+91${normalizeIndianPhone(phoneRaw)}`
+    : "";
+  const now = new Date();
   const usersCollection = process.env.MONGODB_USERS_COLLECTION || "users";
   await db
     .collection(usersCollection)
@@ -131,17 +103,14 @@ export async function POST(request: Request) {
     {
       $setOnInsert: {
         email,
-        createdAt: submittedAt,
+        createdAt: now,
       },
       $set: {
         ...(fullNameRaw ? { fullName: fullNameRaw } : {}),
         ...(normalizedPhone ? { phone: normalizedPhone } : {}),
-        updatedAt: submittedAt,
+        updatedAt: now,
       },
-      $push: {
-        responses: submission,
-      },
-    } as any,
+    },
     { upsert: true },
   );
 

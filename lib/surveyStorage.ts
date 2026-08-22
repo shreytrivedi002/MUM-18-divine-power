@@ -77,3 +77,42 @@ export function clearSurveyData() {
     window.localStorage.removeItem(STORAGE_KEY);
   }
 }
+
+const PROGRESS_STORAGE_KEY = "healthifi-survey-progress";
+
+export function getStoredQuestionIndex(slug: string): number {
+  if (typeof window === "undefined") {
+    return 0;
+  }
+
+  const stored = window.localStorage.getItem(PROGRESS_STORAGE_KEY);
+  if (!stored) {
+    return 0;
+  }
+
+  try {
+    const parsed = JSON.parse(stored);
+    if (parsed && parsed.slug === slug && Number.isFinite(parsed.index)) {
+      return parsed.index;
+    }
+  } catch {
+    // Ignore malformed progress data.
+  }
+
+  return 0;
+}
+
+export function saveStoredQuestionIndex(slug: string, index: number) {
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(
+      PROGRESS_STORAGE_KEY,
+      JSON.stringify({ slug, index }),
+    );
+  }
+}
+
+export function clearStoredQuestionIndex() {
+  if (typeof window !== "undefined") {
+    window.localStorage.removeItem(PROGRESS_STORAGE_KEY);
+  }
+}
