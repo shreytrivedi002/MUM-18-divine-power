@@ -17,6 +17,9 @@ type QuestionDoc = {
   minValue?: number;
   maxValue?: number;
   step?: number;
+  defaultPeriod?: string;
+  defaultStartPeriod?: string;
+  defaultEndPeriod?: string;
 };
 
 type QuestionnaireDoc = {
@@ -38,6 +41,8 @@ const allowedTypes = new Set([
   "checkbox",
   "likert",
   "rating",
+  "time",
+  "time_range",
 ]);
 
 function toSafeString(value: unknown) {
@@ -94,6 +99,20 @@ function normalizeQuestion(input: any) {
   }
   if (Number.isFinite(Number(input?.step))) {
     safe.step = Number(input.step);
+  }
+
+  const dp = toSafeString(input?.defaultPeriod).toUpperCase();
+  const dsp = toSafeString(input?.defaultStartPeriod).toUpperCase();
+  const dep = toSafeString(input?.defaultEndPeriod).toUpperCase();
+
+  if (dp === 'AM' || dp === 'PM') {
+    safe.defaultPeriod = dp;
+  }
+  if (dsp === 'AM' || dsp === 'PM') {
+    safe.defaultStartPeriod = dsp;
+  }
+  if (dep === 'AM' || dep === 'PM') {
+    safe.defaultEndPeriod = dep;
   }
 
   return safe;

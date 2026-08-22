@@ -8,66 +8,6 @@ import LoadingSpinner from './ui/LoadingSpinner';
 import { InlineSpinner } from './ui/LoadingSpinner';
 import fallbackQuestionnaires from '../scripts/questionnaires.json';
 
-type PlanItem = {
-  id: string;
-  name: string;
-  details: string;
-  description: string;
-  durationWeeks: number;
-  costInr: number;
-};
-
-const fallbackPlans: PlanItem[] = [
-  {
-    id: 'trial',
-    name: '1 Week Trial',
-    details: 'Trial of 4-week transformation path',
-    description: 'Introductory plan to begin your DPHT journey.',
-    durationWeeks: 1,
-    costInr: 1000,
-  },
-  {
-    id: 'visible',
-    name: '4 Weeks Plan',
-    details: 'Visible Improvement',
-    description: 'Focused support for visible improvement in 30 days.',
-    durationWeeks: 4,
-    costInr: 3000,
-  },
-  {
-    id: 'consistent',
-    name: '12 Weeks Plan',
-    details: 'Consistent',
-    description: 'Structured progression for consistency and momentum.',
-    durationWeeks: 12,
-    costInr: 10000,
-  },
-  {
-    id: 'reversal',
-    name: '25 Weeks Plan',
-    details: 'Reversal Of Symptoms',
-    description: 'Longer care cycle aimed at deeper symptom reversal.',
-    durationWeeks: 25,
-    costInr: 18000,
-  },
-  {
-    id: 'complete',
-    name: '52 Weeks Plan',
-    details: 'Completely Healthy',
-    description: 'Comprehensive long-term lifestyle transformation plan.',
-    durationWeeks: 52,
-    costInr: 35000,
-  },
-];
-
-function formatInr(value: number) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
 const defaultQuestionnaire: Questionnaire =
   (Array.isArray(fallbackQuestionnaires) && (fallbackQuestionnaires[0] as Questionnaire)) || {
     slug: 'dpht-master-wellness-questionnaire',
@@ -259,8 +199,15 @@ function useQuestionnaireState(questionnaire: Questionnaire | null) {
     const saved = getStoredSurveyValues() || {};
     const questionDefaults = questionnaire?.questions.reduce<Record<string, any>>((acc, question) => {
       const savedValue = saved[question.key];
-      if (savedValue !== undefined) {
+      const hasSaved = savedValue !== undefined && savedValue !== null && savedValue !== '';
+      if (hasSaved) {
         acc[question.key] = savedValue;
+      } else if (question.type === 'time' && question.defaultPeriod) {
+        acc[question.key] = formatTimeValue('', '', question.defaultPeriod.toUpperCase());
+      } else if (question.type === 'time_range' && (question.defaultStartPeriod || question.defaultEndPeriod)) {
+        const startText = formatTimeValue('', '', (question.defaultStartPeriod ?? '').toUpperCase());
+        const endText = formatTimeValue('', '', (question.defaultEndPeriod ?? '').toUpperCase());
+        acc[question.key] = `${startText} - ${endText}`;
       } else if (question.type === 'checkbox') {
         acc[question.key] = [];
       } else {
@@ -299,7 +246,6 @@ export default function SurveyRenderer() {
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [validationError, setValidationError] = useState<string | null>(null);
-  const [plans, setPlans] = useState<PlanItem[]>(fallbackPlans);
 
   useEffect(() => {
     async function load() {
@@ -338,44 +284,20 @@ export default function SurveyRenderer() {
     load();
   }, []);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadPlans() {
-      try {
-        const response = await fetch('/api/plans', { cache: 'no-store' });
-        const payload = await response.json().catch(() => null);
-        if (!response.ok) {
-          return;
-        }
-
-        const list = Array.isArray(payload?.plans) ? (payload.plans as PlanItem[]) : [];
-        if (!cancelled && list.length > 0) {
-          setPlans(list);
-        }
-      } catch {
-        // Keep fallback plans when API is unavailable.
-      }
-    }
-
-    loadPlans();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const activeQuestionnaire = useMemo(
     () => questionnaires.find((questionnaire) => questionnaire.slug === activeSlug) ?? questionnaires[0] ?? defaultQuestionnaire,
     [activeSlug, questionnaires]
   );
 
   const { values, updateValue, toggleCheckbox } = useQuestionnaireState(activeQuestionnaire);
+  const semiSavedRef = useRef(false);
 
   useEffect(() => {
     setCurrentQuestionIndex(0);
     setValidationError(null);
   }, [activeQuestionnaire.slug]);
+
+  
 
   const currentQuestion = activeQuestionnaire.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === activeQuestionnaire.questions.length - 1;
@@ -416,6 +338,34 @@ export default function SurveyRenderer() {
 
     return false;
   }).length;
+
+  // Partial save: when user completes PERSONAL INFO section, save a semi-response.
+  useEffect(() => {
+    const personalSection = sections.find((s) => s.name && s.name.toUpperCase() === 'PERSONAL INFO');
+    if (!personalSection) return;
+    // Trigger only when user moves past the personal section
+    if (currentQuestionIndex <= personalSection.end) return;
+    if (semiSavedRef.current) return;
+
+    // require an email to create a user record
+    const emailQuestion = activeQuestionnaire.questions.find((q) => q.type === 'email' || (q.key || '').toLowerCase().includes('email'));
+    const emailVal = emailQuestion ? String(values[emailQuestion.key] ?? '').trim() : '';
+    if (!emailVal || !emailVal.includes('@')) return;
+
+    (async () => {
+      try {
+        await fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ questionnaireSlug: activeQuestionnaire.slug, questionnaireTitle: activeQuestionnaire.title, values }),
+        });
+        semiSavedRef.current = true;
+      } catch (err) {
+        // ignore partial save failures
+        console.error('Partial save failed', err);
+      }
+    })();
+  }, [currentQuestionIndex, sections, activeQuestionnaire, values]);
 
   function scrollToTop() {
     if (typeof window !== 'undefined') {
@@ -596,17 +546,10 @@ export default function SurveyRenderer() {
             </ul>
           ) : null}
           {isFinalPlanCard ? (
-            <div className="plan-grid survey-plan-grid">
-              {plans.map((plan) => (
-                <article className="plan-card" key={plan.id}>
-                  <h3>{plan.name}</h3>
-                  <p><strong>{plan.details}</strong></p>
-                  <p>{plan.description}</p>
-                  <p>Duration: {plan.durationWeeks} week{plan.durationWeeks > 1 ? 's' : ''}</p>
-                  <p>Cost: {formatInr(plan.costInr)}</p>
-                </article>
-              ))}
-            </div>
+            <p className="final-plan-note">
+              Tap <strong>Submit answers</strong> below to save your responses. You'll be taken straight to your
+              personalized healing plans to choose one and pay securely.
+            </p>
           ) : (
             resolvedParagraphs.map((line, index) => (
               <p key={`${line}-${index}`}>{line}</p>

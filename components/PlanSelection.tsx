@@ -106,10 +106,23 @@ export default function PlanSelection({ userId }: { userId: string }) {
   const alreadyEnrolled = user?.planEnrollment?.status === 'active';
 
   return (
-    <section>
+    <section className="plan-selection">
       <p className="eyebrow">DPHT Programs</p>
       <h2>{user ? `${user.fullName}, choose your healing path` : 'Choose Your Healing Path'}</h2>
       <p className="subtitle">Select a plan below to proceed directly to secure Razorpay payment.</p>
+
+      <div className="plan-selection-actions">
+        <button
+          type="button"
+          className="secondary-button"
+          onClick={() => {
+            try { localStorage.removeItem('healthifi-survey'); } catch {}
+            window.location.href = '/survey';
+          }}
+        >
+          Retake Questionnaire
+        </button>
+      </div>
 
       {alreadyEnrolled ? (
         <p className="status">

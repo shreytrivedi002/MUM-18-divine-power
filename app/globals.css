@@ -1187,11 +1187,14 @@ h1 {
 }
 
 .plan-card {
+  display: flex;
+  flex-direction: column;
   background: #ffffff;
   border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 24px;
   padding: clamp(1.1rem, 3vw, 1.5rem);
   box-shadow: 0 12px 40px rgba(15, 23, 42, 0.06);
+  text-align: left;
 }
 
 .plan-card h3 {
@@ -1199,22 +1202,44 @@ h1 {
 }
 
 .plan-card button {
-  margin-top: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  width: 100%;
 }
 
-.survey-plan-grid {
-  margin-top: 0.6rem;
+.plan-selection {
+  text-align: center;
 }
 
-.survey-plan-grid .plan-card {
-  border-radius: 18px;
-  padding: 1.1rem;
-  border: 1px solid rgba(15, 23, 42, 0.14);
-  background: #ffffff;
+.plan-selection-actions {
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0 1.5rem;
 }
 
-.survey-plan-grid .plan-card h3 {
-  margin-bottom: 0.35rem;
+.plan-selection-actions .secondary-button {
+  width: 100%;
+}
+
+@media (min-width: 480px) {
+  .plan-selection-actions .secondary-button {
+    width: auto;
+  }
+}
+
+.plan-selection .status {
+  max-width: 44rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.final-plan-note {
+  margin-top: 0.75rem;
+  padding: 1rem 1.1rem;
+  border-radius: 14px;
+  background: #ecfeff;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  color: #0f172a;
 }
 
 .progress-chart {
