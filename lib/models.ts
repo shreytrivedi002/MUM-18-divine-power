@@ -25,9 +25,6 @@ export type Question = {
   minValue?: number;
   maxValue?: number;
   step?: number;
-  defaultPeriod?: "AM" | "PM";
-  defaultStartPeriod?: "AM" | "PM";
-  defaultEndPeriod?: "AM" | "PM";
 };
 
 export type Questionnaire = {
