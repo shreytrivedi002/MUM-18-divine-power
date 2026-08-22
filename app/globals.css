@@ -950,12 +950,25 @@ h1 {
 }
 
 .question-topbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.question-topbar-side {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.question-topbar-side:first-child {
+  justify-content: flex-start;
+}
+
+.question-topbar-side:last-child {
+  justify-content: flex-end;
 }
 
 .question-badge {
@@ -1016,7 +1029,7 @@ h1 {
 }
 
 .section-line {
-  height: 2px;
+  height: 3px;
   background: #cbd5e1;
   flex: 1;
   margin-inline: 0.3rem;
