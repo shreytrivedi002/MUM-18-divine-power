@@ -15,9 +15,9 @@ type PlanRow = {
 const fallbackPlans: PlanRow[] = [
   {
     id: 'trial',
-    name: '1 Week Trial',
-    details: 'Trial of 4-week transformation path',
-    description: 'Best to experience the DPHT method with direct weekly coaching touchpoints.',
+    name: '1 Week Trial Plan',
+    details: 'Your Testing Transformation Journey',
+    description: 'Trial of 1 week to make you feel comfortable with your DPHT plan. Introductory plan to begin your DPHT journey.',
     durationWeeks: 1,
     costInr: 1000,
     isActive: true,
@@ -25,8 +25,8 @@ const fallbackPlans: PlanRow[] = [
   {
     id: 'visible',
     name: '4 Weeks Plan',
-    details: 'Visible Improvement',
-    description: 'Structured daily and weekly plan to trigger visible wellness changes in 30 days.',
+    details: 'Visible Improvement in Symptoms: Anxiety, Fatigue, Sleep Pattern',
+    description: 'Focused support for visible improvement in 4 weeks.',
     durationWeeks: 4,
     costInr: 3000,
     isActive: true,
@@ -34,28 +34,28 @@ const fallbackPlans: PlanRow[] = [
   {
     id: 'consistent',
     name: '12 Weeks Plan',
-    details: 'Consistent Results',
-    description: 'Longer reinforcement cycle for consistency, energy improvement, and lifestyle reset.',
+    details: 'Consistent Improvement in Recovery: Withdrawal of Symptoms Begins, Improvement in Health, Enhanced Efficiency',
+    description: 'Structured progression for consistency and momentum.',
     durationWeeks: 12,
-    costInr: 10000,
+    costInr: 8000,
     isActive: true,
   },
   {
     id: 'reversal',
     name: '25 Weeks Plan',
-    details: 'Reversal of Symptoms',
-    description: 'Extended therapeutic support for deeper metabolic and stress-pattern correction.',
+    details: 'Reversal of Symptoms: Restored Efficiency, Health Restored, Symptoms Vanished',
+    description: 'Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.',
     durationWeeks: 25,
-    costInr: 18000,
+    costInr: 15000,
     isActive: true,
   },
   {
     id: 'complete',
     name: '52 Weeks Plan',
-    details: 'Completely Healthy Track',
-    description: 'Year-long guided framework for sustainable long-term holistic health outcomes.',
+    details: 'Completely Healthy: Boosted Health, Confidence Regained, Enjoy Lifelong Wellness',
+    description: 'Longer care cycle aimed at deeper symptom reversal.',
     durationWeeks: 52,
-    costInr: 35000,
+    costInr: 30000,
     isActive: true,
   },
 ];
@@ -100,8 +100,8 @@ export default function PlansShowcase() {
 
   return (
     <section>
-      <p className="eyebrow">DPHT Programs</p>
-      <h2>Choose Your Healing Path</h2>
+      <p className="eyebrow">DPHT Plan</p>
+      <h2>Choose your DIVINE POWER HOLISTIC THERAPY (DPHT) Plan.</h2>
       <div className="plan-grid">
         {plans.map((plan) => (
           <article className="plan-card" key={plan.id}>
