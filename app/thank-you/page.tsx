@@ -11,6 +11,25 @@ export default function ThankYouPage() {
           <p className="subtitle">
             Your DPHT response has been submitted successfully. Your determination creates your reality, and every small achievement matters.
           </p>
+          <div className="thank-you-details">
+            <h2>DPHT Benefits</h2>
+            <ul>
+              <li>No Gym</li>
+              <li>No Medicine</li>
+              <li>Just Follow DPHT Therapy</li>
+              <li>Do It Yourself (DIY) Easily</li>
+              <li>Daily Reporting</li>
+              <li>WhatsApp Support</li>
+              <li>Result Oriented</li>
+            </ul>
+            <h2>DIVINE POWER HOLISTIC THERAPY (DPHT)</h2>
+            <ul>
+              <li>Enhances your energy level through Energy Therapy.</li>
+              <li>Eliminates environmental toxins from inside and surrounding through Environment Therapy.</li>
+              <li>Connects with nature for lifelong wellness through Earth Therapy.</li>
+            </ul>
+            <p>For overall health and happiness in life.</p>
+          </div>
           <Link href="/" className="primary-button">
             Back to Home
           </Link>
@@ -19,27 +38,15 @@ export default function ThankYouPage() {
 
       <section>
         <p className="subtitle">
-          Based on your answers, your plan is ready. Predicted visible improvement generally appears in 30 days with regular follow-through.
+          Reversal of your symptoms depends on the duration of suffering from symptoms.
         </p>
-        <div className="progress-chart" aria-label="Health improvement projection chart">
-          <div className="progress-chart-line" />
-          <div className="progress-chart-point">
-            <strong>Today</strong>
-            <span>Start</span>
-          </div>
-          <div className="progress-chart-point">
-            <strong>Week 4</strong>
-            <span>Visible Improvement</span>
-          </div>
-          <div className="progress-chart-point">
-            <strong>Week 12</strong>
-            <span>Consistency</span>
-          </div>
-          <div className="progress-chart-point">
-            <strong>Week 25+</strong>
-            <span>Symptom Reversal Path</span>
-          </div>
-        </div>
+        <h2>Duration of Symptoms</h2>
+        <ul>
+          <li>1 to 4 years: 4 Weeks Plan</li>
+          <li>More than 4 to 8 years: 12 Weeks Plan</li>
+          <li>More than 8 to 12 years: 25 Weeks Plan</li>
+          <li>More than 12 years onwards: 52 Weeks Plan</li>
+        </ul>
         <PlansShowcase />
       </section>
     </main>

@@ -548,7 +548,7 @@ export default function SurveyRenderer() {
           {isFinalPlanCard ? (
             <p className="final-plan-note">
               Tap <strong>Submit answers</strong> below to save your responses. You'll be taken straight to your
-              personalized healing plans to choose one and pay securely.
+              personalized DPHT PLAN to choose one and pay securely.
             </p>
           ) : (
             resolvedParagraphs.map((line, index) => (

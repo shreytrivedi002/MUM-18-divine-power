@@ -16,22 +16,49 @@ if (!uri) {
 
 const plans = [
   {
-    name: "Testing Plan",
-    details: "1 Rs test payment",
-    description: "Temporary low-value plan for Razorpay integration testing.",
+    name: "1 Week Trial Plan",
+    details: "Your Testing Transformation Journey",
+    description: "Trial of 1 week to make you feel comfortable with your DPHT plan. Introductory plan to begin your DPHT journey.",
     durationWeeks: 1,
-    costInr: 1,
+    costInr: 1000,
     isActive: true,
-    sortOrder: -999,
+    sortOrder: 1,
   },
   {
-    name: "Starter Wellness",
-    details: "Basic wellness support",
-    description: "Entry-level plan for functional testing of plan selection.",
+    name: "4 Weeks Plan",
+    details: "Visible Improvement in Symptoms: Anxiety, Fatigue, Sleep Pattern",
+    description: "Focused support for visible improvement in 4 weeks.",
     durationWeeks: 4,
-    costInr: 499,
+    costInr: 3000,
     isActive: true,
-    sortOrder: 10,
+    sortOrder: 2,
+  },
+  {
+    name: "12 Weeks Plan",
+    details: "Consistent Improvement in Recovery: Withdrawal of Symptoms Begins, Improvement in Health, Enhanced Efficiency",
+    description: "Structured progression for consistency and momentum.",
+    durationWeeks: 12,
+    costInr: 8000,
+    isActive: true,
+    sortOrder: 3,
+  },
+  {
+    name: "25 Weeks Plan",
+    details: "Reversal of Symptoms: Restored Efficiency, Health Restored, Symptoms Vanished",
+    description: "Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.",
+    durationWeeks: 25,
+    costInr: 15000,
+    isActive: true,
+    sortOrder: 4,
+  },
+  {
+    name: "52 Weeks Plan",
+    details: "Completely Healthy: Boosted Health, Confidence Regained, Enjoy Lifelong Wellness",
+    description: "Longer care cycle aimed at deeper symptom reversal.",
+    durationWeeks: 52,
+    costInr: 30000,
+    isActive: true,
+    sortOrder: 5,
   },
 ];
 
@@ -43,46 +70,23 @@ async function seedMockPlans() {
     const db = client.db(dbName);
     const plansCollection = db.collection(plansCollectionName);
 
-    await plansCollection.createIndex(
-      { name: 1, details: 1 },
-      { unique: true },
+    const deleteResult = await plansCollection.deleteMany({});
+    console.log(
+      `Removed ${deleteResult.deletedCount} old plan(s) from ${dbName}.${plansCollectionName}.`,
     );
 
-    let upserted = 0;
     for (const plan of plans) {
       const now = new Date();
-      const result = await plansCollection.updateOne(
-        { name: plan.name, details: plan.details },
-        {
-          $set: {
-            ...plan,
-            updatedAt: now,
-          },
-          $setOnInsert: {
-            createdAt: now,
-          },
-        },
-        { upsert: true },
-      );
-
-      if (result.upsertedId) {
-        upserted += 1;
-      }
+      await plansCollection.insertOne({
+        ...plan,
+        createdAt: now,
+        updatedAt: now,
+      });
     }
-
-    const testPlan = await plansCollection.findOne({
-      name: "Testing Plan",
-      details: "1 Rs test payment",
-    });
 
     console.log(
-      `Seeded/updated ${plans.length} plan(s) in ${dbName}.${plansCollectionName}. New inserts: ${upserted}.`,
+      `Inserted ${plans.length} DPHT plan(s) into ${dbName}.${plansCollectionName}.`,
     );
-    if (testPlan) {
-      console.log(
-        `Testing plan id: ${String(testPlan._id)} | amount: INR ${testPlan.costInr}`,
-      );
-    }
   } catch (error) {
     console.error("Failed to seed mock plans:", error);
     process.exit(1);
