@@ -250,7 +250,10 @@ export default function SurveyRenderer() {
   useEffect(() => {
     async function load() {
       try {
-        const response = await fetch('/api/questionnaires');
+        const response = await fetch('/api/questionnaires', {
+          cache: 'no-store',
+          headers: { 'x-questionnaire-request': String(Date.now()) },
+        });
         if (!response.ok) {
           throw new Error('Unable to load questionnaires');
         }
