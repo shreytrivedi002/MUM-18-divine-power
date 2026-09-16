@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { getMongoDb } from "../../../lib/mongodbClient";
-import fallbackQuestionnaires from "../../../scripts/questionnaires.json";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -14,12 +13,6 @@ function toSafeDocuments(documents: any[]) {
 
 export async function GET() {
   if (!process.env.MONGODB_URI) {
-    if (process.env.NODE_ENV !== "production") {
-      return NextResponse.json(toSafeDocuments(fallbackQuestionnaires as any[]), {
-        headers: { "Cache-Control": "no-store" },
-      });
-    }
-
     return NextResponse.json(
       { error: "Questionnaire database is not configured." },
       { status: 503, headers: { "Cache-Control": "no-store" } },

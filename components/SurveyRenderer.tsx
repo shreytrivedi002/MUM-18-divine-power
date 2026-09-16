@@ -6,15 +6,12 @@ import { clearSurveyData, getStoredSurveyValues } from '../lib/surveyStorage';
 import { Question, Questionnaire } from '../lib/models';
 import LoadingSpinner from './ui/LoadingSpinner';
 import { InlineSpinner } from './ui/LoadingSpinner';
-import fallbackQuestionnaires from '../scripts/questionnaires.json';
-
-const defaultQuestionnaire: Questionnaire =
-  (Array.isArray(fallbackQuestionnaires) && (fallbackQuestionnaires[0] as Questionnaire)) || {
-    slug: 'dpht-master-wellness-questionnaire',
-    title: 'DIVINE POWER HOLISTIC THERAPY (DPHT) FOR HEALTHCARE WITHOUT MEDICINE',
-    description: 'Healthcare without medicine: complete this guided holistic wellness questionnaire.',
-    questions: [],
-  };
+const emptyQuestionnaire: Questionnaire = {
+  slug: '',
+  title: '',
+  description: '',
+  questions: [],
+};
 
 function isQuestionAnswered(value: unknown, question: Question) {
   if (question.type === 'info') {
@@ -151,7 +148,7 @@ function polarPoint(cx: number, cy: number, r: number, angleDeg: number) {
   return { x: cx + r * Math.cos(rad), y: cy - r * Math.sin(rad) };
 }
 
-function arcPath(cx: number, cy: number, r: number, fromAngle: number, toAngle: number) {
+    function arcPath(cx: number, cy: number, r: number, fromAngle: number, toAngle: number) {
   const start = polarPoint(cx, cy, r, fromAngle);
   const end = polarPoint(cx, cy, r, toAngle);
   const largeArcFlag = Math.abs(fromAngle - toAngle) > 180 ? 1 : 0;
@@ -239,7 +236,7 @@ export default function SurveyRenderer() {
   const router = useRouter();
   const surveyCardRef = useRef<HTMLDivElement>(null);
   const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
-  const [activeSlug, setActiveSlug] = useState<string>(defaultQuestionnaire.slug);
+  const [activeSlug, setActiveSlug] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<string | null>(null);
@@ -250,7 +247,7 @@ export default function SurveyRenderer() {
   useEffect(() => {
     async function load() {
       try {
-        const response = await fetch('/api/questionnaires', {
+        const response = await fetch(`/api/questionnaires?refresh=${Date.now()}`, {
           cache: 'no-store',
           headers: { 'x-questionnaire-request': String(Date.now()) },
         });
@@ -261,24 +258,22 @@ export default function SurveyRenderer() {
         const results = await response.json();
         if (Array.isArray(results) && results.length > 0) {
           const normalized = results.map((item: any) => ({
-            slug: item.slug || item._id || defaultQuestionnaire.slug,
-            title: item.title || defaultQuestionnaire.title,
-            description: item.description || defaultQuestionnaire.description,
-            questions: Array.isArray(item.questions) ? item.questions : defaultQuestionnaire.questions,
+            slug: item.slug || item._id || '',
+            title: item.title || '',
+            description: item.description || '',
+            questions: Array.isArray(item.questions) ? item.questions : [],
             _id: item._id,
           }));
           setQuestionnaires(normalized as Questionnaire[]);
-          const preferred = normalized.find((item: any) => item.slug === defaultQuestionnaire.slug);
-          setActiveSlug(preferred?.slug || normalized[0]?.slug || defaultQuestionnaire.slug);
+          setActiveSlug(normalized[0]?.slug || '');
         } else {
-          setQuestionnaires([defaultQuestionnaire]);
-          setActiveSlug(defaultQuestionnaire.slug);
+          throw new Error('No questionnaires found in the database');
         }
       } catch (err) {
         console.error(err);
         setError('Unable to load questionnaires. Please check your server setup.');
-        setQuestionnaires([defaultQuestionnaire]);
-        setActiveSlug(defaultQuestionnaire.slug);
+        setQuestionnaires([]);
+        setActiveSlug('');
       } finally {
         setLoading(false);
       }
@@ -288,7 +283,7 @@ export default function SurveyRenderer() {
   }, []);
 
   const activeQuestionnaire = useMemo(
-    () => questionnaires.find((questionnaire) => questionnaire.slug === activeSlug) ?? questionnaires[0] ?? defaultQuestionnaire,
+    () => questionnaires.find((questionnaire) => questionnaire.slug === activeSlug) ?? questionnaires[0] ?? emptyQuestionnaire,
     [activeSlug, questionnaires]
   );
 
@@ -304,7 +299,7 @@ export default function SurveyRenderer() {
 
   const currentQuestion = activeQuestionnaire.questions[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === activeQuestionnaire.questions.length - 1;
-  const isMultiSelectQuestion = currentQuestion.type === 'checkbox';
+  const isMultiSelectQuestion = currentQuestion?.type === 'checkbox';
   const sections = useMemo(() => {
     const grouped = new Map<string, { name: string; start: number; end: number }>();
 
@@ -381,6 +376,14 @@ export default function SurveyRenderer() {
   useEffect(() => {
     scrollToTop();
   }, [currentQuestionIndex, activeQuestionnaire.slug]);
+
+  if (!loading && (error || !currentQuestion)) {
+    return <p className="error">{error || 'No questionnaire is available in the database.'}</p>;
+  }
+
+  if (!currentQuestion) {
+    return <p>Loading questionnaire…</p>;
+  }
 
   function handleNext() {
     if (currentQuestion.required && !isQuestionAnswered(values[currentQuestion.key], currentQuestion)) {
