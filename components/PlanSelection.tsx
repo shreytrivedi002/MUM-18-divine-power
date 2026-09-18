@@ -17,11 +17,11 @@ type UserSummary = {
 };
 
 const fallbackPlans: PlanRow[] = [
-  { id: 'trial', name: '1 Week Trial Plan', details: 'Your Testing Transformation Journey', description: 'Trial of 1 week to make you feel comfortable with your DPHT plan. Introductory plan to begin your DPHT journey.', durationWeeks: 1, costInr: 1000 },
-  { id: 'visible', name: '4 Weeks Plan', details: 'Visible Improvement in Symptoms: Anxiety, Fatigue, Sleep Pattern', description: 'Focused support for visible improvement in 4 weeks.', durationWeeks: 4, costInr: 3000 },
-  { id: 'consistent', name: '12 Weeks Plan', details: 'Consistent Improvement in Recovery: Withdrawal of Symptoms Begins, Improvement in Health, Enhanced Efficiency', description: 'Structured progression for consistency and momentum.', durationWeeks: 12, costInr: 8000 },
-  { id: 'reversal', name: '25 Weeks Plan', details: 'Reversal of Symptoms: Restored Efficiency, Health Restored, Symptoms Vanished', description: 'Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.', durationWeeks: 25, costInr: 15000 },
-  { id: 'complete', name: '52 Weeks Plan', details: 'Completely Healthy: Boosted Health, Confidence Regained, Enjoy Lifelong Wellness', description: 'Longer care cycle aimed at deeper symptom reversal.', durationWeeks: 52, costInr: 30000 },
+  { id: 'trial', name: '1 Week Trial Plan', details: 'Your Testing Transformation Journey', description: 'Trial of 1 week to make you feel comfortable with your DPHT plan.\n\nIntroductory plan to begin your DPHT journey.', durationWeeks: 1, costInr: 1000 },
+  { id: 'visible', name: '4 Weeks Plan', details: 'Visible improvement in Symptoms:\n- Anxiety\n- Fatigue\n- Sleep Pattern', description: 'Focused support for visible improvement in 4 weeks.', durationWeeks: 4, costInr: 3000 },
+  { id: 'consistent', name: '12 Weeks Plan', details: 'Consistent Improvement In Recovery\n- Withdrawal Of Symptoms Beings\n- Improvement In Health\n- Enhanced\n- Efficiency', description: 'Structured progression for consistency and momentum.', durationWeeks: 12, costInr: 8000 },
+  { id: 'reversal', name: '25 Weeks Plan', details: 'Reversal Of Symptoms\n- Restored Efficiency\n- Health Restored\n- Symptoms Vanished', description: 'Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.', durationWeeks: 25, costInr: 15000 },
+  { id: 'complete', name: '52 Weeks Plan', details: 'Completely Healthy:\n- Boosted Health\n- Confidence Regained\n- Enjoy Lifelong Wellness', description: 'Longer care cycle aimed at deeper symptom reversal.', durationWeeks: 52, costInr: 30000 },
 ];
 
 function formatInr(value: number) {
@@ -108,7 +108,7 @@ export default function PlanSelection({ userId }: { userId: string }) {
   return (
     <section className="plan-selection">
       <p className="eyebrow">DPHT Plan</p>
-      <h2>{user ? `${user.fullName}, choose your DIVINE POWER HOLISTIC THERAPY (DPHT) Plan.` : 'Choose your DIVINE POWER HOLISTIC THERAPY (DPHT) Plan.'}</h2>
+      <h2>{`Welcome, ${user?.fullName || 'Client Name'}, Choose your DIVINE POWER HOLISTIC THERAPY (DPHT) plan.`}</h2>
       <p className="subtitle">Select a plan below to proceed directly to secure Razorpay payment.</p>
 
       <div className="plan-selection-actions">

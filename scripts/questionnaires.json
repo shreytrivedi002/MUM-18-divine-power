@@ -26,7 +26,10 @@
         "label": "Gender: Please choose your gender.",
         "type": "radio",
         "required": true,
-        "options": ["Female", "Male"],
+        "options": [
+          "Female",
+          "Male"
+        ],
         "category": "PERSONAL INFO"
       },
       {
@@ -148,7 +151,11 @@
         "label": "In most cases, how do you end up eating?",
         "type": "radio",
         "required": true,
-        "options": ["Emotional Eating", "When Hungry", "Both"],
+        "options": [
+          "Emotional Eating",
+          "When Hungry",
+          "Both"
+        ],
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -157,12 +164,12 @@
         "type": "checkbox",
         "required": true,
         "options": [
-          "Fresh Fruits (Banana, apple, pomogrenate, seasonal fruits, etc)",
+          "Fresh Fruits (Banana, Apple, Pomegranate, Seasonal Fruits, etc)",
           "Dry fruits/ Dry nuts (Kaju, Badaam, Pumpkin seeds and others)",
           "Leafy vegetables (Palak, Methi, etc)",
-          "Fresh vegetables(Tomato, Potato, Bhindi,etc)",
+          "Fresh vegetables ( Tomato, Potato, Bhindi, Seasonal Vegetables, etc)",
           "Legumes/Pulses (Moong, Masoor, Chana, etc)",
-          "Milk and Milk products(Paneer, curd, etc)"
+          "Milk and Milk Products (Mithai, Mava, Paneer, Curd, etc)"
         ],
         "category": "REGULAR DAILY ROUTINE"
       },
@@ -200,14 +207,17 @@
         "label": "What is your primary health goal at this stage?",
         "type": "radio",
         "required": true,
-        "options": ["Relationship", "Health"],
+        "options": [
+          "Relationship",
+          "Health"
+        ],
         "category": "REGULAR DAILY ROUTINE"
       },
       {
         "key": "dpht_customise_intro",
         "label": "Now let's customise your DPHT Plan",
         "type": "info",
-        "helpText": "Please take your time while answering the following questions. Every answer will slightly influence your personal plan.",
+        "helpText": "Every answer will slightly influence your personal plan.\n\nPlease take your time while answering the following questions",
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -246,7 +256,13 @@
         "label": "How often do you feel tired, physically drained, or lacking energy during the day?",
         "type": "radio",
         "required": true,
-        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "options": [
+          "Never",
+          "Sometimes",
+          "Often",
+          "Rarely",
+          "Always"
+        ],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -254,7 +270,13 @@
         "label": "How often does your mind race with thoughts that are hard to switch off?",
         "type": "radio",
         "required": true,
-        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "options": [
+          "Never",
+          "Sometimes",
+          "Often",
+          "Rarely",
+          "Always"
+        ],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -262,7 +284,13 @@
         "label": "How often do you find yourself overthinking or repeatedly dwelling on the past?",
         "type": "radio",
         "required": true,
-        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
+        "options": [
+          "Never",
+          "Sometimes",
+          "Often",
+          "Rarely",
+          "Always"
+        ],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -270,7 +298,11 @@
         "label": "In daily life, how easily do situations emotionally trigger you?",
         "type": "radio",
         "required": true,
-        "options": ["Very Much", "Somewhat", "Hardly"],
+        "options": [
+          "Very Much",
+          "Somewhat",
+          "Hardly"
+        ],
         "category": "TRAUMA & STRESS"
       },
       {
@@ -290,7 +322,7 @@
         "key": "dpht_benefits_info",
         "label": "Benefits of the DPHT PLAN",
         "type": "info",
-        "helpText": "Increases Energy and quantity of life.\n- Better Blood Sugar control.\n- Enhanced Cardio Vascular Health.\n- Improves Mobility.\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
+        "helpText": "- Increases Energy Level\n- Eliminates Stress Level\n- Boosts Health\n- Improves Mobility\n- Enhance Quality Of Life\n\nGreat!\nYou have moved one step forward\n\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -324,7 +356,11 @@
         "label": "Do you ever find yourself scrolling for long periods without realizing how much time has passed?",
         "type": "radio",
         "required": true,
-        "options": ["Often", "Sometimes", "Rarely"],
+        "options": [
+          "Often",
+          "Sometimes",
+          "Rarely"
+        ],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -358,7 +394,11 @@
         "label": "In your current environment, what mostly drives your eating pattern?",
         "type": "radio",
         "required": true,
-        "options": ["Emotional Eating", "When Hungry", "Both"],
+        "options": [
+          "Emotional Eating",
+          "When Hungry",
+          "Both"
+        ],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -366,7 +406,10 @@
         "label": "Do you engage in emotional eating when you are stressed, emotionally low, or excited?",
         "type": "radio",
         "required": true,
-        "options": ["Yes", "No"],
+        "options": [
+          "Yes",
+          "No"
+        ],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -399,7 +442,7 @@
         "key": "almost_finished_info",
         "label": "We're almost finished customizing your plan.",
         "type": "info",
-        "helpText": "We're almost finished in customizing your plan. Tell us a little more about your habits so we can further personalize your DPHT recommendations.",
+        "helpText": "Congratulations!!!\nYou are nearing to the DPHT plan\n\nWe're almost finished in customizing your plan.\n\nTell us little more about your habits so that we can further personalize your DPHT recommendations.",
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -421,7 +464,12 @@
         "label": "How do you usually spend weekends with your family or friends?",
         "type": "radio",
         "required": true,
-        "options": ["Social Gatherings", "Clubbing/ Partying", "Shopping", "New Venues"],
+        "options": [
+          "Social Gatherings",
+          "Clubbing/ Partying",
+          "Shopping",
+          "New Venues"
+        ],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -442,7 +490,12 @@
         "label": "Which social responsibilities do you actively identify with?",
         "type": "checkbox",
         "required": true,
-        "options": ["Help", "Donate", "Social Services", "Gratitude"],
+        "options": [
+          "Help",
+          "Donate",
+          "Social Services",
+          "Gratitude"
+        ],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -450,7 +503,11 @@
         "label": "Do you practice morning meditation and deep-breathing exercises?",
         "type": "radio",
         "required": true,
-        "options": ["Sometimes", "Regularly", "No"],
+        "options": [
+          "Sometimes",
+          "Regularly",
+          "No"
+        ],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -458,7 +515,12 @@
         "label": "Do you pray as part of your routine?",
         "type": "radio",
         "required": true,
-        "options": ["Daily", "Weekly", "Sometimes", "Never"],
+        "options": [
+          "Daily",
+          "Weekly",
+          "Sometimes",
+          "Never"
+        ],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -466,12 +528,16 @@
         "label": "Which aspects of your well-being would you most like to improve first?",
         "type": "checkbox",
         "required": true,
-        "options": ["Mental Health", "Physical Health", "Relationship"],
+        "options": [
+          "Mental Health",
+          "Physical Health",
+          "Relationship"
+        ],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
         "key": "final_plan_info",
-        "label": "Your DPHT plan is ready",
+        "label": "Welcome, Your DPHT plan is ready.",
         "type": "info",
         "helpText": "- Get visible results in 4 weeks",
         "category": "SOCIAL & SPIRITUAL"

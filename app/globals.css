@@ -1201,6 +1201,10 @@ h1 {
   margin-top: 0;
 }
 
+.plan-card p {
+  white-space: pre-line;
+}
+
 .plan-card button {
   margin-top: auto;
   padding-top: 1rem;
