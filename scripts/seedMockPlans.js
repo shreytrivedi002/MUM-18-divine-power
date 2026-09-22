@@ -18,7 +18,8 @@ const plans = [
   {
     name: "1 Week Trial Plan",
     details: "Your Testing Transformation Journey",
-    description: "Trial of 1 week to make you feel comfortable with your DPHT plan.\n\nIntroductory plan to begin your DPHT journey.",
+    description:
+      "Trial of 1 week to make you feel comfortable with your DPHT plan.\n\nIntroductory plan to begin your DPHT journey.",
     durationWeeks: 1,
     costInr: 1000,
     isActive: true,
@@ -26,7 +27,8 @@ const plans = [
   },
   {
     name: "4 Weeks Plan",
-    details: "Visible improvement in Symptoms:\n- Anxiety\n- Fatigue\n- Sleep Pattern",
+    details:
+      "Visible improvement in Symptoms:\n- Anxiety\n- Fatigue\n- Sleep Pattern",
     description: "Focused support for visible improvement in 4 weeks.",
     durationWeeks: 4,
     costInr: 3000,
@@ -35,7 +37,8 @@ const plans = [
   },
   {
     name: "12 Weeks Plan",
-    details: "Consistent Improvement In Recovery\n- Withdrawal Of Symptoms Beings\n- Improvement In Health\n- Enhanced\n- Efficiency",
+    details:
+      "Consistent Improvement In Recovery\n- Withdrawal Of Symptoms Beings\n- Improvement In Health\n- Enhanced\n- Efficiency",
     description: "Structured progression for consistency and momentum.",
     durationWeeks: 12,
     costInr: 8000,
@@ -44,8 +47,10 @@ const plans = [
   },
   {
     name: "25 Weeks Plan",
-    details: "Reversal Of Symptoms\n- Restored Efficiency\n- Health Restored\n- Symptoms Vanished",
-    description: "Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.",
+    details:
+      "Reversal Of Symptoms\n- Restored Efficiency\n- Health Restored\n- Symptoms Vanished",
+    description:
+      "Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.",
     durationWeeks: 25,
     costInr: 15000,
     isActive: true,
@@ -53,7 +58,8 @@ const plans = [
   },
   {
     name: "52 Weeks Plan",
-    details: "Completely Healthy:\n- Boosted Health\n- Confidence Regained\n- Enjoy Lifelong Wellness",
+    details:
+      "Completely Healthy:\n- Boosted Health\n- Confidence Regained\n- Enjoy Lifelong Wellness",
     description: "Longer care cycle aimed at deeper symptom reversal.",
     durationWeeks: 52,
     costInr: 30000,

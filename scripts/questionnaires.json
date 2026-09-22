@@ -26,10 +26,7 @@
         "label": "Gender: Please choose your gender.",
         "type": "radio",
         "required": true,
-        "options": [
-          "Female",
-          "Male"
-        ],
+        "options": ["Female", "Male"],
         "category": "PERSONAL INFO"
       },
       {
@@ -151,11 +148,7 @@
         "label": "In most cases, how do you end up eating?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Emotional Eating",
-          "When Hungry",
-          "Both"
-        ],
+        "options": ["Emotional Eating", "When Hungry", "Both"],
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -207,10 +200,7 @@
         "label": "What is your primary health goal at this stage?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Relationship",
-          "Health"
-        ],
+        "options": ["Relationship", "Health"],
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -256,13 +246,7 @@
         "label": "How often do you feel tired, physically drained, or lacking energy during the day?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Never",
-          "Sometimes",
-          "Often",
-          "Rarely",
-          "Always"
-        ],
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -270,13 +254,7 @@
         "label": "How often does your mind race with thoughts that are hard to switch off?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Never",
-          "Sometimes",
-          "Often",
-          "Rarely",
-          "Always"
-        ],
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -284,13 +262,7 @@
         "label": "How often do you find yourself overthinking or repeatedly dwelling on the past?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Never",
-          "Sometimes",
-          "Often",
-          "Rarely",
-          "Always"
-        ],
+        "options": ["Never", "Sometimes", "Often", "Rarely", "Always"],
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
@@ -298,11 +270,7 @@
         "label": "In daily life, how easily do situations emotionally trigger you?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Very Much",
-          "Somewhat",
-          "Hardly"
-        ],
+        "options": ["Very Much", "Somewhat", "Hardly"],
         "category": "TRAUMA & STRESS"
       },
       {
@@ -356,11 +324,7 @@
         "label": "Do you ever find yourself scrolling for long periods without realizing how much time has passed?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Often",
-          "Sometimes",
-          "Rarely"
-        ],
+        "options": ["Often", "Sometimes", "Rarely"],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -394,11 +358,7 @@
         "label": "In your current environment, what mostly drives your eating pattern?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Emotional Eating",
-          "When Hungry",
-          "Both"
-        ],
+        "options": ["Emotional Eating", "When Hungry", "Both"],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -406,10 +366,7 @@
         "label": "Do you engage in emotional eating when you are stressed, emotionally low, or excited?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Yes",
-          "No"
-        ],
+        "options": ["Yes", "No"],
         "category": "ENVIRONMENTS THERAPY"
       },
       {
@@ -490,12 +447,7 @@
         "label": "Which social responsibilities do you actively identify with?",
         "type": "checkbox",
         "required": true,
-        "options": [
-          "Help",
-          "Donate",
-          "Social Services",
-          "Gratitude"
-        ],
+        "options": ["Help", "Donate", "Social Services", "Gratitude"],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -503,11 +455,7 @@
         "label": "Do you practice morning meditation and deep-breathing exercises?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Sometimes",
-          "Regularly",
-          "No"
-        ],
+        "options": ["Sometimes", "Regularly", "No"],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -515,12 +463,7 @@
         "label": "Do you pray as part of your routine?",
         "type": "radio",
         "required": true,
-        "options": [
-          "Daily",
-          "Weekly",
-          "Sometimes",
-          "Never"
-        ],
+        "options": ["Daily", "Weekly", "Sometimes", "Never"],
         "category": "SOCIAL & SPIRITUAL"
       },
       {
@@ -528,11 +471,7 @@
         "label": "Which aspects of your well-being would you most like to improve first?",
         "type": "checkbox",
         "required": true,
-        "options": [
-          "Mental Health",
-          "Physical Health",
-          "Relationship"
-        ],
+        "options": ["Mental Health", "Physical Health", "Relationship"],
         "category": "SOCIAL & SPIRITUAL"
       },
       {

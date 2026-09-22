@@ -28,7 +28,7 @@ export default function PlansPage({ params }: { params: { userId: string } }) {
               <li>Connects with nature for lifelong wellness through Earth Therapy.</li>
             </ul>
             <p>For overall health and happiness in life.</p>
-            <h2>Duration of Symptoms</h2>
+            <h2>Duration of Sufferings</h2>
             <p>Reversal of your symptoms depends on the duration of suffering from symptoms.</p>
             <ul>
               <li>1 to 4 years: 4 Weeks Plan</li>

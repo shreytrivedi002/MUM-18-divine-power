@@ -40,7 +40,7 @@ export default function ThankYouPage() {
         <p className="subtitle">
           Reversal of your symptoms depends on the duration of suffering from symptoms.
         </p>
-        <h2>Duration of Symptoms</h2>
+        <h2>Duration of Suffering</h2>
         <ul>
           <li>1 to 4 years: 4 Weeks Plan</li>
           <li>More than 4 to 8 years: 12 Weeks Plan</li>
