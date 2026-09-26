@@ -34,7 +34,7 @@ const fallbackPlans: PlanRow[] = [
   {
     id: 'consistent',
     name: '12 Weeks Plan',
-    details: 'Consistent Improvement In Recovery\n- Withdrawal Of Symptoms Beings\n- Improvement In Health\n- Enhanced\n- Efficiency',
+    details: 'Consistent Improvement In Recovery\n- Improvement In Health\n- Enhanced Efficiency\n- Withdrawal Of Symptoms Beings',
     description: 'Structured progression for consistency and momentum.',
     durationWeeks: 12,
     costInr: 8000,
@@ -43,7 +43,7 @@ const fallbackPlans: PlanRow[] = [
   {
     id: 'reversal',
     name: '25 Weeks Plan',
-    details: 'Reversal Of Symptoms\n- Restored Efficiency\n- Health Restored\n- Symptoms Vanished',
+    details: 'Reversal Of Symptoms\n- Symptoms Vanished\n- Restored Efficiency\n- Health Restored',
     description: 'Live a healthy and energetic life. As a precaution against possible recurrence in some cases, continue with a comprehensive long-term plan.',
     durationWeeks: 25,
     costInr: 15000,

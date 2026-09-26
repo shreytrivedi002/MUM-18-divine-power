@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import { getMongoDb } from "../../../lib/mongodbClient";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 function toSafeString(value: unknown) {
   return value === null || value === undefined ? "" : String(value).trim();
 }
