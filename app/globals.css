@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  font-family: Inter, system-ui, sans-serif;
+  font-family: "Nunito", "Segoe UI", sans-serif;
   background: #f6fbff;
   color: #111827;
   font-size: 16px;
@@ -1402,4 +1402,133 @@ code {
   .progress-chart-line {
     display: none;
   }
+}
+
+/* Final theme overrides: color-only treatment, preserving the original sizing. */
+:root {
+  --sunshine-yellow: #ffd83d;
+  --sunshine-light: #fff4a8;
+  --sunshine-surface: #ffe978;
+  --blood-red: #8b0000;
+  --blood-red-bright: #a40016;
+  --blood-red-soft: rgba(139, 0, 0, 0.28);
+}
+
+html,
+body {
+  background: #ffffff !important;
+  color: var(--blood-red) !important;
+}
+
+body * {
+  color: var(--blood-red) !important;
+}
+
+body,
+.page-shell,
+.hero,
+.survey-shell,
+.survey-card,
+.admin-card,
+.question-card,
+.questionnaire-question-card,
+.plan-card,
+.admin-profile-panel,
+.admin-submission-card,
+.admin-answer-row,
+.info-panel,
+.progress-chart,
+.bmi-metric,
+.radio-option,
+.checkbox-option,
+.final-plan-note {
+  background: #ffffff !important;
+  border-color: var(--blood-red-soft) !important;
+}
+
+.page-shell,
+.hero,
+.survey-shell {
+  background: transparent !important;
+}
+
+.primary-button,
+.secondary-button,
+button,
+button:hover:not(:disabled),
+.primary-button:hover:not(:disabled),
+.secondary-button:hover:not(:disabled) {
+  background: var(--sunshine-yellow) !important;
+  color: var(--blood-red) !important;
+  border-color: var(--blood-red) !important;
+}
+
+.survey-actions .primary-button,
+.survey-actions .secondary-button {
+  padding: 0.6rem 1.8rem !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  max-height: 46px !important;
+  flex: 0 1 220px !important;
+  width: min(220px, 100%) !important;
+  border-radius: 12px !important;
+}
+
+.survey-actions {
+  justify-content: center !important;
+}
+
+input,
+select,
+textarea {
+  background: #ffffff !important;
+  color: var(--blood-red) !important;
+  border-color: var(--blood-red-soft) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: rgba(139, 0, 0, 0.7) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--blood-red-bright) !important;
+  box-shadow: 0 0 0 4px rgba(139, 0, 0, 0.18) !important;
+}
+
+.radio-option:has(input:checked),
+.checkbox-option:has(input:checked),
+.admin-badge,
+.final-plan-note {
+  background: var(--sunshine-surface) !important;
+  border-color: var(--blood-red) !important;
+}
+
+.section-dot.complete,
+.section-line.complete,
+.progress-chart-point::before,
+.progress-bar {
+  background: var(--blood-red) !important;
+  border-color: var(--blood-red) !important;
+}
+
+.section-dot.active {
+  border-color: var(--blood-red) !important;
+  box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.2) !important;
+}
+
+.section-line,
+.section-dot {
+  border-color: var(--blood-red) !important;
+}
+
+.bmi-motivation {
+  background: var(--sunshine-surface) !important;
+  border-color: var(--blood-red-soft) !important;
+}
+
+.bmi-gauge text {
+  fill: var(--blood-red) !important;
 }
