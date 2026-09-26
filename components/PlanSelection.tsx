@@ -108,7 +108,7 @@ export default function PlanSelection({ userId }: { userId: string }) {
   return (
     <section className="plan-selection">
       <p className="eyebrow">DPHT Plan</p>
-      <h2>{`Welcome, ${user?.fullName || 'Client Name'}, Choose your DIVINE POWER HOLISTIC THERAPY (DPHT) plan.`}</h2>
+      <h2>{`Welcome ${user?.fullName || 'Client Name'}, Choose your DIVINE POWER HOLISTIC THERAPY (DPHT) plan.`}</h2>
       <p className="subtitle">Select a plan below to proceed directly to secure Razorpay payment.</p>
 
       <div className="plan-selection-actions">

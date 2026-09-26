@@ -200,7 +200,7 @@
         "label": "What is your primary health goal at this stage?",
         "type": "radio",
         "required": true,
-        "options": ["Relationship", "Health"],
+        "options": ["Health", "Relationship"],
         "category": "REGULAR DAILY ROUTINE"
       },
       {
@@ -290,7 +290,7 @@
         "key": "dpht_benefits_info",
         "label": "Benefits of the DPHT PLAN",
         "type": "info",
-        "helpText": "- Increases Energy Level\n- Eliminates Stress Level\n- Boosts Health\n- Improves Mobility\n- Enhance Quality Of Life\n\nGreat!\nYou have moved one step forward\n\nGreat! Motivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
+        "helpText": "- Increases Energy Level\n- Eliminates Stress Level\n- Boosts Health\n- Improves Mobility\n- Enhance Quality Of Life\n\nGreat!\nYou have moved one step forward\n\nMotivation is key when it comes to achieving good health especially in the first 3 months. This is how long it takes for the body to form new healthy habits.",
         "category": "ENERGY & MENTAL HEALTH"
       },
       {
